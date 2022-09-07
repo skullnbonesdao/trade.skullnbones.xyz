@@ -1,0 +1,2 @@
+Fw8PqtznYtg4swMk7Yjj89Tsj23u5CJLfW5Bk8ro4G1s //Fimbul
+EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v //USDC
