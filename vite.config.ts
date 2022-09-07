@@ -1,18 +1,16 @@
-import {defineConfig} from 'vite'
-import vue from '@vitejs/plugin-vue'
-
+import {defineConfig} from "vite";
+import vue from "@vitejs/plugin-vue";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    base: "./",
-    plugins: [vue(),],
-    optimizeDeps: {
-        esbuildOptions: {
-            target: 'es2020'
-        }
+  base: "./",
+  plugins: [vue()],
+  optimizeDeps: {
+    esbuildOptions: {
+      target: "es2020",
     },
-    build: {
-        target: 'es2020'
-    }
-
-})
+  },
+  build: {
+    target: "es2020",
+  },
+});
