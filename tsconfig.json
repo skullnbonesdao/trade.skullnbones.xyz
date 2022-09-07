@@ -1,4 +1,5 @@
 {
+  //TODO: Remove JS if not needed form repo is added due to tradingviewIntregration
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
@@ -6,6 +7,7 @@
     "moduleResolution": "Node",
     "strict": true,
     "jsx": "preserve",
+    "allowJs": true,
     "sourceMap": true,
     "resolveJsonModule": true,
     "isolatedModules": true,

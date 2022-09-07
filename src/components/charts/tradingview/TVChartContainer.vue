@@ -2,7 +2,7 @@
   <div ref="chartContainer" class="TVChartContainer" />
 </template>
 
-<script lang="ts">
+<script>
 import { widget } from "../../../../public/charting_library";
 
 function getLanguageFromURL() {
