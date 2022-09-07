@@ -66,7 +66,9 @@ export default {
     const widgetOptions = {
       symbol: this.symbol,
       // BEWARE: no trailing slash is expected in feed URL
-      datafeed: new window.Datafeeds.UDFCompatibleDatafeed(this.datafeedUrl),
+      datafeed: new window.Datafeeds.UDFCompatibleDatafeed(
+        "https://demo_feed.tradingview.com"
+      ),
       interval: this.interval,
       container: container,
       library_path: this.libraryPath,
