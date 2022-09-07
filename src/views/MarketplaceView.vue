@@ -4,6 +4,7 @@
     <div class="flex">
       <div class="basis-1/2">
         <SimplePriceHistory/>
+        <trading-view-chart/>
       </div>
       <div class="basis-1/2 flex">
         <Orderbook/>
@@ -18,4 +19,5 @@
 import SimplePriceHistory from "../components/charts/apexcharts/SimplePriceHistory.vue";
 import InfoFeed from "../components/feeds/InfoFeed.vue";
 import Orderbook from "../components/trading/Orderbook.vue";
-import OrderSetter from "../components/trading/OrderSetter.vue";</script>
+import OrderSetter from "../components/trading/OrderSetter.vue";
+import TradingViewChart from "../components/charts/tradingview/TradingViewChart.vue";</script>

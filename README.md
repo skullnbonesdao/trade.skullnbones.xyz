@@ -6,7 +6,7 @@
 
 ## DEV
 
-- install dependencies: `npm install`
+- install dependencies: `npm install` or `yarn install`
 - run app: `npm run dev`
 
 ## Links
