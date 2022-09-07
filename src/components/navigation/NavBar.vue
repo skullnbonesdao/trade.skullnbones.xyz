@@ -90,7 +90,7 @@
 <style scoped>
 
 </style>
-<script>
+<script lang="ts">
 import ToggleMode from "../buttons/ToggleMode.vue";
 
 import {themeChange} from "theme-change";
