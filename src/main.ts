@@ -8,6 +8,7 @@ import Home from "../src/views/HomeView.vue";
 import MarketplaceView from "../src/views/MarketplaceView.vue";
 import PersonToPersonView from "../src/views/PersonToPersonView.vue";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "../public/datafeeds/udf/dist/bundle";
 
 const pinia = createPinia();
 
