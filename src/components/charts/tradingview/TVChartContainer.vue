@@ -31,7 +31,7 @@ export default {
     libraryPath: {
       default:
         process.env.NODE_ENV === "production"
-          ? "https://github.com/skullnbonesdao/trade.skullnbones.xyz/tree/gh-pages/charting_library"
+          ? "/charting_library"
           : "/charting_library/",
       type: String,
     },
