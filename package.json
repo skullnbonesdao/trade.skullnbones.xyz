@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "deploy": "vue-tsc --noEmit && vite build && gh-pages -d dist",
+    "build": "vue-tsc --noEmit && vite build ",
+    "deploy": "vue-tsc --noEmit && vite build --base=/trades.skullnbones.xyz/ && gh-pages -d dist",
     "preview": "vite preview"
   },
   "dependencies": {
