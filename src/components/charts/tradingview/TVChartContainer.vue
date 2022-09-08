@@ -29,7 +29,10 @@ export default {
       type: String,
     },
     libraryPath: {
-      default: "/charting_library/",
+      default:
+        process.env.NODE_ENV === "production"
+          ? "https://github.com/skullnbonesdao/trade.skullnbones.xyz/tree/gh-pages/charting_library"
+          : "/charting_library/",
       type: String,
     },
     chartsStorageUrl: {
