@@ -6,8 +6,8 @@
         <trading-view-chart />
       </div>
       <div class="basis-1/2 flex">
-        <Orderbook />
-        <OrderSetter />
+        <orderbook />
+        <order-setter />
       </div>
     </div>
   </div>

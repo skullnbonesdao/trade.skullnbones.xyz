@@ -4,6 +4,7 @@
 
 <script>
 import { widget } from "../../../../public/charting_library";
+import { UDFCompatibleDatafeed } from "../../../assets/datafeeds/udf/lib/udf-compatible-datafeed.js";
 
 function getLanguageFromURL() {
   const regex = new RegExp("[\\?&]lang=([^&#]*)");
@@ -68,10 +69,10 @@ export default {
     const container = this.$refs.chartContainer;
     const widgetOptions = {
       symbol: this.symbol,
+
       // BEWARE: no trailing slash is expected in feed URL
-      datafeed: new window.Datafeeds.UDFCompatibleDatafeed(
-        "https://demo_feed.tradingview.com"
-      ),
+
+      datafeed: new UDFCompatibleDatafeed("https://demo_feed.tradingview.com"),
       interval: this.interval,
       container: container,
       library_path: this.libraryPath,
