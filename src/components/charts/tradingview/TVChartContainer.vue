@@ -33,7 +33,7 @@ export default {
     libraryPath: {
       default:
         process.env.NODE_ENV === "production"
-          ? "/trades.skullnbones.xyz/charting_library/"
+          ? "/charting_library/"
           : "/charting_library/",
       type: String,
     },
