@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "lint": "eslint --fix",
     "postinstall": "cd src/typescript/tradingview_adapter/udf && npm install && npm run build",
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build ",
@@ -28,6 +29,10 @@
     "autoprefixer": "^10.4.8",
     "babel-core": "6.26.3",
     "babel-loader": "^8.2.5",
+    "eslint": "8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.4.0",
     "node-sass": "^7.0.3",
     "postcss": "^8.4.16",
     "sass": "^1.54.9",
