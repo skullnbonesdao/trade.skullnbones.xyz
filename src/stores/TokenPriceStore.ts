@@ -41,7 +41,7 @@ export const useTokenPriceStore = defineStore({
                 this.ws.send(JSON.stringify(sub_sol_L1));
                 this.ws.send(JSON.stringify(sub_polis_L1));
                 this.ws.send(JSON.stringify(sub_atlas_L1));
-                console.info("Created MarketWebsockets");
+                // console.info("Created MarketWebsockets");
             };
 
             this.ws.onmessage = (event: MessageEvent) => {
@@ -50,19 +50,19 @@ export const useTokenPriceStore = defineStore({
                     switch (new_market_data.market) {
                         case "BTC/USDC":
                             this.btc = new_market_data.bestBid[0];
-                            console.info("{ws-message} BTC/USDC");
+                            // console.info("{ws-message} BTC/USDC");
                             break;
                         case "SOL/USDC":
                             this.sol = new_market_data.bestBid[0];
-                            console.info("{ws-message} SOL/USDC");
+                            // console.info("{ws-message} SOL/USDC");
                             break;
                         case "ATLAS/USDC":
                             this.atlas = new_market_data.bestBid[0];
-                            console.info("{ws-message} ATLAS/USDC");
+                            // console.info("{ws-message} ATLAS/USDC");
                             break;
                         case "POLIS/USDC":
                             this.polis = new_market_data.bestBid[0];
-                            console.info("{ws-message} POLIS/USDC");
+                            // console.info("{ws-message} POLIS/USDC");
                             break;
                     }
 
