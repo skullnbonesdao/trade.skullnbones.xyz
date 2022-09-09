@@ -3,8 +3,9 @@
 </template>
 
 <script>
-import { widget } from "../../../../public/charting_library";
-import { UDFCompatibleDatafeed } from "../../../assets/datafeeds/udf/lib/udf-compatible-datafeed.js";
+import { widget } from "../../../assets/charting_library";
+
+import { UDFCompatibleDatafeed } from "../../../typescript/tradingview_adapter/udf/lib/udf-compatible-datafeed.js";
 
 function getLanguageFromURL() {
   const regex = new RegExp("[\\?&]lang=([^&#]*)");
@@ -32,14 +33,14 @@ export default {
     libraryPath: {
       default:
         process.env.NODE_ENV === "production"
-          ? "/charting_library"
+          ? "/charting_library/"
           : "/charting_library/",
       type: String,
     },
-    chartsStorageUrl: {
-      default: "https://saveload.tradingview.com",
-      type: String,
-    },
+    /* chartsStorageUrl: {
+       default: "https://saveload.tradingview.com",
+       type: String,
+     },*/
     chartsStorageApiVersion: {
       default: "1.1",
       type: String,
@@ -79,8 +80,8 @@ export default {
 
       locale: getLanguageFromURL() || "en",
       disabled_features: ["use_localstorage_for_settings"],
-      enabled_features: ["study_templates"],
-      charts_storage_url: this.chartsStorageUrl,
+      /*enabled_features: ["study_templates"],*/
+      /*      charts_storage_url: this.chartsStorageUrl,*/
       charts_storage_api_version: this.chartsStorageApiVersion,
       client_id: this.clientId,
       user_id: this.userId,

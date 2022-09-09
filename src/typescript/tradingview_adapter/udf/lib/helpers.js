@@ -1,7 +1,7 @@
 /**
  * If you want to enable logs from datafeed set it to `true`
  */
-const isLoggingEnabled = false;
+const isLoggingEnabled = true;
 export function logMessage(message) {
     if (isLoggingEnabled) {
         const now = new Date();
@@ -11,9 +11,9 @@ export function logMessage(message) {
 }
 export function getErrorMessage(error) {
     if (error === undefined) {
-        return '';
+        return "";
     }
-    else if (typeof error === 'string') {
+    else if (typeof error === "string") {
         return error;
     }
     return error.message;
