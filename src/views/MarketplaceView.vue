@@ -1,14 +1,11 @@
 <template>
   <div class="">
     <InfoFeed />
-    <div class="flex">
-      <div class="basis-1/2">
-        <trading-view-chart />
-      </div>
-      <div class="basis-1/2 flex">
-        <Orderbook />
-        <OrderSetter />
-      </div>
+    <div class="grid grid-cols-4 gap-4">
+      <div><TradingViewChart /></div>
+      <div><Orderbook /></div>
+      <div><OrderSetter /></div>
+      <div><AssetsList /></div>
     </div>
   </div>
 </template>
@@ -18,4 +15,5 @@ import InfoFeed from "../components/feeds/InfoFeed.vue";
 import Orderbook from "../components/trading/Orderbook.vue";
 import OrderSetter from "../components/trading/OrderSetter.vue";
 import TradingViewChart from "../components/charts/tradingview/TradingViewChart.vue";
+import AssetsList from "../components/marketplace/AssetsList.vue";
 </script>

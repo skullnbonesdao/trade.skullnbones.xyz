@@ -1,0 +1,1 @@
+export const NFTS_URL = "https://galaxy.staratlas.com/nfts";
