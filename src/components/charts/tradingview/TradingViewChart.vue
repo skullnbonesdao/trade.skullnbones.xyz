@@ -14,7 +14,7 @@
 import { version } from "../../../assets/charting_library";
 import TVChartContainer from "./TVChartContainer.vue";
 
-//const version: version{}
+//const version:  version{}
 </script>
 
 <style lang="scss" scoped>
