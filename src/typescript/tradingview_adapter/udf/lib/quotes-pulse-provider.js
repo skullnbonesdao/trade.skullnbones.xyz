@@ -1,4 +1,4 @@
-import { getErrorMessage, logMessage, } from './helpers';
+import { getErrorMessage, logMessage } from "./helpers";
 export class QuotesPulseProvider {
     constructor(quotesProvider) {
         this._subscribers = {};
@@ -23,10 +23,14 @@ export class QuotesPulseProvider {
         if (this._requestsPending > 0) {
             return;
         }
-        for (const listenerGuid in this._subscribers) { // tslint:disable-line:forin
+        for (const listenerGuid in this._subscribers) {
+            // tslint:disable-line:forin
             this._requestsPending++;
             const subscriptionRecord = this._subscribers[listenerGuid];
-            this._quotesProvider.getQuotes(updateType === 1 /* Fast */ ? subscriptionRecord.fastSymbols : subscriptionRecord.symbols)
+            this._quotesProvider
+                .getQuotes(updateType === 1 /* Fast */
+                ? subscriptionRecord.fastSymbols
+                : subscriptionRecord.symbols)
                 .then((data) => {
                 this._requestsPending--;
                 if (!this._subscribers.hasOwnProperty(listenerGuid)) {

@@ -1,4 +1,4 @@
-import { getErrorMessage, } from './helpers';
+import { getErrorMessage, } from "./helpers";
 export class HistoryProvider {
     constructor(datafeedUrl, requester) {
         this._datafeedUrl = datafeedUrl;
@@ -6,7 +6,7 @@ export class HistoryProvider {
     }
     getBars(symbolInfo, resolution, periodParams) {
         const requestParams = {
-            symbol: symbolInfo.ticker || '',
+            symbol: symbolInfo.ticker || "",
             resolution: resolution,
             from: periodParams.from,
             to: periodParams.to,
@@ -21,9 +21,10 @@ export class HistoryProvider {
             requestParams.unitId = symbolInfo.unit_id;
         }
         return new Promise((resolve, reject) => {
-            this._requester.sendRequest(this._datafeedUrl, 'history', requestParams)
+            this._requester
+                .sendRequest(this._datafeedUrl, "history", requestParams)
                 .then((response) => {
-                if (response.s !== 'ok' && response.s !== 'no_data') {
+                if (response.s !== "ok" && response.s !== "no_data") {
                     reject(response.errmsg);
                     return;
                 }
@@ -31,7 +32,7 @@ export class HistoryProvider {
                 const meta = {
                     noData: false,
                 };
-                if (response.s === 'no_data') {
+                if (response.s === "no_data") {
                     meta.noData = true;
                     meta.nextTime = response.nextTime;
                 }
