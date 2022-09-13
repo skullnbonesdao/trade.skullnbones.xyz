@@ -23,40 +23,40 @@ export const useStaratlasGmStore = defineStore({
     }),
 
     actions: {
-        async fetchALLOrders() {
-            console.info('{getOrders} called!')
-            const client = new GmClientService()
-            await client
-                .getAllOpenOrders(this.connection, TRADE_PROGRAM)
-                .then((response) => {
-                    this.orders = response
-                })
-                .catch((err) => console.log('{getOrders}: ' + err))
-        },
+        /*async fetchALLOrders() {
+console.info('{getOrders} called!')
+const client = new GmClientService()
+await client
+.getAllOpenOrders(this.connection, TRADE_PROGRAM)
+.then((response) => { 
+this.orders = response
+})
+.catch((err) => console.log('{getOrders}: ' + err))
+},*/
 
         async getOpenOrdersForAsset(assetMint: string) {
             await this.client
                 .getOpenOrdersForAsset(this.connection, new PublicKey(assetMint), TRADE_PROGRAM)
-                .then((response) => {
+                .then((response: any) => {
                     this.orders = response
 
-                    this.atlasOrders.buyOrders = response
+                    this.atlasOrders.buyOrders = this.orders
                         .filter((order) => order.orderType === 'buy' && order.currencyMint === TOKEN_ATLAS.toString())
                         .sort((a, b) => a.uiPrice - b.uiPrice)
 
-                    this.atlasOrders.sellOrders = response
+                    this.atlasOrders.sellOrders = this.orders
                         .filter((order) => order.orderType === 'sell' && order.currencyMint === TOKEN_ATLAS.toString())
                         .sort((a, b) => a.uiPrice - b.uiPrice)
 
-                    this.usdcOrders.buyOrders = response
+                    this.usdcOrders.buyOrders = this.orders
                         .filter((order) => order.orderType === 'buy' && order.currencyMint === TOKEN_USDC.toString())
                         .sort((a, b) => a.uiPrice - b.uiPrice)
 
-                    this.usdcOrders.sellOrders = response
+                    this.usdcOrders.sellOrders = this.orders
                         .filter((order) => order.orderType === 'sell' && order.currencyMint === TOKEN_USDC.toString())
                         .sort((a, b) => a.uiPrice - b.uiPrice)
                 })
-                .catch((err) => console.log('{getOpenOrdersForAssetError}: ' + err))
+                .catch((err: any) => console.log('{getOpenOrdersForAssetError}: ' + err))
         },
     },
 })
