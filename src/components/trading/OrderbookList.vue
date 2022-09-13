@@ -1,19 +1,25 @@
 <template>
     <h1>Orderbook</h1>
     <div>
-        <select v-model="currency">
+        <select v-model="selected_currency">
             <option>ATLAS</option>
             <option>USDC</option>
         </select>
         <div class="order-type-container">
             <p>Sell orders:</p>
-            <p v-for="order in orders.sellOrders" :key="order.id">
+            <p
+                v-for="order in selected_currency === 'ATLAS' ? atlasOrders.sellOrders : usdcOrders.sellOrders"
+                :key="order.id"
+            >
                 {{ order.uiPrice }}
             </p>
         </div>
         <div class="order-type-container">
             <p>Buy orders:</p>
-            <p v-for="order in orders.buyOrders" :key="order.id">
+            <p
+                v-for="order in selected_currency === 'ATLAS' ? atlasOrders.buyOrders : usdcOrders.buyOrders"
+                :key="order.id"
+            >
                 {{ order.uiPrice }}
             </p>
         </div>
@@ -27,9 +33,7 @@ import { storeToRefs } from 'pinia'
 
 const { atlasOrders, usdcOrders } = storeToRefs(useStaratlasGmStore())
 
-const currency = ref('USDC')
-
-const orders = ref(currency.value === 'ATLAS' ? atlasOrders : usdcOrders)
+const selected_currency = ref('USDC')
 </script>
 
 <style>
