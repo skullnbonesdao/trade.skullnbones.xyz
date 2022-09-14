@@ -1,24 +1,28 @@
-
 <template>
-  <h1>Asset list</h1>
-  <div>
-    <p v-for="asset in allAssets" :key="asset._id">
-      {{ asset.name }}
-    </p>
-  </div>
+    <h1>Asset list</h1>
+    <div>
+        <p
+            v-for="asset in allAssets"
+            :key="asset._id"
+            @click="staratlasGmStore.getOpenOrdersForAsset(asset.mint).then(() => {})"
+        >
+            {{ asset.name }}
+        </p>
+    </div>
 </template>
 
 <script lang="ts" setup>
-  import { ref } from "vue";
-  import {useAssetsStore} from "../../stores/AssetsStore";
-  import { storeToRefs } from 'pinia'
-  const { allAssets } = storeToRefs(useAssetsStore())
+import { useAssetsStore } from '../../stores/AssetsStore'
+import { useStaratlasGmStore } from '../../stores/StaratlasGmStore'
+import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
 
-  const assetsStore = useAssetsStore();
-  assetsStore.init();
+const { allAssets } = storeToRefs(useAssetsStore())
 
-  const filters = ref({
-    name: { value: "", keys: ["name", "symbol"] },
-  });
+const assset_selected = ref()
+
+const staratlasGmStore = useStaratlasGmStore()
+
+const assetsStore = useAssetsStore()
+assetsStore.init()
 </script>
-

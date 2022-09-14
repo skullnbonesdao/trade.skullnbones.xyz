@@ -1,20 +1,10 @@
 <script lang="ts" setup>
-import NavBar from "./components/navigation/NavBar.vue";
-import {useTokenPriceStore} from "./stores/TokenPriceStore";
-import {useSolanaNetworkStore} from "./stores/SolanaNetworkStore";
-
-const tokenPriceWebsocket = useTokenPriceStore();
-tokenPriceWebsocket.init();
-
-const solanaNetworkWebsocket = useSolanaNetworkStore();
-solanaNetworkWebsocket.init();
-
+import NavBar from './components/navigation/NavBar.vue'
 </script>
 
 <template>
-  <NavBar></NavBar>
-  <RouterView></RouterView>
+    <NavBar></NavBar>
+    <RouterView></RouterView>
 </template>
-
 
 <style scoped></style>
