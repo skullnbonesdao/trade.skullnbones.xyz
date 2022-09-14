@@ -24,4 +24,3 @@ dist-ssr
 *.sw?
 /.vscode/
 yarn-error.log
-package-lock.json
