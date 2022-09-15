@@ -8,6 +8,10 @@ import Home from '../src/views/HomeView.vue'
 import MarketplaceView from '../src/views/MarketplaceView.vue'
 import PersonToPersonView from '../src/views/PersonToPersonView.vue'
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import 'solana-wallets-vue/styles.css'
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
+import { PhantomWalletAdapter, SlopeWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets'
+import SolanaWallets from 'solana-wallets-vue'
 
 const pinia = createPinia()
 
@@ -20,13 +24,18 @@ const routes = [
     { path: '/about', component: About },
 ]
 
-// 3. Create the router instance and pass the `routes` option
-// You can pass in additional options here, but let's
-// keep it simple for now.
+const walletOptions = {
+    wallets: [
+        new PhantomWalletAdapter(),
+        new SlopeWalletAdapter(),
+        new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+    ],
+    autoConnect: true,
+}
+
 const router = createRouter({
-    // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
     history: createWebHashHistory(),
-    routes, // short for `routes: routes`
+    routes,
 })
 
-createApp(App).use(pinia).use(router).mount('#app')
+createApp(App).use(pinia).use(SolanaWallets, walletOptions).use(router).mount('#app')
