@@ -2,7 +2,9 @@
     <div class="">
         <InfoFeed />
         <div class="grid grid-cols-4 gap-4">
-            <!--      <div><TradingViewChart /></div>-->
+            <div>
+                <trading-view-chart />
+            </div>
             <div>
                 <OrderbookList />
             </div>
@@ -26,6 +28,7 @@ import { useTokenPriceStore } from '../stores/TokenPriceStore'
 import { useSolanaNetworkStore } from '../stores/SolanaNetworkStore'
 import { useStaratlasGmStore } from '../stores/StaratlasGmStore'
 import { useAssetsStore } from '../stores/AssetsStore'
+import TradingViewChart from '../components/charts/tradingview/TradingViewChart.vue'
 
 onMounted(async () => {
     const tokenPriceWebsocket = useTokenPriceStore()
