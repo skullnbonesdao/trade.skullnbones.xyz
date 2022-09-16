@@ -21,7 +21,7 @@ export default {
             type: String,
         },
         interval: {
-            default: '1',
+            default: '100',
             type: String,
         },
         datafeedUrl: {

@@ -1,18 +1,15 @@
 <template>
     <div class="">
         <InfoFeed />
-        <div class="grid grid-cols-4 gap-4">
-            <div>
+        <div class="grid grid-cols-3 gap-3">
+            <div class="col-span-2">
                 <trading-view-chart />
             </div>
             <div>
-                <OrderbookList />
-            </div>
-            <div>
-                <OrderSetter />
-            </div>
-            <div>
-                <AssetsList />
+                <orderbook-list />
+                <order-setter />
+
+                <assets-list />
             </div>
         </div>
     </div>
@@ -20,7 +17,6 @@
 
 <script lang="ts" setup>
 import InfoFeed from '../components/feeds/InfoFeed.vue'
-import OrderSetter from '../components/trading/OrderSetter.vue'
 import AssetsList from '../components/marketplace/AssetsList.vue'
 import OrderbookList from '../components/trading/OrderbookList.vue'
 import { onMounted } from 'vue'
@@ -29,6 +25,7 @@ import { useSolanaNetworkStore } from '../stores/SolanaNetworkStore'
 import { useStaratlasGmStore } from '../stores/StaratlasGmStore'
 import { useAssetsStore } from '../stores/AssetsStore'
 import TradingViewChart from '../components/charts/tradingview/TradingViewChart.vue'
+import OrderSetter from '../components/trading/OrderSetter.vue'
 
 onMounted(async () => {
     const tokenPriceWebsocket = useTokenPriceStore()

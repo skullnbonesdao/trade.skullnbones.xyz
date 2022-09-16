@@ -1,5 +1,5 @@
 <template>
-    <h1>Asset list</h1>
+    <h2>Asset list</h2>
     <div>
         <p
             v-for="asset in allAssets"

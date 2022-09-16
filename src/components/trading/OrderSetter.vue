@@ -1,4 +1,4 @@
 <template>
-  <h1>Order Setter</h1>
-  <div></div>
+    <h2>Order Setter</h2>
+    <div></div>
 </template>
