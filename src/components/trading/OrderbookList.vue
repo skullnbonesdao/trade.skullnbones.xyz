@@ -1,5 +1,5 @@
 <template>
-    <h1>Orderbook</h1>
+    <h2>Orderbook</h2>
     <div>
         <select v-model="selected_currency">
             <option>ATLAS</option>
