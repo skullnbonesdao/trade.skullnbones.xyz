@@ -1,13 +1,12 @@
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import * as path from "path";
-
-// https://vitejs.dev/config/
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import * as path from 'path'
+import Unocss from 'unocss/vite'
 
 export default defineConfig({
     base: './',
 
-    plugins: [vue()],
+    plugins: [vue(), Unocss()],
     optimizeDeps: {
         esbuildOptions: {
             target: 'es2020',

@@ -8,7 +8,6 @@
             <div>
                 <orderbook-list />
                 <order-setter />
-
                 <assets-list />
             </div>
         </div>

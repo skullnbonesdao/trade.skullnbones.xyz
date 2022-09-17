@@ -39,17 +39,9 @@
 <style scoped></style>
 <script lang="ts">
 import ToggleMode from '../buttons/ToggleMode.vue'
-
-import { themeChange } from 'theme-change'
-import { onMounted } from 'vue'
 import { WalletMultiButton } from 'solana-wallets-vue'
 
 export default {
     components: { WalletMultiButton, ToggleMode },
-    setup() {
-        onMounted(() => {
-            themeChange(false)
-        })
-    },
 }
 </script>
