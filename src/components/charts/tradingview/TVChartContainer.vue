@@ -25,7 +25,9 @@ export default {
             type: String,
         },
         datafeedUrl: {
-            default: '/api',
+            /* default: '/api',*/
+            default: 'http://api2.skullnbones.xyz',
+            /*  default: 'http://localhost:3000',*/
             type: String,
         },
         libraryPath: {

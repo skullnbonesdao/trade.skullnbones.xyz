@@ -16,7 +16,6 @@ import { PhantomWalletAdapter, SlopeWalletAdapter, SolflareWalletAdapter } from 
 import SolanaWallets from 'solana-wallets-vue'
 
 const pinia = createPinia()
-
 const About = { template: '<div>About</div>' }
 
 const routes = [
