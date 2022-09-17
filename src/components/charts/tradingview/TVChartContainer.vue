@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { widget } from '../../../assets/charting_library'
+import { widget } from '../../../../public/charting_library'
 
 import { UDFCompatibleDatafeed } from '../../../typescript/tradingview_adapter/udf/lib/udf-compatible-datafeed.js'
 
@@ -25,7 +25,7 @@ export default {
             type: String,
         },
         datafeedUrl: {
-            default: 'https://api2.skullnbones.xyz',
+            default: '/api',
             type: String,
         },
         libraryPath: {

@@ -15,6 +15,18 @@ export default defineConfig({
     build: {
         target: 'es2020',
     },
+
+    server: {
+        proxy: {
+            '/api': {
+                target: 'https://api2.skullnbones.xyz',
+                changeOrigin: true,
+                secure: true,
+                ws: true,
+                rewrite: (path) => path.replace(/^\/api/, ''),
+            },
+        },
+    },
     resolve: {
         alias: {
             process: 'process/browser',

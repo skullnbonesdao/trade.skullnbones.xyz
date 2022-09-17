@@ -1,7 +1,9 @@
 <template>
-    <div class="navbar bg-base-100">
+    <div class="navbar bg-base-100 dark:bg-black">
         <div class="flex-1">
-            <a class="btn btn-ghost normal-case text-xl">daisyUI</a>
+            <button class="btn">
+                <RouterLink class="text-white transition" to="/">RougeMarket</RouterLink>
+            </button>
         </div>
         <div class="flex-none">
             <ul class="menu menu-horizontal p-0">
@@ -28,7 +30,7 @@
                 </li>
                 <li>
                     <div>
-                        <ToggleMode></ToggleMode>
+                        <toggle-mode></toggle-mode>
                     </div>
                 </li>
             </ul>
@@ -38,10 +40,10 @@
 
 <style scoped></style>
 <script lang="ts">
-import ToggleMode from '../buttons/ToggleMode.vue'
 import { WalletMultiButton } from 'solana-wallets-vue'
+import ToggleMode from '../buttons/ToggleMode.vue'
 
 export default {
-    components: { WalletMultiButton, ToggleMode },
+    components: { ToggleMode, WalletMultiButton },
 }
 </script>
