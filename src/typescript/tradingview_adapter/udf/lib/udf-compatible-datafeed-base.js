@@ -1,8 +1,8 @@
-import { getErrorMessage, logMessage, } from "./helpers";
-import { HistoryProvider, } from "./history-provider";
-import { DataPulseProvider } from "./data-pulse-provider";
-import { QuotesPulseProvider } from "./quotes-pulse-provider";
-import { SymbolsStorage } from "./symbols-storage";
+import { getErrorMessage, logMessage } from './helpers';
+import { HistoryProvider } from './history-provider';
+import { DataPulseProvider } from './data-pulse-provider';
+import { QuotesPulseProvider } from './quotes-pulse-provider';
+import { SymbolsStorage } from './symbols-storage';
 function extractField(data, field, arrayIndex) {
     const value = data[field];
     return Array.isArray(value) ? value[arrayIndex] : value;
@@ -34,10 +34,7 @@ export class UDFCompatibleDatafeedBase {
         });
     }
     getQuotes(symbols, onDataCallback, onErrorCallback) {
-        this._quotesProvider
-            .getQuotes(symbols)
-            .then(onDataCallback)
-            .catch(onErrorCallback);
+        this._quotesProvider.getQuotes(symbols).then(onDataCallback).catch(onErrorCallback);
     }
     subscribeQuotes(symbols, fastSymbols, onRealtimeCallback, listenerGuid) {
         this._quotesPulseProvider.subscribeQuotes(symbols, fastSymbols, onRealtimeCallback, listenerGuid);
@@ -50,24 +47,24 @@ export class UDFCompatibleDatafeedBase {
             return;
         }
         const requestParams = {
-            symbol: symbolInfo.ticker || "",
+            symbol: symbolInfo.ticker || '',
             from: from,
             to: to,
             resolution: resolution,
         };
-        this._send("marks", requestParams)
+        this._send('marks', requestParams)
             .then((response) => {
             if (!Array.isArray(response)) {
                 const result = [];
                 for (let i = 0; i < response.id.length; ++i) {
                     result.push({
-                        id: extractField(response, "id", i),
-                        time: extractField(response, "time", i),
-                        color: extractField(response, "color", i),
-                        text: extractField(response, "text", i),
-                        label: extractField(response, "label", i),
-                        labelFontColor: extractField(response, "labelFontColor", i),
-                        minSize: extractField(response, "minSize", i),
+                        id: extractField(response, 'id', i),
+                        time: extractField(response, 'time', i),
+                        color: extractField(response, 'color', i),
+                        text: extractField(response, 'text', i),
+                        label: extractField(response, 'label', i),
+                        labelFontColor: extractField(response, 'labelFontColor', i),
+                        minSize: extractField(response, 'minSize', i),
                     });
                 }
                 response = result;
@@ -84,22 +81,22 @@ export class UDFCompatibleDatafeedBase {
             return;
         }
         const requestParams = {
-            symbol: symbolInfo.ticker || "",
+            symbol: symbolInfo.ticker || '',
             from: from,
             to: to,
             resolution: resolution,
         };
-        this._send("timescale_marks", requestParams)
+        this._send('timescale_marks', requestParams)
             .then((response) => {
             if (!Array.isArray(response)) {
                 const result = [];
                 for (let i = 0; i < response.id.length; ++i) {
                     result.push({
-                        id: extractField(response, "id", i),
-                        time: extractField(response, "time", i),
-                        color: extractField(response, "color", i),
-                        label: extractField(response, "label", i),
-                        tooltip: extractField(response, "tooltip", i),
+                        id: extractField(response, 'id', i),
+                        time: extractField(response, 'time', i),
+                        color: extractField(response, 'color', i),
+                        label: extractField(response, 'label', i),
+                        tooltip: extractField(response, 'tooltip', i),
                     });
                 }
                 response = result;
@@ -115,7 +112,7 @@ export class UDFCompatibleDatafeedBase {
         if (!this._configuration.supports_time) {
             return;
         }
-        this._send("time")
+        this._send('time')
             .then((response) => {
             const time = parseInt(response);
             if (!isNaN(time)) {
@@ -134,7 +131,7 @@ export class UDFCompatibleDatafeedBase {
                 type: symbolType,
                 exchange: exchange,
             };
-            this._send("search", params)
+            this._send('search', params)
                 .then((response) => {
                 if (response.s !== undefined) {
                     logMessage(`UdfCompatibleDatafeed: search symbols error=${response.errmsg}`);
@@ -150,7 +147,7 @@ export class UDFCompatibleDatafeedBase {
         }
         else {
             if (this._symbolsStorage === null) {
-                throw new Error("UdfCompatibleDatafeed: inconsistent configuration (symbols storage)");
+                throw new Error('UdfCompatibleDatafeed: inconsistent configuration (symbols storage)');
             }
             this._symbolsStorage
                 .searchSymbols(userInput, exchange, symbolType, 30 /* SearchItemsLimit */)
@@ -159,7 +156,7 @@ export class UDFCompatibleDatafeedBase {
         }
     }
     resolveSymbol(symbolName, onResolve, onError, extension) {
-        logMessage("Resolve requested");
+        logMessage('Resolve requested');
         const currencyCode = extension && extension.currencyCode;
         const unitId = extension && extension.unitId;
         const resolveRequestStartTime = Date.now();
@@ -177,10 +174,10 @@ export class UDFCompatibleDatafeedBase {
             if (unitId !== undefined) {
                 params.unitId = unitId;
             }
-            this._send("symbols", params)
+            this._send('symbols', params)
                 .then((response) => {
                 if (response.s !== undefined) {
-                    onError("unknown_symbol");
+                    onError('unknown_symbol');
                 }
                 else {
                     onResultReady(response);
@@ -188,17 +185,14 @@ export class UDFCompatibleDatafeedBase {
             })
                 .catch((reason) => {
                 logMessage(`UdfCompatibleDatafeed: Error resolving symbol: ${getErrorMessage(reason)}`);
-                onError("unknown_symbol");
+                onError('unknown_symbol');
             });
         }
         else {
             if (this._symbolsStorage === null) {
-                throw new Error("UdfCompatibleDatafeed: inconsistent configuration (symbols storage)");
+                throw new Error('UdfCompatibleDatafeed: inconsistent configuration (symbols storage)');
             }
-            this._symbolsStorage
-                .resolveSymbol(symbolName, currencyCode, unitId)
-                .then(onResultReady)
-                .catch(onError);
+            this._symbolsStorage.resolveSymbol(symbolName, currencyCode, unitId).then(onResultReady).catch(onError);
         }
     }
     getBars(symbolInfo, resolution, periodParams, onResult, onError) {
@@ -216,7 +210,7 @@ export class UDFCompatibleDatafeedBase {
         this._dataPulseProvider.unsubscribeBars(listenerGuid);
     }
     _requestConfiguration() {
-        return this._send("config").catch((reason) => {
+        return this._send('config').catch((reason) => {
             logMessage(`UdfCompatibleDatafeed: Cannot get datafeed configuration - use default, error=${getErrorMessage(reason)}`);
             return null;
         });
@@ -229,12 +223,10 @@ export class UDFCompatibleDatafeedBase {
         if (configurationData.exchanges === undefined) {
             configurationData.exchanges = [];
         }
-        if (!configurationData.supports_search &&
-            !configurationData.supports_group_request) {
-            throw new Error("Unsupported datafeed configuration. Must either support search, or support group request");
+        if (!configurationData.supports_search && !configurationData.supports_group_request) {
+            throw new Error('Unsupported datafeed configuration. Must either support search, or support group request');
         }
-        if (configurationData.supports_group_request ||
-            !configurationData.supports_search) {
+        if (configurationData.supports_group_request || !configurationData.supports_search) {
             this._symbolsStorage = new SymbolsStorage(this._datafeedURL, configurationData.supported_resolutions || [], this._requester);
         }
         logMessage(`UdfCompatibleDatafeed: Initialized with ${JSON.stringify(configurationData)}`);
@@ -245,14 +237,14 @@ function defaultConfiguration() {
         supports_search: false,
         supports_group_request: true,
         supported_resolutions: [
-            "1",
-            "5",
-            "15",
-            "30",
-            "60",
-            "1D",
-            "1W",
-            "1M",
+            '1',
+            '5',
+            '15',
+            '30',
+            '60',
+            '1D',
+            '1W',
+            '1M',
         ],
         supports_marks: false,
         supports_timescale_marks: false,

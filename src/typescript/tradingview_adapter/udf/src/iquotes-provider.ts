@@ -1,12 +1,12 @@
-import { QuoteData } from "../../../../assets/charting_library/datafeed-api";
+import { QuoteData } from '../../../../../public/charting_library/datafeed-api'
 
-import { UdfOkResponse } from "./helpers";
+import { UdfOkResponse } from './helpers'
 
 export interface UdfQuotesResponse extends UdfOkResponse {
-  d: QuoteData[];
+    d: QuoteData[]
 }
 
 export interface IQuotesProvider {
-  // tslint:disable-next-line:variable-name tv-variable-name
-  getQuotes(symbols: string[]): Promise<QuoteData[]>;
+    // tslint:disable-next-line:variable-name tv-variable-name
+    getQuotes(symbols: string[]): Promise<QuoteData[]>
 }

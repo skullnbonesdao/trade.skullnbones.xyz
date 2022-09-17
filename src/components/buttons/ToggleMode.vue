@@ -1,24 +1,12 @@
+<script setup>
+import { useDark, useToggle } from '@vueuse/core'
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
+</script>
+
 <template>
-    <div class="btn-primary btn-circle" data-act-class="ACTIVECLASS" data-toggle-theme="business,corporate">
-        <i v-if="theme === 'corporate'" class="bi bi-sun"></i>
-        <i v-if="theme === 'business'" class="bi bi-moon"></i>
+    <div class="px-4 py-2 text-white bg-gray-600 dark:bg-purple-700" @click="toggleDark(!isDark)">
+        <div class="i-carbon-sun dark:i-carbon-asleep" />
     </div>
 </template>
-
-<script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-
-const theme = ref()
-
-onMounted(() => {
-    if (localStorage.getItem('theme')) {
-        theme.value = localStorage.getItem('theme')
-    } else {
-        theme.value = 'corporate'
-    }
-})
-
-function theme_change() {
-    theme.value = localStorage.getItem('theme')
-}
-</script>

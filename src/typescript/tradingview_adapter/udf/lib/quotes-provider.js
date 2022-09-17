@@ -1,4 +1,4 @@
-import { getErrorMessage, logMessage, } from './helpers';
+import { getErrorMessage, logMessage } from './helpers';
 export class QuotesProvider {
     constructor(datafeedUrl, requester) {
         this._datafeedUrl = datafeedUrl;
@@ -6,7 +6,8 @@ export class QuotesProvider {
     }
     getQuotes(symbols) {
         return new Promise((resolve, reject) => {
-            this._requester.sendRequest(this._datafeedUrl, 'quotes', { symbols: symbols })
+            this._requester
+                .sendRequest(this._datafeedUrl, 'quotes', { symbols: symbols })
                 .then((response) => {
                 if (response.s === 'ok') {
                     resolve(response.d);

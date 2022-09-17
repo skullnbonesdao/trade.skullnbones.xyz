@@ -1,4 +1,4 @@
-import { getErrorMessage, logMessage, } from './helpers';
+import { getErrorMessage, logMessage } from './helpers';
 export class DataPulseProvider {
     constructor(historyProvider, updateFrequency) {
         this._subscribers = {};
@@ -28,7 +28,8 @@ export class DataPulseProvider {
             return;
         }
         this._requestsPending = 0;
-        for (const listenerGuid in this._subscribers) { // tslint:disable-line:forin
+        for (const listenerGuid in this._subscribers) {
+            // tslint:disable-line:forin
             this._requestsPending += 1;
             this._updateDataForSubscriber(listenerGuid)
                 .then(() => {
@@ -47,7 +48,8 @@ export class DataPulseProvider {
         // BEWARE: please note we really need 2 bars, not the only last one
         // see the explanation below. `10` is the `large enough` value to work around holidays
         const rangeStartTime = rangeEndTime - periodLengthSeconds(subscriptionRecord.resolution, 10);
-        return this._historyProvider.getBars(subscriptionRecord.symbolInfo, subscriptionRecord.resolution, {
+        return this._historyProvider
+            .getBars(subscriptionRecord.symbolInfo, subscriptionRecord.resolution, {
             from: rangeStartTime,
             to: rangeEndTime,
             countBack: 2,
@@ -98,7 +100,7 @@ function periodLengthSeconds(resolution, requiredPeriodsCount) {
         daysCount = 7 * requiredPeriodsCount;
     }
     else {
-        daysCount = requiredPeriodsCount * parseInt(resolution) / (24 * 60);
+        daysCount = (requiredPeriodsCount * parseInt(resolution)) / (24 * 60);
     }
     return daysCount * 24 * 60 * 60;
 }

@@ -1,4 +1,4 @@
-import { getErrorMessage, logMessage } from "./helpers";
+import { getErrorMessage, logMessage } from './helpers';
 export class QuotesPulseProvider {
     constructor(quotesProvider) {
         this._subscribers = {};
@@ -28,9 +28,7 @@ export class QuotesPulseProvider {
             this._requestsPending++;
             const subscriptionRecord = this._subscribers[listenerGuid];
             this._quotesProvider
-                .getQuotes(updateType === 1 /* Fast */
-                ? subscriptionRecord.fastSymbols
-                : subscriptionRecord.symbols)
+                .getQuotes(updateType === 1 /* Fast */ ? subscriptionRecord.fastSymbols : subscriptionRecord.symbols)
                 .then((data) => {
                 this._requestsPending--;
                 if (!this._subscribers.hasOwnProperty(listenerGuid)) {

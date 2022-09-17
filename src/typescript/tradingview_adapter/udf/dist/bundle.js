@@ -31,7 +31,7 @@
         }
         getBars(symbolInfo, resolution, periodParams) {
             const requestParams = {
-                symbol: symbolInfo.ticker || "",
+                symbol: symbolInfo.ticker || '',
                 resolution: resolution,
                 from: periodParams.from,
                 to: periodParams.to,
@@ -47,9 +47,9 @@
             }
             return new Promise((resolve, reject) => {
                 this._requester
-                    .sendRequest(this._datafeedUrl, "history", requestParams)
+                    .sendRequest(this._datafeedUrl, 'history', requestParams)
                     .then((response) => {
-                    if (response.s !== "ok" && response.s !== "no_data") {
+                    if (response.s !== 'ok' && response.s !== 'no_data') {
                         reject(response.errmsg);
                         return;
                     }
@@ -57,7 +57,7 @@
                     const meta = {
                         noData: false,
                     };
-                    if (response.s === "no_data") {
+                    if (response.s === 'no_data') {
                         meta.noData = true;
                         meta.nextTime = response.nextTime;
                     }
@@ -127,7 +127,8 @@
                 return;
             }
             this._requestsPending = 0;
-            for (const listenerGuid in this._subscribers) { // tslint:disable-line:forin
+            for (const listenerGuid in this._subscribers) {
+                // tslint:disable-line:forin
                 this._requestsPending += 1;
                 this._updateDataForSubscriber(listenerGuid)
                     .then(() => {
@@ -146,7 +147,8 @@
             // BEWARE: please note we really need 2 bars, not the only last one
             // see the explanation below. `10` is the `large enough` value to work around holidays
             const rangeStartTime = rangeEndTime - periodLengthSeconds(subscriptionRecord.resolution, 10);
-            return this._historyProvider.getBars(subscriptionRecord.symbolInfo, subscriptionRecord.resolution, {
+            return this._historyProvider
+                .getBars(subscriptionRecord.symbolInfo, subscriptionRecord.resolution, {
                 from: rangeStartTime,
                 to: rangeEndTime,
                 countBack: 2,
@@ -197,7 +199,7 @@
             daysCount = 7 * requiredPeriodsCount;
         }
         else {
-            daysCount = requiredPeriodsCount * parseInt(resolution) / (24 * 60);
+            daysCount = (requiredPeriodsCount * parseInt(resolution)) / (24 * 60);
         }
         return daysCount * 24 * 60 * 60;
     }
@@ -231,9 +233,7 @@
                 this._requestsPending++;
                 const subscriptionRecord = this._subscribers[listenerGuid];
                 this._quotesProvider
-                    .getQuotes(updateType === 1 /* Fast */
-                    ? subscriptionRecord.fastSymbols
-                    : subscriptionRecord.symbols)
+                    .getQuotes(updateType === 1 /* Fast */ ? subscriptionRecord.fastSymbols : subscriptionRecord.symbols)
                     .then((data) => {
                     this._requestsPending--;
                     if (!this._subscribers.hasOwnProperty(listenerGuid)) {
@@ -259,13 +259,11 @@
     }
     function symbolKey(symbol, currency, unit) {
         // here we're using a separator that quite possible shouldn't be in a real symbol name
-        return (symbol +
-            (currency !== undefined ? "_%|#|%_" + currency : "") +
-            (unit !== undefined ? "_%|#|%_" + unit : ""));
+        return symbol + (currency !== undefined ? '_%|#|%_' + currency : '') + (unit !== undefined ? '_%|#|%_' + unit : '');
     }
     class SymbolsStorage {
         constructor(datafeedUrl, datafeedSupportedResolutions, requester) {
-            this._exchangesList = ["NYSE", "FOREX", "AMEX"];
+            this._exchangesList = ['NYSE', 'FOREX', 'AMEX'];
             this._symbolsInfo = {};
             this._symbolsList = [];
             this._datafeedUrl = datafeedUrl;
@@ -283,7 +281,7 @@
             return this._readyPromise.then(() => {
                 const symbolInfo = this._symbolsInfo[symbolKey(symbolName, currencyCode, unitId)];
                 if (symbolInfo === undefined) {
-                    return Promise.reject("invalid symbol");
+                    return Promise.reject('invalid symbol');
                 }
                 return Promise.resolve(symbolInfo);
             });
@@ -301,23 +299,15 @@
                     if (symbolType.length > 0 && symbolInfo.type !== symbolType) {
                         continue;
                     }
-                    if (exchange &&
-                        exchange.length > 0 &&
-                        symbolInfo.exchange !== exchange) {
+                    if (exchange && exchange.length > 0 && symbolInfo.exchange !== exchange) {
                         continue;
                     }
-                    const positionInName = symbolInfo.name
-                        .toUpperCase()
-                        .indexOf(searchString);
-                    const positionInDescription = symbolInfo.description
-                        .toUpperCase()
-                        .indexOf(searchString);
+                    const positionInName = symbolInfo.name.toUpperCase().indexOf(searchString);
+                    const positionInDescription = symbolInfo.description.toUpperCase().indexOf(searchString);
                     if (queryIsEmpty || positionInName >= 0 || positionInDescription >= 0) {
                         const alreadyExists = weightedResult.some((item) => item.symbolInfo === symbolInfo);
                         if (!alreadyExists) {
-                            const weight = positionInName >= 0
-                                ? positionInName
-                                : 8000 + positionInDescription;
+                            const weight = positionInName >= 0 ? positionInName : 8000 + positionInDescription;
                             weightedResult.push({ symbolInfo: symbolInfo, weight: weight });
                         }
                     }
@@ -352,13 +342,13 @@
             }
             return Promise.all(promises).then(() => {
                 this._symbolsList.sort();
-                logMessage("SymbolsStorage: All exchanges data loaded");
+                logMessage('SymbolsStorage: All exchanges data loaded');
             });
         }
         _requestExchangeData(exchange) {
             return new Promise((resolve, reject) => {
                 this._requester
-                    .sendRequest(this._datafeedUrl, "symbol_info", {
+                    .sendRequest(this._datafeedUrl, 'symbol_info', {
                     group: exchange,
                 })
                     .then((response) => {
@@ -366,9 +356,7 @@
                         this._onExchangeDataReceived(exchange, response);
                     }
                     catch (error) {
-                        reject(error instanceof Error
-                            ? error
-                            : new Error(`SymbolsStorage: Unexpected exception ${error}`));
+                        reject(error instanceof Error ? error : new Error(`SymbolsStorage: Unexpected exception ${error}`));
                         return;
                     }
                     resolve();
@@ -386,60 +374,54 @@
                 const tickerPresent = data.ticker !== undefined;
                 for (; symbolIndex < symbolsCount; ++symbolIndex) {
                     const symbolName = data.symbol[symbolIndex];
-                    const listedExchange = extractField(data, "exchange-listed", symbolIndex);
-                    const tradedExchange = extractField(data, "exchange-traded", symbolIndex);
-                    const fullName = tradedExchange + ":" + symbolName;
-                    const currencyCode = extractField(data, "currency-code", symbolIndex);
-                    const unitId = extractField(data, "unit-id", symbolIndex);
-                    const ticker = tickerPresent
-                        ? extractField(data, "ticker", symbolIndex)
-                        : symbolName;
+                    const listedExchange = extractField(data, 'exchange-listed', symbolIndex);
+                    const tradedExchange = extractField(data, 'exchange-traded', symbolIndex);
+                    const fullName = tradedExchange + ':' + symbolName;
+                    const currencyCode = extractField(data, 'currency-code', symbolIndex);
+                    const unitId = extractField(data, 'unit-id', symbolIndex);
+                    const ticker = tickerPresent ? extractField(data, 'ticker', symbolIndex) : symbolName;
                     const symbolInfo = {
                         ticker: ticker,
                         name: symbolName,
-                        base_name: [listedExchange + ":" + symbolName],
+                        base_name: [listedExchange + ':' + symbolName],
                         full_name: fullName,
                         listed_exchange: listedExchange,
                         exchange: tradedExchange,
                         currency_code: currencyCode,
-                        original_currency_code: extractField(data, "original-currency-code", symbolIndex),
+                        original_currency_code: extractField(data, 'original-currency-code', symbolIndex),
                         unit_id: unitId,
-                        original_unit_id: extractField(data, "original-unit-id", symbolIndex),
-                        unit_conversion_types: extractField(data, "unit-conversion-types", symbolIndex, true),
-                        description: extractField(data, "description", symbolIndex),
-                        has_intraday: definedValueOrDefault(extractField(data, "has-intraday", symbolIndex), false),
-                        has_no_volume: definedValueOrDefault(extractField(data, "has-no-volume", symbolIndex), undefined),
-                        visible_plots_set: definedValueOrDefault(extractField(data, "visible-plots-set", symbolIndex), undefined),
-                        minmov: extractField(data, "minmovement", symbolIndex) ||
-                            extractField(data, "minmov", symbolIndex) ||
+                        original_unit_id: extractField(data, 'original-unit-id', symbolIndex),
+                        unit_conversion_types: extractField(data, 'unit-conversion-types', symbolIndex, true),
+                        description: extractField(data, 'description', symbolIndex),
+                        has_intraday: definedValueOrDefault(extractField(data, 'has-intraday', symbolIndex), false),
+                        has_no_volume: definedValueOrDefault(extractField(data, 'has-no-volume', symbolIndex), undefined),
+                        visible_plots_set: definedValueOrDefault(extractField(data, 'visible-plots-set', symbolIndex), undefined),
+                        minmov: extractField(data, 'minmovement', symbolIndex) ||
+                            extractField(data, 'minmov', symbolIndex) ||
                             0,
-                        minmove2: extractField(data, "minmove2", symbolIndex) ||
-                            extractField(data, "minmov2", symbolIndex),
-                        fractional: extractField(data, "fractional", symbolIndex),
-                        pricescale: extractField(data, "pricescale", symbolIndex),
-                        type: extractField(data, "type", symbolIndex),
-                        session: extractField(data, "session-regular", symbolIndex),
-                        session_holidays: extractField(data, "session-holidays", symbolIndex),
-                        corrections: extractField(data, "corrections", symbolIndex),
-                        timezone: extractField(data, "timezone", symbolIndex),
-                        supported_resolutions: definedValueOrDefault(extractField(data, "supported-resolutions", symbolIndex, true), this._datafeedSupportedResolutions),
-                        has_daily: definedValueOrDefault(extractField(data, "has-daily", symbolIndex), true),
-                        intraday_multipliers: definedValueOrDefault(extractField(data, "intraday-multipliers", symbolIndex, true), ["1", "5", "15", "30", "60"]),
-                        has_weekly_and_monthly: extractField(data, "has-weekly-and-monthly", symbolIndex),
-                        has_empty_bars: extractField(data, "has-empty-bars", symbolIndex),
-                        volume_precision: definedValueOrDefault(extractField(data, "volume-precision", symbolIndex), 0),
-                        format: "price",
+                        minmove2: extractField(data, 'minmove2', symbolIndex) || extractField(data, 'minmov2', symbolIndex),
+                        fractional: extractField(data, 'fractional', symbolIndex),
+                        pricescale: extractField(data, 'pricescale', symbolIndex),
+                        type: extractField(data, 'type', symbolIndex),
+                        session: extractField(data, 'session-regular', symbolIndex),
+                        session_holidays: extractField(data, 'session-holidays', symbolIndex),
+                        corrections: extractField(data, 'corrections', symbolIndex),
+                        timezone: extractField(data, 'timezone', symbolIndex),
+                        supported_resolutions: definedValueOrDefault(extractField(data, 'supported-resolutions', symbolIndex, true), this._datafeedSupportedResolutions),
+                        has_daily: definedValueOrDefault(extractField(data, 'has-daily', symbolIndex), true),
+                        intraday_multipliers: definedValueOrDefault(extractField(data, 'intraday-multipliers', symbolIndex, true), ['1', '5', '15', '30', '60']),
+                        has_weekly_and_monthly: extractField(data, 'has-weekly-and-monthly', symbolIndex),
+                        has_empty_bars: extractField(data, 'has-empty-bars', symbolIndex),
+                        volume_precision: definedValueOrDefault(extractField(data, 'volume-precision', symbolIndex), 0),
+                        format: 'price',
                     };
                     this._symbolsInfo[ticker] = symbolInfo;
                     this._symbolsInfo[symbolName] = symbolInfo;
                     this._symbolsInfo[fullName] = symbolInfo;
                     if (currencyCode !== undefined || unitId !== undefined) {
-                        this._symbolsInfo[symbolKey(ticker, currencyCode, unitId)] =
-                            symbolInfo;
-                        this._symbolsInfo[symbolKey(symbolName, currencyCode, unitId)] =
-                            symbolInfo;
-                        this._symbolsInfo[symbolKey(fullName, currencyCode, unitId)] =
-                            symbolInfo;
+                        this._symbolsInfo[symbolKey(ticker, currencyCode, unitId)] = symbolInfo;
+                        this._symbolsInfo[symbolKey(symbolName, currencyCode, unitId)] = symbolInfo;
+                        this._symbolsInfo[symbolKey(fullName, currencyCode, unitId)] = symbolInfo;
                     }
                     this._symbolsList.push(symbolName);
                 }
@@ -484,10 +466,7 @@
             });
         }
         getQuotes(symbols, onDataCallback, onErrorCallback) {
-            this._quotesProvider
-                .getQuotes(symbols)
-                .then(onDataCallback)
-                .catch(onErrorCallback);
+            this._quotesProvider.getQuotes(symbols).then(onDataCallback).catch(onErrorCallback);
         }
         subscribeQuotes(symbols, fastSymbols, onRealtimeCallback, listenerGuid) {
             this._quotesPulseProvider.subscribeQuotes(symbols, fastSymbols, onRealtimeCallback, listenerGuid);
@@ -500,24 +479,24 @@
                 return;
             }
             const requestParams = {
-                symbol: symbolInfo.ticker || "",
+                symbol: symbolInfo.ticker || '',
                 from: from,
                 to: to,
                 resolution: resolution,
             };
-            this._send("marks", requestParams)
+            this._send('marks', requestParams)
                 .then((response) => {
                 if (!Array.isArray(response)) {
                     const result = [];
                     for (let i = 0; i < response.id.length; ++i) {
                         result.push({
-                            id: extractField$1(response, "id", i),
-                            time: extractField$1(response, "time", i),
-                            color: extractField$1(response, "color", i),
-                            text: extractField$1(response, "text", i),
-                            label: extractField$1(response, "label", i),
-                            labelFontColor: extractField$1(response, "labelFontColor", i),
-                            minSize: extractField$1(response, "minSize", i),
+                            id: extractField$1(response, 'id', i),
+                            time: extractField$1(response, 'time', i),
+                            color: extractField$1(response, 'color', i),
+                            text: extractField$1(response, 'text', i),
+                            label: extractField$1(response, 'label', i),
+                            labelFontColor: extractField$1(response, 'labelFontColor', i),
+                            minSize: extractField$1(response, 'minSize', i),
                         });
                     }
                     response = result;
@@ -534,22 +513,22 @@
                 return;
             }
             const requestParams = {
-                symbol: symbolInfo.ticker || "",
+                symbol: symbolInfo.ticker || '',
                 from: from,
                 to: to,
                 resolution: resolution,
             };
-            this._send("timescale_marks", requestParams)
+            this._send('timescale_marks', requestParams)
                 .then((response) => {
                 if (!Array.isArray(response)) {
                     const result = [];
                     for (let i = 0; i < response.id.length; ++i) {
                         result.push({
-                            id: extractField$1(response, "id", i),
-                            time: extractField$1(response, "time", i),
-                            color: extractField$1(response, "color", i),
-                            label: extractField$1(response, "label", i),
-                            tooltip: extractField$1(response, "tooltip", i),
+                            id: extractField$1(response, 'id', i),
+                            time: extractField$1(response, 'time', i),
+                            color: extractField$1(response, 'color', i),
+                            label: extractField$1(response, 'label', i),
+                            tooltip: extractField$1(response, 'tooltip', i),
                         });
                     }
                     response = result;
@@ -565,7 +544,7 @@
             if (!this._configuration.supports_time) {
                 return;
             }
-            this._send("time")
+            this._send('time')
                 .then((response) => {
                 const time = parseInt(response);
                 if (!isNaN(time)) {
@@ -584,7 +563,7 @@
                     type: symbolType,
                     exchange: exchange,
                 };
-                this._send("search", params)
+                this._send('search', params)
                     .then((response) => {
                     if (response.s !== undefined) {
                         logMessage(`UdfCompatibleDatafeed: search symbols error=${response.errmsg}`);
@@ -600,7 +579,7 @@
             }
             else {
                 if (this._symbolsStorage === null) {
-                    throw new Error("UdfCompatibleDatafeed: inconsistent configuration (symbols storage)");
+                    throw new Error('UdfCompatibleDatafeed: inconsistent configuration (symbols storage)');
                 }
                 this._symbolsStorage
                     .searchSymbols(userInput, exchange, symbolType, 30 /* SearchItemsLimit */)
@@ -609,7 +588,7 @@
             }
         }
         resolveSymbol(symbolName, onResolve, onError, extension) {
-            logMessage("Resolve requested");
+            logMessage('Resolve requested');
             const currencyCode = extension && extension.currencyCode;
             const unitId = extension && extension.unitId;
             const resolveRequestStartTime = Date.now();
@@ -627,10 +606,10 @@
                 if (unitId !== undefined) {
                     params.unitId = unitId;
                 }
-                this._send("symbols", params)
+                this._send('symbols', params)
                     .then((response) => {
                     if (response.s !== undefined) {
-                        onError("unknown_symbol");
+                        onError('unknown_symbol');
                     }
                     else {
                         onResultReady(response);
@@ -638,17 +617,14 @@
                 })
                     .catch((reason) => {
                     logMessage(`UdfCompatibleDatafeed: Error resolving symbol: ${getErrorMessage(reason)}`);
-                    onError("unknown_symbol");
+                    onError('unknown_symbol');
                 });
             }
             else {
                 if (this._symbolsStorage === null) {
-                    throw new Error("UdfCompatibleDatafeed: inconsistent configuration (symbols storage)");
+                    throw new Error('UdfCompatibleDatafeed: inconsistent configuration (symbols storage)');
                 }
-                this._symbolsStorage
-                    .resolveSymbol(symbolName, currencyCode, unitId)
-                    .then(onResultReady)
-                    .catch(onError);
+                this._symbolsStorage.resolveSymbol(symbolName, currencyCode, unitId).then(onResultReady).catch(onError);
             }
         }
         getBars(symbolInfo, resolution, periodParams, onResult, onError) {
@@ -666,7 +642,7 @@
             this._dataPulseProvider.unsubscribeBars(listenerGuid);
         }
         _requestConfiguration() {
-            return this._send("config").catch((reason) => {
+            return this._send('config').catch((reason) => {
                 logMessage(`UdfCompatibleDatafeed: Cannot get datafeed configuration - use default, error=${getErrorMessage(reason)}`);
                 return null;
             });
@@ -679,12 +655,10 @@
             if (configurationData.exchanges === undefined) {
                 configurationData.exchanges = [];
             }
-            if (!configurationData.supports_search &&
-                !configurationData.supports_group_request) {
-                throw new Error("Unsupported datafeed configuration. Must either support search, or support group request");
+            if (!configurationData.supports_search && !configurationData.supports_group_request) {
+                throw new Error('Unsupported datafeed configuration. Must either support search, or support group request');
             }
-            if (configurationData.supports_group_request ||
-                !configurationData.supports_search) {
+            if (configurationData.supports_group_request || !configurationData.supports_search) {
                 this._symbolsStorage = new SymbolsStorage(this._datafeedURL, configurationData.supported_resolutions || [], this._requester);
             }
             logMessage(`UdfCompatibleDatafeed: Initialized with ${JSON.stringify(configurationData)}`);
@@ -695,14 +669,14 @@
             supports_search: false,
             supports_group_request: true,
             supported_resolutions: [
-                "1",
-                "5",
-                "15",
-                "30",
-                "60",
-                "1D",
-                "1W",
-                "1M",
+                '1',
+                '5',
+                '15',
+                '30',
+                '60',
+                '1D',
+                '1W',
+                '1M',
             ],
             supports_marks: false,
             supports_timescale_marks: false,
@@ -716,7 +690,8 @@
         }
         getQuotes(symbols) {
             return new Promise((resolve, reject) => {
-                this._requester.sendRequest(this._datafeedUrl, 'quotes', { symbols: symbols })
+                this._requester
+                    .sendRequest(this._datafeedUrl, 'quotes', { symbols: symbols })
                     .then((response) => {
                     if (response.s === 'ok') {
                         resolve(response.d);

@@ -1,4 +1,3 @@
 <template>
-  <h1>P2P</h1>
+    <h1 class="text-primary dark:text-xl">P2P</h1>
 </template>
-
