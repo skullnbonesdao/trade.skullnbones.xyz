@@ -21,8 +21,8 @@ export default defineConfig({
             '/api': {
                 target: 'https://api2.skullnbones.xyz',
                 changeOrigin: true,
-                secure: true,
-                ws: false,
+                secure: false,
+                ws: true,
                 rewrite: (path) => path.replace(/^\/api/, ''),
             },
         },
