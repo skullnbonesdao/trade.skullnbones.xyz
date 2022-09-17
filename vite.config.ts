@@ -4,7 +4,7 @@ import * as path from 'path'
 import Unocss from 'unocss/vite'
 
 export default defineConfig({
-    base: './',
+    base: '/',
 
     plugins: [vue(), Unocss()],
     optimizeDeps: {
@@ -22,7 +22,7 @@ export default defineConfig({
                 target: 'https://api2.skullnbones.xyz',
                 changeOrigin: true,
                 secure: true,
-                ws: true,
+                ws: false,
                 rewrite: (path) => path.replace(/^\/api/, ''),
             },
         },
