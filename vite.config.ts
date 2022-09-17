@@ -4,7 +4,7 @@ import * as path from 'path'
 import Unocss from 'unocss/vite'
 
 export default defineConfig({
-    base: '/trade.skullnbones.xyz/',
+    base: '/' || 'market.skullnbones.xyz',
 
     plugins: [vue(), Unocss()],
     optimizeDeps: {
