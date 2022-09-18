@@ -6,23 +6,25 @@
             <option>ATLAS</option>
             <option>USDC</option>
         </select>
-        <div class="order-type-container">
-            <p>Sell orders:</p>
-            <p
-                v-for="order in selected_currency === 'ATLAS' ? atlasOrders.sellOrders : usdcOrders.sellOrders"
-                :key="order.id"
-            >
-                {{ order.uiPrice }}
-            </p>
-        </div>
-        <div class="order-type-container">
-            <p>Buy orders:</p>
-            <p
-                v-for="order in selected_currency === 'ATLAS' ? atlasOrders.buyOrders : usdcOrders.buyOrders"
-                :key="order.id"
-            >
-                {{ order.uiPrice }}
-            </p>
+        <div class="flex flex-row">
+            <div class="order-type-container">
+                <p>Sell orders:</p>
+                <p
+                    v-for="order in selected_currency === 'ATLAS' ? atlasOrders.sellOrders : usdcOrders.sellOrders"
+                    :key="order.id"
+                >
+                    {{ order.uiPrice }}
+                </p>
+            </div>
+            <div class="order-type-container">
+                <p>Buy orders:</p>
+                <p
+                    v-for="order in selected_currency === 'ATLAS' ? atlasOrders.buyOrders : usdcOrders.buyOrders"
+                    :key="order.id"
+                >
+                    {{ order.uiPrice }}
+                </p>
+            </div>
         </div>
     </div>
 </template>
@@ -49,6 +51,7 @@ watch(symbol, (current) => {
 
 <style>
 .order-type-container {
+    width: 100%;
     border: 1px solid white;
 }
 </style>
