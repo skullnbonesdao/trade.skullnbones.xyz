@@ -24,6 +24,7 @@ export default defineConfig({
     presets: [
         presetUno(),
         presetDaisy(),
+
         presetAttributify(),
         presetIcons({
             scale: 1.2,

@@ -1,6 +1,5 @@
 <template>
     <div class="app">
-        <header class="app__header"></header>
         <t-v-chart-container />
     </div>
 </template>
