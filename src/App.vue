@@ -4,9 +4,9 @@ import FooterComponent from './components/navigation/FooterComponent.vue'
 </script>
 
 <template>
-    <NavBar></NavBar>
-    <RouterView></RouterView>
-    <footer-component></footer-component>
+    <NavBar class="bg-gray-200 dark:bg-gray-900"></NavBar>
+    <RouterView class="bg-gray-200 dark:bg-gray-900"></RouterView>
+    <footer-component class="bg-gray-200 dark:bg-gray-900"></footer-component>
 </template>
 
 <style scoped></style>

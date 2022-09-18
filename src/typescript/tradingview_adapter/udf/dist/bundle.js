@@ -8,17 +8,12 @@
      * If you want to enable logs from datafeed set it to `true`
      */
     function logMessage(message) {
-        {
-            const now = new Date();
-            // tslint:disable-next-line:no-console
-            console.log(`${now.toLocaleTimeString()}.${now.getMilliseconds()}> ${message}`);
-        }
     }
     function getErrorMessage(error) {
         if (error === undefined) {
-            return "";
+            return '';
         }
-        else if (typeof error === "string") {
+        else if (typeof error === 'string') {
             return error;
         }
         return error.message;
@@ -107,7 +102,6 @@
         }
         subscribeBars(symbolInfo, resolution, newDataCallback, listenerGuid) {
             if (this._subscribers.hasOwnProperty(listenerGuid)) {
-                logMessage(`DataPulseProvider: already has subscriber with id=${listenerGuid}`);
                 return;
             }
             this._subscribers[listenerGuid] = {
@@ -120,7 +114,6 @@
         }
         unsubscribeBars(listenerGuid) {
             delete this._subscribers[listenerGuid];
-            logMessage(`DataPulseProvider: unsubscribed for #${listenerGuid}`);
         }
         _updateData() {
             if (this._requestsPending > 0) {
@@ -161,7 +154,6 @@
         _onSubscriberDataReceived(listenerGuid, result) {
             // means the subscription was cancelled while waiting for data
             if (!this._subscribers.hasOwnProperty(listenerGuid)) {
-                logMessage(`DataPulseProvider: Data comes for already unsubscribed subscription #${listenerGuid}`);
                 return;
             }
             const bars = result.bars;
@@ -218,11 +210,9 @@
                 fastSymbols: fastSymbols,
                 listener: onRealtimeCallback,
             };
-            logMessage(`QuotesPulseProvider: subscribed quotes with #${listenerGuid}`);
         }
         unsubscribeQuotes(listenerGuid) {
             delete this._subscribers[listenerGuid];
-            logMessage(`QuotesPulseProvider: unsubscribed quotes with #${listenerGuid}`);
         }
         _updateQuotes(updateType) {
             if (this._requestsPending > 0) {
@@ -342,7 +332,6 @@
             }
             return Promise.all(promises).then(() => {
                 this._symbolsList.sort();
-                logMessage('SymbolsStorage: All exchanges data loaded');
             });
         }
         _requestExchangeData(exchange) {
@@ -588,12 +577,9 @@
             }
         }
         resolveSymbol(symbolName, onResolve, onError, extension) {
-            logMessage('Resolve requested');
             const currencyCode = extension && extension.currencyCode;
             const unitId = extension && extension.unitId;
-            const resolveRequestStartTime = Date.now();
             function onResultReady(symbolInfo) {
-                logMessage(`Symbol resolved: ${Date.now() - resolveRequestStartTime}ms`);
                 onResolve(symbolInfo);
             }
             if (!this._configuration.supports_group_request) {
@@ -702,7 +688,6 @@
                 })
                     .catch((error) => {
                     const errorMessage = getErrorMessage(error);
-                    logMessage(`QuotesProvider: getQuotes failed, error=${errorMessage}`);
                     reject(`network error: ${errorMessage}`);
                 });
             });
@@ -725,7 +710,6 @@
                     return `${encodeURIComponent(key)}=${encodeURIComponent(params[key].toString())}`;
                 }).join('&');
             }
-            logMessage('New request: ' + urlPath);
             // Send user cookies if the URL is on the same origin as the calling script.
             const options = { credentials: 'same-origin' };
             if (this._headers !== undefined) {

@@ -1,5 +1,4 @@
 <template>
-    {{ symbol }}
     <div ref="chartContainer" class="TVChartContainer" />
 </template>
 
