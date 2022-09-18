@@ -36,7 +36,7 @@
         </div>
         <div class="pt-1 grid grid-cols-4 input-group gap-1">
             <span class="dark:bg-gray-400">Size</span>
-            <input class="col-span-2 input input-bordered input-sm" placeholder="2" type="text" />
+            <input class="col-span-2 input input-bordered input-sm dark:bg-gray-200" placeholder="2" type="text" />
             <span class="dark:bg-gray-400">#</span>
         </div>
 

@@ -4,6 +4,7 @@ import Unocss from 'unocss/vite'
 import Markdown from 'vite-plugin-vue-markdown'
 import Shiki from 'markdown-it-shiki'
 import LinkAttributes from 'markdown-it-link-attributes'
+import * as path from 'path'
 
 export default defineConfig({
     base: '/',
@@ -55,13 +56,13 @@ export default defineConfig({
             },
         },
     },
-    /*   resolve: {
-alias: {
- process: 'process/browser',
- stream: 'stream-browserify',
- zlib: 'browserify-zlib',
- util: 'util',
- web3: path.resolve(__dirname, './node_modules/web3/dist/web3.min.js'),
-},
-},*/
+    resolve: {
+        alias: {
+            process: 'process/browser',
+            stream: 'stream-browserify',
+            zlib: 'browserify-zlib',
+            util: 'util',
+            web3: path.resolve(__dirname, './node_modules/web3/dist/web3.min.js'),
+        },
+    },
 })

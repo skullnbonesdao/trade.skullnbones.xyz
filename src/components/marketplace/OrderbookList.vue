@@ -42,9 +42,10 @@ const { atlasOrders, usdcOrders } = storeToRefs(useStaratlasGmStore())
 const selected_currency = ref('USDC')
 
 watch(symbol, (current) => {
-    useStaratlasGmStore().getOpenOrdersForAsset(
-        useAssetsStore().allAssets?.find((asset) => current.includes(asset.symbol))?.mint ?? ''
-    )
+    useStaratlasGmStore()
+        .getOpenOrdersForAsset(useAssetsStore().allAssets?.find((asset) => current.includes(asset.symbol))?.mint ?? '')
+        .then(() => {})
+        .catch((err) => console.log(err))
 })
 </script>
 

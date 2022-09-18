@@ -20,8 +20,11 @@
             :class="solanaNetwork.transactions_per_second < 1000 ? 'text-red-400' : 'text-green-700'"
             class="flex w-full justify-end flex-row space-x-1 items-center"
         >
-            <p>{{ solanaNetwork.transactions_per_second.toFixed(0) }}</p>
             <div class="i-carbon:ibm-cloud-pak-watson-aiops"></div>
+            <div>
+                <p>{{ solanaNetwork.transactions_per_second.toFixed(0) }}</p>
+                <sup>TPS</sup>
+            </div>
         </div>
     </div>
 </template>
@@ -29,14 +32,9 @@
 <script lang="ts" setup>
 import { useTokenPriceStore } from '../../stores/TokenPriceStore'
 import { useSolanaNetworkStore } from '../../stores/SolanaNetworkStore'
-import { onMounted } from 'vue'
 
 const tokenPriceStore = useTokenPriceStore()
 const solanaNetwork = useSolanaNetworkStore()
-
-onMounted(async () => {
-    //await solanaNetwork.run_tps();
-})
 </script>
 
 <style scoped></style>

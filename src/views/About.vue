@@ -1,5 +1,7 @@
 <template>
-    <AboutMD />
+    <div>
+        <AboutMD />
+    </div>
 </template>
 
 <script>

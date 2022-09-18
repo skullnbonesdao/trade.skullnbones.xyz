@@ -6,7 +6,7 @@
                 <trading-view-chart />
             </div>
             <div class="">
-                <order-setter class="" />
+                <order-setter />
                 <orderbook-list />
                 <!--                <assets-list />-->
             </div>
@@ -32,18 +32,23 @@ onMounted(async () => {
 
     const tokenPriceWebsocket = useTokenPriceStore()
     //tokenPriceWebsocket.init()
+    const staratlasGmStore = useStaratlasGmStore()
 
     const solanaNetworkWebsocket = useSolanaNetworkStore()
     solanaNetworkWebsocket.init()
-    await solanaNetworkWebsocket.run_tps()
-
-    const staratlasGmStore = useStaratlasGmStore()
+    //await solanaNetworkWebsocket.run_tps()
 
     const assetsStore = useAssetsStore()
     await assetsStore.init()
 
-    await useStaratlasGmStore().getOpenOrdersForAsset(
-        useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(asset.symbol))?.mint ?? ''
-    )
+    useStaratlasGmStore()
+        .getOpenOrdersForAsset(
+            useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(asset.symbol))?.mint ?? ''
+        )
+        .then(() => {})
+        .catch((err) => console.log(err))
+    /*await useStaratlasGmStore().getOpenOrdersForAsset(
+useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(asset.symbol))?.mint ?? ''
+)*/
 })
 </script>
