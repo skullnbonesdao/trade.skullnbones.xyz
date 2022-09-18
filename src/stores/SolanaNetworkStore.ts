@@ -1,8 +1,8 @@
 // stores/counter.js
-import {defineStore} from 'pinia'
-import {Connection, PerfSample} from "@solana/web3.js"
-import {SOLANARPC} from "../typescript/constants/solananetwork";
-import {ref} from "vue";
+import { defineStore } from 'pinia'
+import { Connection, PerfSample } from '@solana/web3.js'
+import { ref } from 'vue'
+import { GENESYSGO } from '../typescript/constants/solananetwork'
 
 export const useSolanaNetworkStore = defineStore('solanaNetwork', {
     state: () => {
@@ -16,23 +16,21 @@ export const useSolanaNetworkStore = defineStore('solanaNetwork', {
     // state: () => ({ count: 0 })
     actions: {
         init() {
-            this.connection = new Connection(SOLANARPC, "confirmed")
+            this.connection = new Connection(GENESYSGO, 'confirmed')
         },
 
         async run_tps() {
             while (true) {
                 let tps: PerfSample[] = await this.connection.getRecentPerformanceSamples(5)
 
-                this.transactions_per_second = 0;
-                tps.forEach(t => {
-                    this.transactions_per_second += t.numTransactions / t.samplePeriodSecs;
+                this.transactions_per_second = 0
+                tps.forEach((t) => {
+                    this.transactions_per_second += t.numTransactions / t.samplePeriodSecs
                 })
                 this.transactions_per_second = this.transactions_per_second / tps.length
 
-                await new Promise(r => setTimeout(r, 5000))
+                await new Promise((r) => setTimeout(r, 5000))
             }
-
-
-        }
+        },
     },
 })

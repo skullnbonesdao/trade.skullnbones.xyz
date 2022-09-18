@@ -31,7 +31,8 @@ onMounted(async () => {
     //tokenPriceWebsocket.init()
 
     const solanaNetworkWebsocket = useSolanaNetworkStore()
-    //solanaNetworkWebsocket.init()
+    solanaNetworkWebsocket.init()
+    solanaNetworkWebsocket.run_tps()
 
     const staratlasGmStore = useStaratlasGmStore()
 

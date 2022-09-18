@@ -67,7 +67,7 @@ type: String,
         const container = this.$refs.chartContainer
         const widgetOptions = {
             symbol: this.symbol,
-
+            debug: false,
             // BEWARE: no trailing slash is expected in feed URL
 
             datafeed: new UDFCompatibleDatafeed(this.datafeedUrl),
