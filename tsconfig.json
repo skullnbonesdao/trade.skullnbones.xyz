@@ -10,7 +10,6 @@
     "allowJs": true,
     "sourceMap": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
     "esModuleInterop": true,
     "lib": [
       "ESNext",

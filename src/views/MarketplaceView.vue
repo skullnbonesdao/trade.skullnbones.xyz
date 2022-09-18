@@ -1,13 +1,13 @@
 <template>
-    <div class="">
-        <InfoFeed />
+    <div class="p-2">
+        <info-feed class="mb-2" />
         <div class="grid grid-cols-3 gap-3">
             <div class="col-span-2">
                 <trading-view-chart />
             </div>
-            <div>
-                <orderbook-list />
+            <div class="space-y-2">
                 <order-setter />
+                <orderbook-list />
                 <!--                <assets-list />-->
             </div>
         </div>
@@ -28,21 +28,27 @@ import { useGlobalStore } from '../stores/GlobalStore'
 
 onMounted(async () => {
     const globalStore = useGlobalStore()
+    globalStore.init()
 
     const tokenPriceWebsocket = useTokenPriceStore()
     //tokenPriceWebsocket.init()
+    const staratlasGmStore = useStaratlasGmStore()
 
     const solanaNetworkWebsocket = useSolanaNetworkStore()
     solanaNetworkWebsocket.init()
-    solanaNetworkWebsocket.run_tps()
-
-    const staratlasGmStore = useStaratlasGmStore()
+    solanaNetworkWebsocket.run_tps().catch((err) => console.error(`tps monitor: ${err}`))
 
     const assetsStore = useAssetsStore()
     await assetsStore.init()
 
-    await useStaratlasGmStore().getOpenOrdersForAsset(
-        useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(asset.symbol))?.mint ?? ''
-    )
+    useStaratlasGmStore()
+        .getOpenOrdersForAsset(
+            useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(asset.symbol))?.mint ?? ''
+        )
+        .then(() => {})
+        .catch((err) => console.log(err))
+    /*await useStaratlasGmStore().getOpenOrdersForAsset(
+useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(asset.symbol))?.mint ?? ''
+)*/
 })
 </script>

@@ -20,3 +20,4 @@
 - [ViteJS](https://vitejs.dev/guide/)
   https://flowbite.com/
   https://icones.netlify.app/
+  https://app.freeprivacypolicy.com/
