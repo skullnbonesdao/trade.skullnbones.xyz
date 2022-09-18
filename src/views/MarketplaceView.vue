@@ -6,7 +6,7 @@
                 <trading-view-chart />
             </div>
             <div class="pr-3">
-                <order-setter />
+                <order-setter class="" />
                 <orderbook-list />
                 <!--                <assets-list />-->
             </div>

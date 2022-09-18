@@ -20,6 +20,10 @@ export default defineConfig({
 
         presetAttributify(),
         presetIcons({
+            extraProperties: {
+                display: 'inline-block',
+                'vertical-align': 'middle',
+            },
             scale: 1.2,
             warn: true,
             collections: {
