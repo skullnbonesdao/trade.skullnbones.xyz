@@ -51,11 +51,11 @@
 </template>
 
 <script lang="ts" setup>
-import image from '../assets/rouge_market_background_1.png'
+import image from '../assets/rouge_market_background_1.webp'
 </script>
 
 <style lang="scss" scoped>
 .background {
-    background-image: url('../assets/rouge_market_background_1.png');
+    background-image: url('../assets/rouge_market_background_1.webp');
 }
 </style>

@@ -8,7 +8,7 @@
             <div>
                 <orderbook-list />
                 <order-setter />
-                <assets-list />
+                <!--                <assets-list />-->
             </div>
         </div>
     </div>
@@ -16,7 +16,6 @@
 
 <script lang="ts" setup>
 import InfoFeed from '../components/feeds/InfoFeed.vue'
-import AssetsList from '../components/marketplace/AssetsList.vue'
 import OrderbookList from '../components/marketplace/OrderbookList.vue'
 import { onMounted } from 'vue'
 import { useTokenPriceStore } from '../stores/TokenPriceStore'
@@ -41,5 +40,9 @@ onMounted(async () => {
 
     const assetsStore = useAssetsStore()
     await assetsStore.init()
+
+    await useStaratlasGmStore().getOpenOrdersForAsset(
+        useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(asset.symbol))?.mint ?? ''
+    )
 })
 </script>
