@@ -6,7 +6,7 @@ const toggleDark = useToggle(isDark)
 </script>
 
 <template>
-    <div class="px-4 py-2 text-white bg-gray-600 dark:bg-purple-700" @click="toggleDark(!isDark)">
-        <div class="i-carbon-sun dark:i-carbon-asleep" />
+    <div class="flex hover:op80 justify-center m2 op30 text-2xl" @click="toggleDark(!isDark)">
+        <div class="color-black i-carbon-sun dark:i-carbon-asleep dark:color-white"></div>
     </div>
 </template>

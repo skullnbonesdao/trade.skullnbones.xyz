@@ -1,4 +1,5 @@
 <template>
+    {{ symbol }}
     <div ref="chartContainer" class="TVChartContainer" />
 </template>
 
@@ -6,6 +7,8 @@
 import { widget } from '../../../../public/charting_library'
 
 import { UDFCompatibleDatafeed } from '../../../typescript/tradingview_adapter/udf/lib/udf-compatible-datafeed.js'
+import { useGlobalStore } from '../../../stores/GlobalStore'
+import { storeToRefs } from 'pinia'
 
 function getLanguageFromURL() {
     const regex = new RegExp('[\\?&]lang=([^&#]*)')
@@ -15,77 +18,40 @@ function getLanguageFromURL() {
 
 export default {
     name: 'TVChartContainer',
-    props: {
-        symbol: {
-            default: 'FOODATLAS',
-            type: String,
-        },
-        interval: {
-            default: '100',
-            type: String,
-        },
-        datafeedUrl: {
-            /* default: '/api',*/
-            default: 'https://api2.skullnbones.xyz',
-            /*  default: 'http://localhost:3000',*/
-            type: String,
-        },
-        libraryPath: {
-            default: process.env.NODE_ENV === 'production' ? '/charting_library/' : '/charting_library/',
-            type: String,
-        },
-        /* chartsStorageUrl: {
-default: "https://saveload.tradingview.com",
-type: String,
-},*/
-        chartsStorageApiVersion: {
-            default: '1.1',
-            type: String,
-        },
-        clientId: {
-            default: 'tradingview.com',
-            type: String,
-        },
-        userId: {
-            default: 'public_user_id',
-            type: String,
-        },
-        fullscreen: {
-            default: false,
-            type: Boolean,
-        },
-        autosize: {
-            default: true,
-            type: Boolean,
-        },
-        studiesOverrides: {
-            type: Object,
-        },
-    },
+
     tvWidget: null,
+    setup() {
+        const globalStore = useGlobalStore()
+        const { symbol } = storeToRefs(globalStore)
+        return {
+            symbol,
+        }
+    },
+
     mounted() {
         const container = this.$refs.chartContainer
         const widgetOptions = {
-            symbol: this.symbol,
+            symbol: useGlobalStore().symbol, //assetSelected,
             debug: false,
             // BEWARE: no trailing slash is expected in feed URL
-
-            datafeed: new UDFCompatibleDatafeed(this.datafeedUrl),
-            interval: this.interval,
+            /*  default: 'http://localhost:3000',*/
+            /* default: '/api',*/
+            datafeed: new UDFCompatibleDatafeed('https://api2.skullnbones.xyz'),
+            interval: '100',
             container: container,
-            library_path: this.libraryPath,
+            library_path: '/charting_library/',
             theme: 'dark',
 
             locale: getLanguageFromURL() || 'en',
             disabled_features: ['use_localstorage_for_settings'],
             /*enabled_features: ["study_templates"],*/
             /*      charts_storage_url: this.chartsStorageUrl,*/
-            charts_storage_api_version: this.chartsStorageApiVersion,
-            client_id: this.clientId,
-            user_id: this.userId,
-            fullscreen: this.fullscreen,
-            autosize: this.autosize,
-            studies_overrides: this.studiesOverrides,
+            charts_storage_api_version: '1.1',
+            client_id: 'clientID',
+            user_id: 'someID',
+            fullscreen: false,
+            autosize: true,
+            studies_overrides: {},
         }
 
         const tvWidget = new widget(widgetOptions)
@@ -111,8 +77,13 @@ type: String,
 
                 button.innerHTML = 'Check API'
             })
+            tvWidget
+                .activeChart()
+                .onSymbolChanged()
+                .subscribe(null, () => (useGlobalStore().symbol = tvWidget.activeChart().symbol()))
         })
     },
+
     destroyed() {
         if (this.tvWidget !== null) {
             this.tvWidget.remove()

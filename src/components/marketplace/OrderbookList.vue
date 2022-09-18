@@ -1,5 +1,6 @@
 <template>
     <h2>Orderbook</h2>
+    {{ symbol }}
     <div>
         <select v-model="selected_currency">
             <option>ATLAS</option>
@@ -27,13 +28,23 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useStaratlasGmStore } from '../../stores/StaratlasGmStore'
 import { storeToRefs } from 'pinia'
+import { useGlobalStore } from '../../stores/GlobalStore'
+import { useAssetsStore } from '../../stores/AssetsStore'
 
+const { symbol } = storeToRefs(useGlobalStore())
 const { atlasOrders, usdcOrders } = storeToRefs(useStaratlasGmStore())
 
 const selected_currency = ref('USDC')
+
+watch(symbol, (current) => {
+    useStaratlasGmStore().getOpenOrdersForAsset(
+        useAssetsStore().allAssets.find((asset) => current.includes(asset.symbol))?.mint ?? ''
+    )
+    console.log(current)
+})
 </script>
 
 <style>

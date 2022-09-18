@@ -17,16 +17,19 @@
 <script lang="ts" setup>
 import InfoFeed from '../components/feeds/InfoFeed.vue'
 import AssetsList from '../components/marketplace/AssetsList.vue'
-import OrderbookList from '../components/trading/OrderbookList.vue'
+import OrderbookList from '../components/marketplace/OrderbookList.vue'
 import { onMounted } from 'vue'
 import { useTokenPriceStore } from '../stores/TokenPriceStore'
 import { useSolanaNetworkStore } from '../stores/SolanaNetworkStore'
 import { useStaratlasGmStore } from '../stores/StaratlasGmStore'
 import { useAssetsStore } from '../stores/AssetsStore'
 import TradingViewChart from '../components/charts/tradingview/TradingViewChart.vue'
-import OrderSetter from '../components/trading/OrderSetter.vue'
+import OrderSetter from '../components/marketplace/OrderSetter.vue'
+import { useGlobalStore } from '../stores/GlobalStore'
 
 onMounted(async () => {
+    const globalStore = useGlobalStore()
+
     const tokenPriceWebsocket = useTokenPriceStore()
     //tokenPriceWebsocket.init()
 
