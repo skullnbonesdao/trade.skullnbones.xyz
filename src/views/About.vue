@@ -1,5 +1,5 @@
 <template>
-    <AboutMD />
+    <AboutMD class="bg-gray-200 dark:bg-gray-900" />
 </template>
 
 <script>

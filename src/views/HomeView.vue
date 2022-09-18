@@ -59,5 +59,7 @@ import image from '../assets/rouge_market_background_1.webp'
 <style lang="scss" scoped>
 .background {
     background-image: url('../assets/rouge_market_background_1.webp');
+    background-repeat: no-repeat, repeat;
+    background-size: cover;
 }
 </style>

@@ -17,12 +17,7 @@ export default defineConfig({
             headEnabled: true,
             markdownItSetup(md) {
                 // https://prismjs.com/
-                md.use(Shiki, {
-                    theme: {
-                        light: 'vitesse-light',
-                        dark: 'vitesse-dark',
-                    },
-                })
+                md.use(Shiki, {})
                 md.use(LinkAttributes, {
                     matcher: (link: string) => /^https?:\/\//.test(link),
                     attrs: {
@@ -57,11 +52,11 @@ export default defineConfig({
     },
     /*   resolve: {
 alias: {
- process: 'process/browser',
- stream: 'stream-browserify',
- zlib: 'browserify-zlib',
- util: 'util',
- web3: path.resolve(__dirname, './node_modules/web3/dist/web3.min.js'),
+process: 'process/browser',
+stream: 'stream-browserify',
+zlib: 'browserify-zlib',
+util: 'util',
+web3: path.resolve(__dirname, './node_modules/web3/dist/web3.min.js'),
 },
 },*/
 })

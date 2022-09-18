@@ -33,6 +33,12 @@ this.orders = response
 })
 .catch((err) => console.log('{getOrders}: ' + err))
 },*/
+        getSumOrders(side: string, pair: PublicKey) {
+            const filtered = this.orders
+                .filter((order) => order.orderType === side && order.currencyMint === pair.toString())
+                .flatMap((order) => order.orderOriginationQty)
+            return Math.max.apply(Math, filtered)
+        },
 
         async getOpenOrdersForAsset(assetMint: string) {
             await this.client

@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer items-center p-4">
+    <footer class="footer items-center p-4 static w-full">
         <div class="items-center grid-flow-col">
             <svg class="fill-current" height="36" viewBox="0 0 512 512" width="36" xmlns="http://www.w3.org/2000/svg">
                 <path
