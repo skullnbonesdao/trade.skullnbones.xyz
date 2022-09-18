@@ -17,8 +17,8 @@
             <h3>{{ tokenPriceStore.polis }}</h3>
         </div>
         <div class="flex w-full justify-end flex-row space-x-1">
-            <i class="bi bi-speedometer"></i>
-            <h3>{{ solanaNetwork.transactions_per_second.toFixed(0) }} TPS</h3>
+            <p>{{ solanaNetwork.transactions_per_second.toFixed(0) }}</p>
+            <div class="i-carbon:ibm-cloud-pak-watson-aiops"></div>
         </div>
     </div>
 </template>

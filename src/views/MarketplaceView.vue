@@ -1,13 +1,13 @@
 <template>
-    <div class="">
-        <InfoFeed />
+    <div>
+        <info-feed />
         <div class="grid grid-cols-3 gap-3">
             <div class="col-span-2">
                 <trading-view-chart />
             </div>
-            <div>
-                <orderbook-list />
+            <div class="pr-3">
                 <order-setter />
+                <orderbook-list />
                 <!--                <assets-list />-->
             </div>
         </div>
@@ -28,13 +28,14 @@ import { useGlobalStore } from '../stores/GlobalStore'
 
 onMounted(async () => {
     const globalStore = useGlobalStore()
+    globalStore.init()
 
     const tokenPriceWebsocket = useTokenPriceStore()
     //tokenPriceWebsocket.init()
 
     const solanaNetworkWebsocket = useSolanaNetworkStore()
     solanaNetworkWebsocket.init()
-    solanaNetworkWebsocket.run_tps()
+    //await solanaNetworkWebsocket.run_tps()
 
     const staratlasGmStore = useStaratlasGmStore()
 
