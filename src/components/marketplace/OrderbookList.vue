@@ -43,9 +43,8 @@ const selected_currency = ref('USDC')
 
 watch(symbol, (current) => {
     useStaratlasGmStore().getOpenOrdersForAsset(
-        useAssetsStore().allAssets.find((asset) => current.includes(asset.symbol))?.mint ?? ''
+        useAssetsStore().allAssets?.find((asset) => current.includes(asset.symbol))?.mint ?? ''
     )
-    console.log(current)
 })
 </script>
 
