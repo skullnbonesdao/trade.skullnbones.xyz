@@ -14,6 +14,11 @@ export default defineConfig({
             include: [/\.vue$/, /\.md$/], // <--
         }),
         Markdown({
+            markdownItOptions: {
+                html: true,
+                linkify: true,
+                typographer: true,
+            },
             wrapperClasses: 'prose prose-sm m-auto text-left',
             headEnabled: true,
             markdownItSetup(md) {

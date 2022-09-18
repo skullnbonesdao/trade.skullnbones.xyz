@@ -1,29 +1,32 @@
 <template>
-    <h2>Orderbook</h2>
-    {{ symbol }}
-    <div>
-        <select v-model="selected_currency">
-            <option>ATLAS</option>
-            <option>USDC</option>
-        </select>
-        <div class="flex flex-row">
-            <div class="order-type-container">
-                <p>Sell orders:</p>
-                <p
-                    v-for="order in selected_currency === 'ATLAS' ? atlasOrders.sellOrders : usdcOrders.sellOrders"
-                    :key="order.id"
-                >
-                    {{ order.uiPrice }}
-                </p>
-            </div>
-            <div class="order-type-container">
-                <p>Buy orders:</p>
-                <p
-                    v-for="order in selected_currency === 'ATLAS' ? atlasOrders.buyOrders : usdcOrders.buyOrders"
-                    :key="order.id"
-                >
-                    {{ order.uiPrice }}
-                </p>
+    <div class="p-3 bg-gray-100 dark:bg-gray-800 shadow-xl rounded-box">
+        <h2>Orderbook</h2>
+        {{ symbol }}
+        <div>
+            <select v-model="selected_currency">
+                <option>ATLAS</option>
+                <option>USDC</option>
+            </select>
+            <div class="flex flex-row">
+                <div class="order-type-container">
+                    <p>Sell orders:</p>
+
+                    <div
+                        v-for="order in selected_currency === 'ATLAS' ? atlasOrders.sellOrders : usdcOrders.sellOrders"
+                        :key="order.id"
+                    >
+                        {{ order.uiPrice }}
+                    </div>
+                </div>
+                <div class="order-type-container">
+                    <p>Buy orders:</p>
+                    <p
+                        v-for="order in selected_currency === 'ATLAS' ? atlasOrders.buyOrders : usdcOrders.buyOrders"
+                        :key="order.id"
+                    >
+                        {{ order.uiPrice }}
+                    </p>
+                </div>
             </div>
         </div>
     </div>

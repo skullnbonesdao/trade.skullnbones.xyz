@@ -44,7 +44,7 @@
                         Speak to Sales
                     </a>
                 </div>
-                <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+                <div class="hidden lg:mt-0 lg:col-span-5 lg:flex animate-pulse animate-duration-5s shadow-2xl">
                     <img :src="image" alt="mockup" />
                 </div>
             </div>

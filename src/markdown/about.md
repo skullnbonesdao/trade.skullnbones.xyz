@@ -1,5 +1,5 @@
 ---
-name: My Cool App
+name: Disclaimer
 ---
 
 # Disclaimer

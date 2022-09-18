@@ -5,7 +5,7 @@
             <div class="col-span-2">
                 <trading-view-chart />
             </div>
-            <div class="">
+            <div class="space-y-2">
                 <order-setter />
                 <orderbook-list />
                 <!--                <assets-list />-->
@@ -36,7 +36,7 @@ onMounted(async () => {
 
     const solanaNetworkWebsocket = useSolanaNetworkStore()
     solanaNetworkWebsocket.init()
-    //await solanaNetworkWebsocket.run_tps()
+    solanaNetworkWebsocket.run_tps().catch((err) => console.error(`tps monitor: ${err}`))
 
     const assetsStore = useAssetsStore()
     await assetsStore.init()
