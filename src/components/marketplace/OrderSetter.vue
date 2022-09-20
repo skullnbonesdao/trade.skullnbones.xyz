@@ -48,11 +48,13 @@
         </li>
       </ul>
       <div class="p-3 mt-6 text-center">
-        <div v-if="tab === 1">
-            <TradeInput @price-change="onBuyPriceChange" @size-change="onBuySizeChange"/>
+        <p>buy: {{buy.values}}</p>
+        <p>sell: {{sell.values}}</p>
+        <div v-bind:class="tab === 1 ? 'block' : 'hidden'">
+            <TradeInput ref="buy"/>
         </div>
-        <div v-if="tab === 2">
-            <TradeInput @price-change="onSellPriceChange" @size-change="onSellSizeChange"/>
+        <div v-bind:class="tab === 2 ? 'block' : 'hidden'">
+            <TradeInput ref="sell"/>
         </div>
       </div>
     </div>
@@ -64,21 +66,9 @@ import { ref } from 'vue';
 import TradeInput from './TradeInput.vue'
 
 const tab = ref(1);
+const buy = ref({values: {price: 0, size: 0}})
+const sell = ref({values: {price: 0, size: 0}})
 const currentTab = (tabNumber: number) => (tab.value = tabNumber);
-
-const onBuyPriceChange = (price: number) => {
-    console.log("buy price", price)
-}
-const onBuySizeChange = (size: number) => {
-    console.log("buy size", size)
-}
-const onSellPriceChange = (price: number) => {
-    console.log("sell price", price)
-}
-const onSellSizeChange = (size: number) => {
-    console.log("sell size", size)
-}
-
 </script>
 
 <style lang="scss">
