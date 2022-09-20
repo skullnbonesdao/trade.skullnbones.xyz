@@ -5,8 +5,8 @@ import FooterComponent from './components/navigation/FooterComponent.vue'
 
 <template>
     <div class="flex flex-col h-screen justify-between bg-gray-200 dark:bg-gray-900">
-        <NavBar class="bg-gray-200 dark:bg-gray-900"></NavBar>
-        <RouterView class="bg-gray-200 dark:bg-gray-900"></RouterView>
+        <NavBar class=" bg-gray-200 dark:bg-gray-900"></NavBar>
+        <RouterView class=" bg-gray-200 dark:bg-gray-900"></RouterView>
         <footer-component class="bg-gray-200 dark:bg-gray-900"></footer-component>
     </div>
 </template>
