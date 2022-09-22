@@ -64,5 +64,9 @@ this.orders = response
                 })
                 .catch((err: any) => console.log('{getOpenOrdersForAssetError}: ' + err))
         },
+
+        async getOpenOrdersForPlayer(player_PK: PublicKey) {
+            return await this.client.getOpenOrdersForPlayer(this.connection, new PublicKey(player_PK), TRADE_PROGRAM)
+        },
     },
 })
