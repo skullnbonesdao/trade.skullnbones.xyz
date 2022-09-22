@@ -5,7 +5,7 @@ path_to_copy_to="../../public/sa_images/webp/"
 echo "=== Fetching API ==="
 DATA=$(curl "https://galaxy.staratlas.com/nfts")
 IMAGES=($(echo "$DATA" | jq -r ".[] | .image"))
-IMAGES_NAME=($(echo "$DATA" | jq -r ".[] | ._id"))
+IMAGES_NAME=($(echo "$DATA" | jq -r ".[] | .mint"))
 #echo "$DATA" | jq -r ".[] | .image"
 
 
