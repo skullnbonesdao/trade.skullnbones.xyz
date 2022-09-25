@@ -31,12 +31,12 @@ export default {
         const container = this.$refs.chartContainer
         const widgetOptions = {
             symbol: useGlobalStore().symbol, //assetSelected,
-            debug: true,
+            debug: false,
             // BEWARE: no trailing slash is expected in feed URL
             /*  default: 'http://localhost:3000',*/
             /* default: '/api',*/
             /* https://api2.skullnbones.xyz*/
-            datafeed: new UDFCompatibleDatafeed('http://localhost:3000'),
+            datafeed: new UDFCompatibleDatafeed('https://api2.skullnbones.xyz'),
             interval: '1D',
             container: container,
             library_path: '/charting_library/',
