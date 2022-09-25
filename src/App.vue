@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import NavBar from './components/navigation/NavBar.vue'
-import FooterComponent from './components/navigation/FooterComponent.vue'
+import NavBar from './navigation/NavBar.vue'
+import FooterComponent from './navigation/FooterComponent.vue'
 import { onMounted } from 'vue'
 import { useGlobalStore } from './stores/GlobalStore'
 import { useTokenPriceStore } from './stores/TokenPriceStore'
@@ -36,10 +36,10 @@ useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(ass
 </script>
 
 <template>
-    <div class="h-screen justify-between bg-gray-200 dark:bg-gray-900">
-        <NavBar class="bg-gray-200 dark:bg-gray-900"></NavBar>
-        <RouterView class="bg-gray-200 dark:bg-gray-900"></RouterView>
-        <footer-component class="bg-gray-200 dark:bg-gray-900"></footer-component>
+    <div class="flex flex-col items-stretch bg-gray-200 dark:bg-gray-900 min-h-screen">
+        <NavBar class=""></NavBar>
+        <RouterView class=""></RouterView>
+        <footer-component class=""></footer-component>
     </div>
 </template>
 

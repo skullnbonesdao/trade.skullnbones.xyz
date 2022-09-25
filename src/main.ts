@@ -11,6 +11,8 @@ import Home from '../src/views/HomeView.vue'
 import MarketplaceView from '../src/views/MarketplaceView.vue'
 import PersonToPersonView from '../src/views/PersonToPersonView.vue'
 import OrdersView from '../src/views/OrdersView.vue'
+import PortfolioView from '../src/views/PortfolioView.vue'
+import StatsView from '../src/views/StatsView.vue'
 import About from '../src/views/About.vue'
 // @ts-ignore
 import { createHead } from '@vueuse/head' // <--
@@ -28,6 +30,8 @@ const routes = [
     { path: '/marketplace', component: MarketplaceView },
     { path: '/p2p', component: PersonToPersonView },
     { path: '/orders', component: OrdersView },
+    { path: '/portfolio', component: PortfolioView },
+    { path: '/stats', component: StatsView },
     { path: '/about', component: About },
 ]
 
