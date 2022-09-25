@@ -78,7 +78,7 @@
 <style scoped></style>
 <script lang="ts">
 import { WalletMultiButton } from 'solana-wallets-vue'
-import ToggleMode from '../buttons/ToggleMode.vue'
+import ToggleMode from '../components/buttons/ToggleMode.vue'
 
 export default {
     components: { ToggleMode, WalletMultiButton },

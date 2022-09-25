@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import NavBar from './components/navigation/NavBar.vue'
-import FooterComponent from './components/navigation/FooterComponent.vue'
+import NavBar from './navigation/NavBar.vue'
+import FooterComponent from './navigation/FooterComponent.vue'
 import { onMounted } from 'vue'
 import { useGlobalStore } from './stores/GlobalStore'
 import { useTokenPriceStore } from './stores/TokenPriceStore'
