@@ -37,7 +37,7 @@ export default {
             /* default: '/api',*/
             /* https://api2.skullnbones.xyz*/
             datafeed: new UDFCompatibleDatafeed('https://api2.skullnbones.xyz'),
-            interval: '1D',
+            interval: '60',
             container: container,
             library_path: '/charting_library/',
             theme: 'dark',
