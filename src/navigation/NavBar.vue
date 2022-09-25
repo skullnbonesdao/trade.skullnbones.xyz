@@ -6,7 +6,7 @@
             <div class="container flex flex-wrap justify-between items-center mx-auto">
                 <a class="flex items-center">
                     <span class="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white"
-                        >RougeMarket</span
+                        >RogueMarket</span
                     >
                 </a>
                 <div class="flex md:order-2">
@@ -59,6 +59,20 @@
                                 class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                                 to="/orders"
                                 >Orders
+                            </RouterLink>
+                        </li>
+                        <li>
+                            <RouterLink
+                                class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                                to="/portfolio"
+                                >Portfolio
+                            </RouterLink>
+                        </li>
+                        <li>
+                            <RouterLink
+                                class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                                to="/stats"
+                                >Stats
                             </RouterLink>
                         </li>
                         <li>
