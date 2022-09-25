@@ -35,8 +35,9 @@ export default {
             // BEWARE: no trailing slash is expected in feed URL
             /*  default: 'http://localhost:3000',*/
             /* default: '/api',*/
+            /* https://api2.skullnbones.xyz*/
             datafeed: new UDFCompatibleDatafeed('https://api2.skullnbones.xyz'),
-            interval: '100',
+            interval: '1D',
             container: container,
             library_path: '/charting_library/',
             theme: 'dark',
