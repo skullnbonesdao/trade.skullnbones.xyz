@@ -8,7 +8,7 @@
             <div class="space-y-2">
                 <order-setter />
                 <orderbook-list />
-                <!--                <assets-list />-->
+                <assets-list />
             </div>
         </div>
     </div>
@@ -17,6 +17,7 @@
 <script lang="ts" setup>
 import InfoFeed from '../components/feeds/InfoFeed.vue'
 import OrderbookList from '../components/marketplace/OrderbookList.vue'
+import AssetsList from '../components/marketplace/AssetsList.vue'
 import { onMounted } from 'vue'
 import { useTokenPriceStore } from '../stores/TokenPriceStore'
 import { useSolanaNetworkStore } from '../stores/SolanaNetworkStore'

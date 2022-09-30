@@ -81,22 +81,22 @@ type Asset = {
     collection: AssetCollection
 }
 
-type RootState = {
-    allAssets: Asset[]
-}
-
 export const useAssetsStore = defineStore({
     id: 'assetsStore',
     state: () => {
         return {
             allAssets: {} as Asset[],
+            currentAsset: "",
         }
     },
 
     actions: {
         async init() {
             this.allAssets = await fetch(NFTS_URL).then((response) => response.json())
-            console.log(this.allAssets)
         },
+        setCurrentAsset(assetMint: string) {
+            this.currentAsset = assetMint;
+            console.log("currentAsset", this.currentAsset)
+        }
     },
 })

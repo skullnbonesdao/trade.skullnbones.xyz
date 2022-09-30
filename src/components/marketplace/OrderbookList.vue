@@ -26,7 +26,7 @@
                                     100 +
                                 '%'
                             "
-                            class="flex flex-row sellSide"
+                            class="flex flex-row sell-side order-group-row"
                         >
                             <div>{{ order.orderQtyRemaining }}</div>
                         </div>
@@ -42,9 +42,9 @@
                                     100 +
                                 '%'
                             "
-                            class="justify-end flex flex-row transparent"
+                            class="justify-end flex flex-row transparent z-10"
                         >
-                            <div class="sellSideText">{{ order.uiPrice }}</div>
+                            <div>{{ order.uiPrice }}</div>
                         </div>
                     </div>
                 </div>
@@ -68,9 +68,9 @@
                                     100 +
                                 '%'
                             "
-                            class="flex flex-row transparent"
+                            class="flex flex-row transparent z-10"
                         >
-                            <div class="buySideText">{{ order.uiPrice }}</div>
+                            <div>{{ order.uiPrice }}</div>
                         </div>
                         <div
                             :style="
@@ -83,7 +83,7 @@
                                     100 +
                                 '%'
                             "
-                            class="justify-end flex flex-row buySide"
+                            class="justify-end flex flex-row buy-side order-group-row"
                         >
                             <div>{{ order.orderQtyRemaining }}</div>
                         </div>
@@ -118,23 +118,23 @@ watch(symbol, (current) => {
 .order-type-container {
     width: 100%;
     border: 1px solid white;
+    color: white;
+    font-weight: 200;
 }
 
-.sellSide {
-    background-color: #a20f0f;
+.order-group-row {
+    row-gap: 0px;
+    margin-bottom: 1px;
+}
+
+.sell-side {
+    background-color: rgba(242,60,105,0.6);
     color: #ffffff;
 }
 
-.sellSideText {
-    color: #e02d2d;
-}
-
-.buySide {
-    background-color: #01620d;
+.buy-side {
+    background-color: rgba(65,199,122,0.6);
     color: #ffffff;
 }
 
-.buySideText {
-    color: #24de18;
-}
 </style>

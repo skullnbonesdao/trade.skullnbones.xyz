@@ -13,7 +13,6 @@
             text-xs
             leading-tight
             uppercase
-            border-x-0 border-t-0 border-transparent
             px-6
             py-3
             my-2
@@ -35,7 +34,6 @@
             text-xs
             leading-tight
             uppercase
-            border-x-0 border-t-0 border-transparent
             px-6
             py-3
             my-2
@@ -48,14 +46,16 @@
         </li>
       </ul>
       <div class="p-3 mt-6 text-center">
-        <p>buy: {{buy.values}}</p>
-        <p>sell: {{sell.values}}</p>
-        <div v-bind:class="tab === 1 ? 'block' : 'hidden'">
-            <TradeInput ref="buy"/>
+        <p v-bind:class="tab === 1 ? 'block' : 'hidden'">Buy price:{{input.price}} Buy size:{{input.size}}</p>
+        <p v-bind:class="tab === 2 ? 'block' : 'hidden'">Sell price:{{input.price}} Sell size:{{input.size}}</p>
+        <p>{{publicKey}}</p>
+        <div>
+            <TradeInput ref="input"/>
         </div>
-        <div v-bind:class="tab === 2 ? 'block' : 'hidden'">
-            <TradeInput ref="sell"/>
-        </div>
+        <button @click="submitOrder"
+            id="order-submit-btn"
+            class="border hover:bg-gray-100 hover:border-transparent focus:border-transparent">{{tab === 1 ? 'Buy' : 'Sell'}}
+        </button>
       </div>
     </div>
   </div>
@@ -64,24 +64,40 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import TradeInput from './TradeInput.vue'
+import { useWallet } from 'solana-wallets-vue';
+import { OrderSide } from '@staratlas/factory';
+import { useStaratlasGmStore } from '../../stores/StaratlasGmStore';
+import { useAssetsStore } from '../../stores/AssetsStore';
+import { TOKEN_ATLAS, TOKEN_USDC } from '../../typescript/constants/tokens';
+import { useSolanaNetworkStore } from '../../stores/SolanaNetworkStore';
 
 const tab = ref(1);
-const buy = ref({values: {price: 0, size: 0}})
-const sell = ref({values: {price: 0, size: 0}})
+const input = ref({price: 0, size: 0})
 const currentTab = (tabNumber: number) => (tab.value = tabNumber);
-</script>
 
-<style lang="scss">
-    .nav-tabs .nav-item .nav-link{
-        color: inherit;
-        border-radius: 4px;
+const { publicKey, sendTransaction } = useWallet();
+const staratlasGmStore = useStaratlasGmStore()
+const assetsStore = useAssetsStore();
+const solanaNetworkStore = useSolanaNetworkStore();
+
+const submitOrder = async() => {
+    if (publicKey.value !== null && assetsStore.currentAsset !== "") {
+        const orderSide = tab.value === 1 ? OrderSide.Buy : OrderSide.Sell;
+            const { transaction, signers } = await staratlasGmStore.getInitializeOrderTransaction(
+                publicKey.value,
+                assetsStore.currentAsset,
+                TOKEN_ATLAS,
+                input.value.size,
+                input.value.price,
+                orderSide,
+            )
+            const signature = sendTransaction(transaction, solanaNetworkStore.connection, {
+                signers: signers
+            });
+            // await solanaNetworkStore.connection.confirmTransaction(signature, 'processed');
     }
-    .nav-tabs .nav-link.green.active {
-        background: rgb(2, 191, 118);
-        border-color: rgb(2, 191, 118);
+    else {
+        console.log("not submitting")
     }
-    .nav-tabs .nav-link.red.active {
-        background: rgb(242, 59, 105);
-        border-color: rgb(242, 59, 105);
-    }
-</style>
+}
+</script>

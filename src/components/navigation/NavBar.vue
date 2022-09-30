@@ -6,7 +6,7 @@
             <div class="container flex flex-wrap justify-between items-center mx-auto">
                 <a class="flex items-center">
                     <span class="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white"
-                        >RougeMarket</span
+                        >RogueMarket</span
                     >
                 </a>
                 <div class="flex md:order-2">
@@ -38,7 +38,7 @@
                 </div>
                 <div id="navbar-sticky" class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1">
                     <ul
-                        class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
+                        class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
                     >
                         <li>
                             <RouterLink
