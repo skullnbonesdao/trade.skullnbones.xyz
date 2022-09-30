@@ -1,7 +1,7 @@
 <template>
     <div class="p-2">
         <info-feed class="mb-2" />
-        <div class="grid grid-cols-3 gap-3">
+        <div class="grid md:grid-cols-3 gap-3">
             <div class="col-span-2">
                 <trading-view-chart />
             </div>

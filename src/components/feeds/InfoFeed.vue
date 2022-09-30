@@ -1,18 +1,20 @@
 <template>
-    <div class="px-4 py-2 flex flex-row space-x-2 bg-gray-100 dark:bg-gray-800 shadow-xl rounded-box">
-        <div class="flex flex-row space-x-1">
+    <div
+        class="flex flex-col px-4 py-2 flex md:space-x-3 md:flex-row bg-gray-100 dark:bg-gray-800 shadow-xl rounded-box"
+    >
+        <div class="flex flex-col">
             <h2>BTC/USDC</h2>
             <h3>{{ tokenPriceStore.btc }}</h3>
         </div>
-        <div class="flex flex-row space-x-1">
+        <div class="flex flex-col">
             <h2>SOL/USDC</h2>
             <h3>{{ tokenPriceStore.sol }}</h3>
         </div>
-        <div class="flex flex-row space-x-1">
+        <div class="flex flex-col">
             <h2>ATLAS/USDC</h2>
             <h3>{{ tokenPriceStore.atlas }}</h3>
         </div>
-        <div class="flex flex-row space-x-1">
+        <div class="flex flex-col">
             <h2>POLIS/USDC</h2>
             <h3>{{ tokenPriceStore.polis }}</h3>
         </div>

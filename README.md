@@ -21,3 +21,5 @@
   https://flowbite.com/
   https://icones.netlify.app/
   https://app.freeprivacypolicy.com/
+
+  https://tochoromero.github.io/vuejs-smart-table/#installation

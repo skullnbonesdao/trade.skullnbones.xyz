@@ -101,5 +101,8 @@ this.orders = response
                 return response;
             })
         },
+        async getOpenOrdersForPlayer(player_PK: PublicKey) {
+            return await this.client.getOpenOrdersForPlayer(this.connection, new PublicKey(player_PK), TRADE_PROGRAM)
+        },
     },
 })

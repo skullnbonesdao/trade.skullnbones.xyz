@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 yarn-error.log
+
+scripts/sa_images/images
