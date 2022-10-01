@@ -6,7 +6,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import '@unocss/reset/tailwind.css'
 import '@kidonng/daisyui/full.min.css'
 import 'uno.css'
-import './style.scss';
+import './style.scss'
 import Home from '../src/views/HomeView.vue'
 import MarketplaceView from '../src/views/MarketplaceView.vue'
 import PersonToPersonView from '../src/views/PersonToPersonView.vue'
@@ -39,7 +39,7 @@ const walletOptions = {
     wallets: [
         new PhantomWalletAdapter(),
         new SlopeWalletAdapter(),
-        new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
+        new SolflareWalletAdapter({ network: WalletAdapterNetwork.Mainnet }),
     ],
     autoConnect: true,
 }
