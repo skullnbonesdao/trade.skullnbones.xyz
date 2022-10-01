@@ -87,13 +87,19 @@ this.orders = response
             price: number,
             orderSide: OrderSide
         ) {
+            const bnPrice = await this.client.getBnPriceForCurrency(
+                this.connection,
+                price,
+                quoteMint,
+                TRADE_PROGRAM,
+            );
             return await this.client.getInitializeOrderTransaction(
                 this.connection,
-                new PublicKey(playerPublicKey),
+                playerPublicKey,
                 new PublicKey(assetMint),
                 quoteMint,
                 quantity,
-                new BN(price),
+                bnPrice,
                 TRADE_PROGRAM,
                 orderSide,
             ).then((response: getInitializeOrderTransactionResponse) => {
