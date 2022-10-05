@@ -23,11 +23,13 @@
     "@vitejs/plugin-vue": "^3.1.0",
     "@vueuse/core": "^9.2.0",
     "apexcharts": "^3.35.5",
+    "bn.js": "^5.2.1",
     "buffer": "^6.0.3",
     "events": "^3.3.0",
     "lightweight-charts": "^3.8.0",
     "markdown-it-link-attributes": "^4.0.1",
     "markdown-it-shiki": "^0.5.1",
+    "mosha-vue-toastify": "^1.0.23",
     "pinia": "^2.0.22",
     "prettier": "^2.7.1",
     "process": "^0.11.10",
@@ -37,9 +39,8 @@
     "vue": "^3.2.38",
     "vue-router": "^4.1.5",
     "vue3-apexcharts": "^1.4.1",
-    "web3": "^1.8.0",
-    "bn.js": "^5.2.1",
-    "vuejs-smart-table": "^1.0.0-beta.6"
+    "vuejs-smart-table": "^1.0.0-beta.6",
+    "web3": "^1.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.0",

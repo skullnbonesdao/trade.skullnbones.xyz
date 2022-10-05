@@ -7,6 +7,7 @@ import '@unocss/reset/tailwind.css'
 import '@kidonng/daisyui/full.min.css'
 import 'uno.css'
 import './style.scss'
+import 'mosha-vue-toastify/dist/style.css'
 import Home from '../src/views/HomeView.vue'
 import MarketplaceView from '../src/views/MarketplaceView.vue'
 import PersonToPersonView from '../src/views/PersonToPersonView.vue'
@@ -37,7 +38,7 @@ const routes = [
 
 const walletOptions = {
     wallets: [
-        new PhantomWalletAdapter(),
+        new PhantomWalletAdapter({ network: WalletAdapterNetwork.Mainnet }),
         new SlopeWalletAdapter(),
         new SolflareWalletAdapter({ network: WalletAdapterNetwork.Mainnet }),
     ],

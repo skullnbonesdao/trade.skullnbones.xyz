@@ -52,8 +52,11 @@ import { useWallet } from 'solana-wallets-vue'
 import { OrderSide } from '@staratlas/factory'
 import { useStaratlasGmStore } from '../../stores/StaratlasGmStore'
 import { useAssetsStore } from '../../stores/AssetsStore'
-import { TOKEN_ATLAS, TOKEN_USDC } from '../../typescript/constants/tokens'
+import { useGlobalStore } from '../../stores/GlobalStore'
 import { useSolanaNetworkStore } from '../../stores/SolanaNetworkStore'
+import { createToast } from 'mosha-vue-toastify';
+import { watch } from 'vue'
+import { storeToRefs } from 'pinia'
 
 const tab = ref(1)
 const input = ref({ price: 0, size: 0 })
@@ -62,27 +65,57 @@ const currentTab = (tabNumber: number) => (tab.value = tabNumber)
 const { publicKey, sendTransaction } = useWallet()
 const staratlasGmStore = useStaratlasGmStore()
 const assetsStore = useAssetsStore()
+const globalStore = useGlobalStore()
 const solanaNetworkStore = useSolanaNetworkStore()
+const { selectedCurrency } = storeToRefs(useGlobalStore())
 
 async function submitOrder() {
-    console.log('clicked btn')
+    if (publicKey.value !== null) {
+        if (assetsStore.currentAsset !== '') {
+            const availableTokenData = globalStore.userTokens.find((userToken) => userToken.name === selectedCurrency.value);
+            // when wallet has no specific tokens `account` is an empty object
+            const availableTokens = availableTokenData && availableTokenData.data.account.data?.parsed?.info?.tokenAmount?.uiAmount;
+            const neededTokens = input.value.size * input.value.price;
 
-    if (publicKey.value !== null && assetsStore.currentAsset !== '') {
-        const orderSide = tab.value === 1 ? OrderSide.Buy : OrderSide.Sell
-        const { transaction, signers } = await staratlasGmStore.getInitializeOrderTransaction(
-            publicKey.value,
-            assetsStore.currentAsset,
-            TOKEN_ATLAS,
-            input.value.size,
-            input.value.price,
-            orderSide
-        )
-        const signature = sendTransaction(transaction, solanaNetworkStore.connection, {
-            signers: signers,
-        })
-        // await solanaNetworkStore.connection.confirmTransaction(signature, 'processed');
+            if (availableTokens && (neededTokens <= availableTokens)) {
+                const orderSide = tab.value === 1 ? OrderSide.Buy : OrderSide.Sell
+                const { transaction, signers } = await staratlasGmStore.getInitializeOrderTransaction(
+                    publicKey.value,
+                    assetsStore.currentAsset,
+                    availableTokenData.data.account.data?.parsed?.info?.mint,
+                    input.value.size,
+                    input.value.price,
+                    orderSide
+                )
+                const signature = await sendTransaction(transaction, solanaNetworkStore.connection, {
+                    signers: signers,
+                })
+                const latestBlockHash = await solanaNetworkStore.connection.getLatestBlockhash();
+                solanaNetworkStore.connection.confirmTransaction({
+                    blockhash: latestBlockHash.blockhash,
+                    lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+                    signature: signature,
+                }, 'processed').then((result) => (result.value.err === null)
+                    ? createToast("Order created", {type: 'success'})
+                    : createToast("Error creating order", {type: 'danger'})
+                );
+            } else {
+                createToast(`Not enough ${selectedCurrency.value}`, {type: 'danger'})
+            }
+        } else {
+            createToast("Asset not selected", {type: 'danger'})
+        }
     } else {
-        console.log('not submitting')
+        createToast("Wallet not connected", {type: 'danger'})
     }
 }
+watch(
+    () => publicKey.value,
+    async (publicKey) => {
+        if (publicKey !== null) {
+            await globalStore.refreshAccountInfo(publicKey)
+        }
+    }
+)
+
 </script>
