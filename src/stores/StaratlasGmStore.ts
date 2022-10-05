@@ -1,9 +1,15 @@
 import { defineStore } from 'pinia'
-import { GmClientService, Order } from '@staratlas/factory'
-import { Connection, PublicKey } from '@solana/web3.js'
+import { GmClientService, Order, OrderSide } from '@staratlas/factory'
+import { Connection, PublicKey, Keypair, Transaction } from '@solana/web3.js'
 import { TRADE_PROGRAM } from '../typescript/constants/staratlas'
 import { TOKEN_ATLAS, TOKEN_USDC } from '../typescript/constants/tokens'
 import { SERUMRPC } from '../typescript/constants/solana'
+import { BN } from 'bn.js'
+
+type getInitializeOrderTransactionResponse = {
+    transaction: Transaction
+    signers: Keypair[]
+}
 
 export const useStaratlasGmStore = defineStore({
     id: 'staratlasGmStore',
@@ -12,6 +18,7 @@ export const useStaratlasGmStore = defineStore({
         client: new GmClientService(),
         connection: new Connection(SERUMRPC),
         orders: [] as Order[],
+        playerOrders: [] as Order[],
         atlasOrders: {
             buyOrders: [] as Order[],
             sellOrders: [] as Order[],
@@ -64,7 +71,42 @@ this.orders = response
                 })
                 .catch((err: any) => console.log('{getOpenOrdersForAssetError}: ' + err))
         },
-
+        async getOpenOrdersForPlayerAndAsset(playerPublicKey: string, assetMint: string) {
+            await this.client
+                .getOpenOrdersForPlayerAndAsset(this.connection, new PublicKey(playerPublicKey), new PublicKey(assetMint), TRADE_PROGRAM)
+                .then((response: any) => {
+                    this.playerOrders = response
+                    console.log("this.playerOrders", this.playerOrders)
+                })
+        },
+        async getInitializeOrderTransaction(
+            playerPublicKey: PublicKey,
+            assetMint: string,
+            quoteMint: PublicKey,
+            quantity: number,
+            price: number,
+            orderSide: OrderSide
+        ) {
+            const bnPrice = await this.client.getBnPriceForCurrency(
+                this.connection,
+                price,
+                quoteMint,
+                TRADE_PROGRAM,
+            );
+            return await this.client.getInitializeOrderTransaction(
+                this.connection,
+                playerPublicKey,
+                new PublicKey(assetMint),
+                quoteMint,
+                quantity,
+                bnPrice,
+                TRADE_PROGRAM,
+                orderSide,
+            ).then((response: getInitializeOrderTransactionResponse) => {
+                console.log("getInitializeOrderTransaction", response)
+                return response;
+            })
+        },
         async getOpenOrdersForPlayer(player_PK: PublicKey) {
             return await this.client.getOpenOrdersForPlayer(this.connection, new PublicKey(player_PK), TRADE_PROGRAM)
         },

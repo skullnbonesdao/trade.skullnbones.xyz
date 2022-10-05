@@ -4,7 +4,7 @@
         <p
             v-for="asset in allAssets"
             :key="asset._id"
-            @click="staratlasGmStore.getOpenOrdersForAsset(asset.mint).then(() => {})"
+            @click="onAssetClick(asset.mint)"
         >
             {{ asset.name }}
         </p>
@@ -15,14 +15,17 @@
 import { useAssetsStore } from '../../stores/AssetsStore'
 import { useStaratlasGmStore } from '../../stores/StaratlasGmStore'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
 
 const { allAssets } = storeToRefs(useAssetsStore())
 
-const assset_selected = ref()
-
 const staratlasGmStore = useStaratlasGmStore()
-
 const assetsStore = useAssetsStore()
 assetsStore.init()
+
+const onAssetClick = (assetMint: string) => {
+    // staratlasGmStore.getOpenOrdersForAsset(assetMint).then(() => {});
+    assetsStore.setCurrentAsset(assetMint);
+}
+
+
 </script>

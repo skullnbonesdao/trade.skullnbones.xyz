@@ -2,7 +2,7 @@
     <h2>Orderbook</h2>
     {{ symbol }}
     <div>
-        <select v-model="selected_currency">
+        <select v-model="selectedCurrency">
             <option>ATLAS</option>
             <option>USDC</option>
         </select>
@@ -11,7 +11,7 @@
                 <p>Sell orders:</p>
 
                 <div
-                    v-for="order in selected_currency === 'ATLAS' ? atlasOrders.sellOrders : usdcOrders.sellOrders"
+                    v-for="order in selectedCurrency === 'ATLAS' ? atlasOrders.sellOrders : usdcOrders.sellOrders"
                     :key="order.id"
                 >
                     <div class="w-full flex flex-row rounded-full">
@@ -21,12 +21,12 @@
                                 (order.orderOriginationQty /
                                     useStaratlasGmStore().getSumOrders(
                                         'sell',
-                                        selected_currency === 'ATLAS' ? TOKEN_ATLAS : TOKEN_USDC
+                                        selectedCurrency === 'ATLAS' ? TOKEN_ATLAS : TOKEN_USDC
                                     )) *
                                     100 +
                                 '%'
                             "
-                            class="flex flex-row sellSide"
+                            class="flex flex-row sell-side order-group-row"
                         >
                             <div>{{ order.orderQtyRemaining }}</div>
                         </div>
@@ -37,14 +37,14 @@
                                     order.orderOriginationQty /
                                         useStaratlasGmStore().getSumOrders(
                                             'sell',
-                                            selected_currency === 'ATLAS' ? TOKEN_ATLAS : TOKEN_USDC
+                                            selectedCurrency === 'ATLAS' ? TOKEN_ATLAS : TOKEN_USDC
                                         )) *
                                     100 +
                                 '%'
                             "
-                            class="justify-end flex flex-row transparent"
+                            class="justify-end flex flex-row transparent z-10"
                         >
-                            <div class="sellSideText">{{ order.uiPrice }}</div>
+                            <div>{{ order.uiPrice }}</div>
                         </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
             <div class="order-type-container">
                 <p>Buy orders:</p>
                 <div
-                    v-for="order in selected_currency === 'ATLAS' ? atlasOrders.buyOrders : usdcOrders.buyOrders"
+                    v-for="order in selectedCurrency === 'ATLAS' ? atlasOrders.buyOrders : usdcOrders.buyOrders"
                     :key="order.id"
                 >
                     <div class="w-full flex flex-row rounded-full">
@@ -63,14 +63,14 @@
                                     order.orderOriginationQty /
                                         useStaratlasGmStore().getSumOrders(
                                             'buy',
-                                            selected_currency === 'ATLAS' ? TOKEN_ATLAS : TOKEN_USDC
+                                            selectedCurrency === 'ATLAS' ? TOKEN_ATLAS : TOKEN_USDC
                                         )) *
                                     100 +
                                 '%'
                             "
-                            class="flex flex-row transparent"
+                            class="flex flex-row transparent z-10"
                         >
-                            <div class="buySideText">{{ order.uiPrice }}</div>
+                            <div>{{ order.uiPrice }}</div>
                         </div>
                         <div
                             :style="
@@ -78,12 +78,12 @@
                                 (order.orderOriginationQty /
                                     useStaratlasGmStore().getSumOrders(
                                         'buy',
-                                        selected_currency === 'ATLAS' ? TOKEN_ATLAS : TOKEN_USDC
+                                        selectedCurrency === 'ATLAS' ? TOKEN_ATLAS : TOKEN_USDC
                                     )) *
                                     100 +
                                 '%'
                             "
-                            class="justify-end flex flex-row buySide"
+                            class="justify-end flex flex-row buy-side order-group-row"
                         >
                             <div>{{ order.orderQtyRemaining }}</div>
                         </div>
@@ -95,17 +95,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { watch } from 'vue'
 import { useStaratlasGmStore } from '../../stores/StaratlasGmStore'
 import { storeToRefs } from 'pinia'
 import { useGlobalStore } from '../../stores/GlobalStore'
 import { useAssetsStore } from '../../stores/AssetsStore'
 import { TOKEN_ATLAS, TOKEN_USDC } from '../../typescript/constants/tokens'
 
-const { symbol } = storeToRefs(useGlobalStore())
+const { symbol, selectedCurrency } = storeToRefs(useGlobalStore())
 const { atlasOrders, usdcOrders } = storeToRefs(useStaratlasGmStore())
-
-const selected_currency = ref('USDC')
 
 watch(symbol, (current) => {
     useStaratlasGmStore().getOpenOrdersForAsset(
@@ -118,23 +116,23 @@ watch(symbol, (current) => {
 .order-type-container {
     width: 100%;
     border: 1px solid white;
+    color: white;
+    font-weight: 200;
 }
 
-.sellSide {
-    background-color: #a20f0f;
+.order-group-row {
+    row-gap: 0px;
+    margin-bottom: 1px;
+}
+
+.sell-side {
+    background-color: rgba(242,60,105,0.6);
     color: #ffffff;
 }
 
-.sellSideText {
-    color: #e02d2d;
-}
-
-.buySide {
-    background-color: #01620d;
+.buy-side {
+    background-color: rgba(65,199,122,0.6);
     color: #ffffff;
 }
 
-.buySideText {
-    color: #24de18;
-}
 </style>

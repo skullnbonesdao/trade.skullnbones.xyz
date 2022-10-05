@@ -1,58 +1,121 @@
 <template>
-    <div class="p-3 bg-gray-100 dark:bg-gray-800 shadow-xl rounded-box">
-        <div class="font-medium pb-1 text-center text-gray-500 dark:text-gray-400">
-            <ul class="flex justify-center flex-wrap -mb-px">
-                <li class="mr-2">
-                    <a
-                        :class="
-                            globalStore.side === 'buy'
-                                ? 'text-green-600 rounded-t-lg border-b-2 border-green-600 dark:text-green-500 dark:border-green-500'
-                                : ''
-                        "
-                        class="inline-block p-4 border-b-2 active hover:text-green-600 hover:border-green-300 dark:hover:text-green-300"
-                        @click="globalStore.side = Side.BUY"
-                        >BUY</a
+    <div>
+        <div class="container mx-auto">
+            <ul class="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4">
+                <li class="nav-item flex-auto text-center">
+                    <button
+                        @click="currentTab(1)"
+                        v-bind:class="tab === 1 ? 'active' : ''"
+                        class="nav-link w-full block font-medium text-xs leading-tight uppercase px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent green"
                     >
+                        Buy
+                    </button>
                 </li>
-                <li class="mr-2">
-                    <a
-                        :class="
-                            globalStore.side === 'sell'
-                                ? 'text-red-600 rounded-t-lg border-b-3 border-red-600 dark:text-red-500 border-red-600 dark:border-red-500'
-                                : ''
-                        "
-                        class="inline-block p-4 border-b-2 active hover:text-red-600 hover:border-red-300 dark:hover:text-red-300"
-                        @click="globalStore.side = Side.SELL"
-                        >SELL</a
+                <li class="nav-item flex-auto text-center">
+                    <button
+                        @click="currentTab(2)"
+                        v-bind:class="tab === 2 ? 'active' : ''"
+                        class="nav-link w-full block font-medium text-xs leading-tight uppercase px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent red"
                     >
+                        Sell
+                    </button>
                 </li>
             </ul>
-        </div>
-
-        <div class="grid grid-cols-4 input-group gap-1">
-            <span class="dark:bg-gray-400">Price</span>
-            <input class="col-span-2 input input-bordered input-sm dark:bg-gray-200" placeholder="2" type="text" />
-            <span class="dark:bg-gray-400">USD</span>
-        </div>
-        <div class="pt-1 grid grid-cols-4 input-group gap-1">
-            <span class="dark:bg-gray-400">Size</span>
-            <input class="col-span-2 input input-bordered input-sm dark:bg-gray-200" placeholder="2" type="text" />
-            <span class="dark:bg-gray-400">#</span>
-        </div>
-
-        <div class="py-2">
-            <button
-                :class="globalStore.side === 'sell' ? 'bg-red-500 hover:bg-red-400' : 'bg-green-500 hover:bg-green-400'"
-                class="w-full text-black btn btn-wide"
-            >
-                EXECUTE
-            </button>
+            <div class="p-3 mt-6 text-center">
+                <p v-bind:class="tab === 1 ? 'block' : 'hidden'">
+                    Buy price:{{ input.price }} Buy size:{{ input.size }}
+                </p>
+                <p v-bind:class="tab === 2 ? 'block' : 'hidden'">
+                    Sell price:{{ input.price }} Sell size:{{ input.size }}
+                </p>
+                <p>PublicKey: {{ publicKey }}</p>
+                <p>Asset Mint: {{ assetsStore.currentAsset }}</p>
+                <div>
+                    <TradeInput ref="input" />
+                </div>
+                <button
+                    @click.prevent="submitOrder().then(() => {})"
+                    id="order-submit-btn"
+                    class="border hover:bg-gray-100 hover:border-transparent focus:border-transparent"
+                >
+                    {{ tab === 1 ? 'Buy' : 'Sell' }}
+                </button>
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { Side, useGlobalStore } from '../../stores/GlobalStore'
+import { ref } from 'vue'
+import TradeInput from './TradeInput.vue'
+import { useWallet } from 'solana-wallets-vue'
+import { OrderSide } from '@staratlas/factory'
+import { useStaratlasGmStore } from '../../stores/StaratlasGmStore'
+import { useAssetsStore } from '../../stores/AssetsStore'
+import { useGlobalStore } from '../../stores/GlobalStore'
+import { useSolanaNetworkStore } from '../../stores/SolanaNetworkStore'
+import { createToast } from 'mosha-vue-toastify';
+import { watch } from 'vue'
+import { storeToRefs } from 'pinia'
 
+const tab = ref(1)
+const input = ref({ price: 0, size: 0 })
+const currentTab = (tabNumber: number) => (tab.value = tabNumber)
+
+const { publicKey, sendTransaction } = useWallet()
+const staratlasGmStore = useStaratlasGmStore()
+const assetsStore = useAssetsStore()
 const globalStore = useGlobalStore()
+const solanaNetworkStore = useSolanaNetworkStore()
+const { selectedCurrency } = storeToRefs(useGlobalStore())
+
+async function submitOrder() {
+    if (publicKey.value !== null) {
+        if (assetsStore.currentAsset !== '') {
+            const availableTokenData = globalStore.userTokens.find((userToken) => userToken.name === selectedCurrency.value);
+            // when wallet has no specific tokens `account` is an empty object
+            const availableTokens = availableTokenData && availableTokenData.data.account.data?.parsed?.info?.tokenAmount?.uiAmount;
+            const neededTokens = input.value.size * input.value.price;
+
+            if (availableTokens && (neededTokens <= availableTokens)) {
+                const orderSide = tab.value === 1 ? OrderSide.Buy : OrderSide.Sell
+                const { transaction, signers } = await staratlasGmStore.getInitializeOrderTransaction(
+                    publicKey.value,
+                    assetsStore.currentAsset,
+                    availableTokenData.data.account.data?.parsed?.info?.mint,
+                    input.value.size,
+                    input.value.price,
+                    orderSide
+                )
+                const signature = await sendTransaction(transaction, solanaNetworkStore.connection, {
+                    signers: signers,
+                })
+                const latestBlockHash = await solanaNetworkStore.connection.getLatestBlockhash();
+                solanaNetworkStore.connection.confirmTransaction({
+                    blockhash: latestBlockHash.blockhash,
+                    lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+                    signature: signature,
+                }, 'processed').then((result) => (result.value.err === null)
+                    ? createToast("Order created", {type: 'success'})
+                    : createToast("Error creating order", {type: 'danger'})
+                );
+            } else {
+                createToast(`Not enough ${selectedCurrency.value}`, {type: 'danger'})
+            }
+        } else {
+            createToast("Asset not selected", {type: 'danger'})
+        }
+    } else {
+        createToast("Wallet not connected", {type: 'danger'})
+    }
+}
+watch(
+    () => publicKey.value,
+    async (publicKey) => {
+        if (publicKey !== null) {
+            await globalStore.refreshAccountInfo(publicKey)
+        }
+    }
+)
+
 </script>
