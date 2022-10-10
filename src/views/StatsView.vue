@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="mt-2 px-4 py-2 grid grid-cols-2 gap-2 bg-gray-200 dark:bg-gray-800 shadow-xl rounded-box">
-            <div>
+            <div v-if="api_atlas">
                 <h2>ATLAS</h2>
                 <donut-chart
                     :series="[
@@ -18,7 +18,7 @@
                     :lables="['circulating', 'locked', 'remaining']"
                 />
             </div>
-            <div>
+            <div v-if="api_polis">
                 <h2>POLIS</h2>
                 <donut-chart
                     :series="[
@@ -29,7 +29,7 @@
                     :lables="['circulating', 'locked', 'remaining']"
                 />
             </div>
-            <div>
+            <div v-if="api_atlas">
                 <tree-map
                     :series="[
                         {
@@ -52,7 +52,7 @@
                     ]"
                 />
             </div>
-            <div>
+            <div v-if="api_polis">
                 <tree-map
                     :series="[
                         {
