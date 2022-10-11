@@ -1,15 +1,15 @@
 <template>
-    <div class="p-2">
-        <info-feed class="mb-2" />
-        <div class="grid md:grid-cols-3 gap-3">
-            <div class="col-span-2">
-                <trading-view-chart />
-            </div>
-            <div class="space-y-2">
-                <order-setter />
-                <orderbook-list />
-                <assets-list />
-            </div>
+    <div class="">
+        <info-feed class="content-box" />
+    </div>
+    <div class="flex flex-row">
+        <div class="basis-2/3">
+            <trading-view-chart class="content-box" />
+            <order-table :orders="orders" class="content-box"></order-table>
+        </div>
+        <div class="basis-1/3">
+            <order-setter class="content-box" />
+            <orderbook-list class="content-box overflow-y-auto" />
         </div>
     </div>
 </template>
@@ -26,7 +26,11 @@ import { useAssetsStore } from '../stores/AssetsStore'
 import TradingViewChart from '../components/charts/tradingview/TradingViewChart.vue'
 import OrderSetter from '../components/marketplace/OrderSetter.vue'
 import { useGlobalStore } from '../stores/GlobalStore'
+import { ref } from 'vue'
+import { useWallet } from 'solana-wallets-vue'
+import OrderTable from '../components/tables/OrderTable.vue'
 
+const orders = ref()
 onMounted(async () => {
     const globalStore = useGlobalStore()
     globalStore.init()
@@ -51,5 +55,11 @@ onMounted(async () => {
     /*await useStaratlasGmStore().getOpenOrdersForAsset(
 useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(asset.symbol))?.mint ?? ''
 )*/
+
+    //INIT WALLET for ORDERS
+    const { publicKey } = useWallet()
+    if (publicKey.value) {
+        orders.value = await useStaratlasGmStore().getOpenOrdersForPlayer(publicKey.value)
+    }
 })
 </script>

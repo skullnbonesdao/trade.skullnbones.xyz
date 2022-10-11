@@ -1,11 +1,11 @@
 <template>
     <div class="p-2">
-        <div class="py-2 px-4 flex flex-col justify-center bg-gray-200 dark:bg-gray-800 shadow-xl rounded-box">
+        <div class="content-box">
             <div class="flex justify-center">
                 <h1 class="text-4xl">Stats</h1>
             </div>
         </div>
-        <div class="mt-2 px-4 py-2 grid grid-cols-2 gap-2 bg-gray-200 dark:bg-gray-800 shadow-xl rounded-box">
+        <div class="mt-2 px-4 py-2 grid grid-cols-2 gap-2 content-box">
             <div v-if="api_atlas">
                 <h2>ATLAS</h2>
                 <donut-chart
