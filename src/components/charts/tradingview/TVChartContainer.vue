@@ -2,44 +2,6 @@
     <div ref="chartContainer" class="TVChartContainer" />
 </template>
 
-<!--
-<script>
-import { UDFCompatibleDatafeed } from '../../../typescript/tradingview_adapter/udf/lib/udf-compatible-datafeed.js'
-import { useGlobalStore } from '../../../stores/GlobalStore'
-import { storeToRefs } from 'pinia'
-import { useDark, useToggle } from '@vueuse/core'
-
-function getLanguageFromURL() {
-    const regex = new RegExp('[\\?&]lang=([^&#]*)')
-    const results = regex.exec(window.location.search)
-    return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '))
-}
-
-export default {
-    name: 'TVChartContainer',
-
-    tvWidget: null,
-    setup() {
-        const globalStore = useGlobalStore()
-        const { symbol } = storeToRefs(globalStore)
-
-        return {
-            symbol,
-        }
-    },
-
-    mounted() {},
-
-    destroyed() {
-        if (this.tvWidget !== null) {
-            this.tvWidget.remove()
-            this.tvWidget = null
-        }
-    },
-}
-</script>
--->
-
 <script setup>
 import { onMounted, watch } from 'vue'
 import { useDark, useToggle } from '@vueuse/core'
@@ -131,6 +93,6 @@ function createTVChart() {
 
 <style lang="scss" scoped>
 .TVChartContainer {
-    height: calc(100vh - 80px);
+    height: calc(60vh);
 }
 </style>
