@@ -23,11 +23,4 @@ onMounted(async () => {
     if (publicKey.value !== null) orders.value = await useStaratlasGmStore().getOpenOrdersForPlayer(publicKey.value)
     console.log(orders.value)
 })
-
-watch(
-    () => publicKey,
-    async (publicKey) => {
-        if (publicKey.value !== null) orders.value = await useStaratlasGmStore().getOpenOrdersForPlayer(publicKey.value)
-    }
-)
 </script>
