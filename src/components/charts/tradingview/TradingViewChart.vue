@@ -1,8 +1,6 @@
 <template>
-    <div class="p-3 bg-gray-100 dark:bg-gray-800 shadow-xl rounded-box">
-        <div class="app">
-            <t-v-chart-container />
-        </div>
+    <div class="app">
+        <t-v-chart-container />
     </div>
 </template>
 

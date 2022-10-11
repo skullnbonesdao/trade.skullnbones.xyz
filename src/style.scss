@@ -1,11 +1,18 @@
 h1 {
-    font-size: 120px;
-    font-weight: bold;
+    @apply text-6xl text-center
 }
 
 h2 {
-    font-size: xx-large;
-    font-weight: bold;
+    @apply text-4xl text-center
+
+}
+h3 {
+   @apply text-2xl text-center
+
+}
+
+.content-box {
+    @apply bg-gray-100 dark:bg-gray-800 dark:text-gray-100 shadow-xl rounded-box p2
 }
 
 

@@ -1,7 +1,5 @@
 <template>
-    <div
-        class="flex flex-col px-4 py-2 flex md:space-x-3 md:flex-row bg-gray-100 dark:bg-gray-800 shadow-xl rounded-box"
-    >
+    <div class="flex flex-col px-4 py-2 flex md:space-x-3 md:flex-row">
         <div class="flex flex-col">
             <h2>BTC/USDC</h2>
             <h3>{{ tokenPriceStore.btc }}</h3>

@@ -1,15 +1,15 @@
 <template>
-    <div class="p-2">
-        <info-feed class="mb-2" />
-        <div class="grid md:grid-cols-3 gap-3">
-            <div class="col-span-2">
-                <trading-view-chart />
-            </div>
-            <div class="space-y-2">
-                <order-setter />
-                <orderbook-list />
-                <assets-list />
-            </div>
+    <div class="p-2 grid md:grid-cols-3 gap-2">
+        <div class="col-span-3">
+            <info-feed class="content-box" />
+        </div>
+        <div class="col-span-2">
+            <trading-view-chart class="content-box" />
+        </div>
+        <div class="space-y-2">
+            <order-setter class="content-box" />
+            <orderbook-list class="content-box" />
+            <assets-list class="content-box" />
         </div>
     </div>
 </template>
