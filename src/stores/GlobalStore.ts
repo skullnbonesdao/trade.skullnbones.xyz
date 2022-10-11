@@ -4,6 +4,7 @@ import { SERUMRPC } from '../typescript/constants/solana'
 import { Connection, PublicKey, AccountInfo, ParsedAccountData } from '@solana/web3.js'
 import { TOKEN_PROGRAM } from '../typescript/constants/staratlas'
 import { TOKEN_ATLAS, TOKEN_USDC } from '../typescript/constants/tokens'
+import { useDark, useToggle } from '@vueuse/core'
 
 export enum Side {
     SELL = 'sell',
@@ -13,13 +14,14 @@ export enum Side {
 export const useGlobalStore = defineStore('globalStore', {
     state: () => {
         return {
+            is_dark: useDark(),
             symbol: 'FOODATLAS',
             selectedCurrency: 'USDC',
             side: {} as Side,
             connection: new Connection(SERUMRPC),
             userTokens: [
                 {
-                    name: "ATLAS",
+                    name: 'ATLAS',
                     mint: TOKEN_ATLAS.toString(),
                     data: {
                         pubkey: {} as PublicKey,
@@ -27,7 +29,7 @@ export const useGlobalStore = defineStore('globalStore', {
                     },
                 },
                 {
-                    name: "USDC",
+                    name: 'USDC',
                     mint: TOKEN_USDC.toString(),
                     data: {
                         pubkey: {} as PublicKey,
@@ -41,22 +43,23 @@ export const useGlobalStore = defineStore('globalStore', {
         init() {
             this.side = Side.BUY
         },
+        toggleDdark() {
+            useToggle(!this.is_dark)
+            this.is_dark = !this.is_dark
+        },
         async refreshAccountInfo(accountPublicKey: PublicKey) {
-            if (accountPublicKey !== null ) {
-                await this.connection.getParsedTokenAccountsByOwner(
-                    accountPublicKey,
-                    { programId: TOKEN_PROGRAM },
-                    "confirmed"
-                ).then((response) => {
-                    const data = response.value.filter(
-                        (value) =>
-                        !!value?.account?.data?.parsed?.info?.tokenAmount?.uiAmount
-                    )
-                    this.userTokens.forEach(userToken => {
-                        const searchedToken = data.find((el) => el.account.data.parsed.info.mint === userToken.mint);
-                        if (searchedToken !== undefined) userToken.data = searchedToken;
-                    });
-                })
+            if (accountPublicKey !== null) {
+                await this.connection
+                    .getParsedTokenAccountsByOwner(accountPublicKey, { programId: TOKEN_PROGRAM }, 'confirmed')
+                    .then((response) => {
+                        const data = response.value.filter(
+                            (value) => !!value?.account?.data?.parsed?.info?.tokenAmount?.uiAmount
+                        )
+                        this.userTokens.forEach((userToken) => {
+                            const searchedToken = data.find((el) => el.account.data.parsed.info.mint === userToken.mint)
+                            if (searchedToken !== undefined) userToken.data = searchedToken
+                        })
+                    })
             }
         },
     },
