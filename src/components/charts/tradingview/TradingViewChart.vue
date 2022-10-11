@@ -18,7 +18,7 @@ import TVChartContainer from './TVChartContainer.vue'
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 10px 0;
+
         background-color: #222;
         color: #fff;
     }
