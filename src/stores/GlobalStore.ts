@@ -24,7 +24,7 @@ export const useGlobalStore = defineStore('globalStore', {
             is_dark: useDark(),
             symbol: {
                 name: 'FOODATLAS',
-                mint_asset: new PublicKey('tooLsNYLiVqzg8o4m3L2Uetbn62mvMWRqkog6PQeYKL'),
+                mint_asset: new PublicKey('foodQJAztMzX1DKpLaiounNe2BDMds5RNuPC6jsNrDG'),
                 mint_pair: new PublicKey('ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx'),
             } as TradeAsset,
 
