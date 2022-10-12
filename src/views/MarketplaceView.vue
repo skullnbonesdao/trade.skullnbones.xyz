@@ -18,7 +18,7 @@
 import InfoFeed from '../components/feeds/InfoFeed.vue'
 import OrderbookList from '../components/marketplace/OrderbookList.vue'
 import AssetsList from '../components/marketplace/AssetsList.vue'
-import { onMounted } from 'vue'
+import { onMounted, watchEffect } from 'vue'
 import { useTokenPriceStore } from '../stores/TokenPriceStore'
 import { useSolanaNetworkStore } from '../stores/SolanaNetworkStore'
 import { useStaratlasGmStore } from '../stores/StaratlasGmStore'
@@ -52,14 +52,9 @@ onMounted(async () => {
         )
         .then(() => {})
         .catch((err) => console.log(err))
-    /*await useStaratlasGmStore().getOpenOrdersForAsset(
-useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(asset.symbol))?.mint ?? ''
-)*/
+})
 
-    //INIT WALLET for ORDERS
-    const { publicKey } = useWallet()
-    if (publicKey.value) {
-        orders.value = await useStaratlasGmStore().getOpenOrdersForPlayer(publicKey.value)
-    }
+watchEffect(async () => {
+    orders.value = await useStaratlasGmStore().getOpenOrdersForPlayer(useWallet().publicKey.value)
 })
 </script>

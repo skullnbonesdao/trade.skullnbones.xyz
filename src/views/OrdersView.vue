@@ -7,20 +7,16 @@
     </div>
 </template>
 
-<script lang="ts" setup>
-import { Order } from '@staratlas/factory'
+<script setup>
 import { useWallet } from 'solana-wallets-vue'
-import { onMounted, ref, watch } from 'vue'
-import { useAssetsStore } from '../stores/AssetsStore'
-import { useStaratlasGmStore } from '../stores/StaratlasGmStore'
-import { Currencies } from '../typescript/constants/tokens'
+import { ref, watchEffect } from 'vue'
 import OrderTable from '../components/tables/OrderTable.vue'
+import { useStaratlasGmStore } from '../stores/StaratlasGmStore'
 const { publicKey } = useWallet()
 
 let orders = ref()
 
-onMounted(async () => {
-    if (publicKey.value !== null) orders.value = await useStaratlasGmStore().getOpenOrdersForPlayer(publicKey.value)
-    console.log(orders.value)
+watchEffect(async () => {
+    orders.value = await useStaratlasGmStore().getOpenOrdersForPlayer(useWallet().publicKey.value)
 })
 </script>
