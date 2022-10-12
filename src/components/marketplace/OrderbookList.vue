@@ -108,7 +108,7 @@ const { atlasOrders, usdcOrders } = storeToRefs(useStaratlasGmStore())
 
 watch(symbol, (current) => {
     useStaratlasGmStore().getOpenOrdersForAsset(
-        useAssetsStore().allAssets?.find((asset) => current.includes(asset.symbol))?.mint ?? ''
+        useAssetsStore().allAssets?.find((asset) => current.name.includes(asset.symbol))?.mint ?? ''
     )
 })
 </script>

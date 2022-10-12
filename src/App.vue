@@ -25,7 +25,7 @@ onMounted(async () => {
 
     useStaratlasGmStore()
         .getOpenOrdersForAsset(
-            useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(asset.symbol))?.mint ?? ''
+            useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.name.includes(asset.symbol))?.mint ?? ''
         )
         .then(() => {})
         .catch((err) => console.log(err))

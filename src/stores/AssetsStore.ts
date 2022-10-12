@@ -86,7 +86,6 @@ export const useAssetsStore = defineStore({
     state: () => {
         return {
             allAssets: {} as Asset[],
-            currentAsset: "",
         }
     },
 
@@ -94,9 +93,5 @@ export const useAssetsStore = defineStore({
         async init() {
             this.allAssets = await fetch(NFTS_URL).then((response) => response.json())
         },
-        setCurrentAsset(assetMint: string) {
-            this.currentAsset = assetMint;
-            console.log("currentAsset", this.currentAsset)
-        }
     },
 })
