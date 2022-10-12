@@ -41,7 +41,6 @@ const routes = [
 const walletOptions = {
     wallets: [
         new PhantomWalletAdapter({ network: WalletAdapterNetwork.Mainnet }),
-        new SlopeWalletAdapter(),
         new SolflareWalletAdapter({ network: WalletAdapterNetwork.Mainnet }),
     ],
     autoConnect: true,
