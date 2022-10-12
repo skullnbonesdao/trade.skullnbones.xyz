@@ -2,10 +2,6 @@
     <div>
         <h2>Orderbook</h2>
         <div>
-            <select v-model="selectedCurrency">
-                <option>ATLAS</option>
-                <option>USDC</option>
-            </select>
             <div class="flex flex-row">
                 <div class="order-type-container">
                     <p>Sell orders:</p>
@@ -96,19 +92,26 @@
 </template>
 
 <script lang="ts" setup>
-import { watch } from 'vue'
+import { watch, ref } from 'vue'
 import { useStaratlasGmStore } from '../../stores/StaratlasGmStore'
 import { storeToRefs } from 'pinia'
 import { useGlobalStore } from '../../stores/GlobalStore'
 import { useAssetsStore } from '../../stores/AssetsStore'
-import { TOKEN_ATLAS, TOKEN_USDC } from '../../typescript/constants/tokens'
+import { Currencies, TOKEN_ATLAS, TOKEN_USDC } from '../../typescript/constants/tokens'
 
-const { symbol, selectedCurrency } = storeToRefs(useGlobalStore())
+const { symbol } = storeToRefs(useGlobalStore())
 const { atlasOrders, usdcOrders } = storeToRefs(useStaratlasGmStore())
 
+const selectedCurrency = ref()
+selectedCurrency.value =
+    Currencies.find((currency) => useGlobalStore().symbol.mint_pair.toString() == currency.mint)?.name ?? ''
+
 watch(symbol, (current) => {
+    selectedCurrency.value =
+        Currencies.find((currency) => useGlobalStore().symbol.mint_pair.toString() == currency.mint)?.name ?? ''
+
     useStaratlasGmStore().getOpenOrdersForAsset(
-        useAssetsStore().allAssets?.find((asset) => current.includes(asset.symbol))?.mint ?? ''
+        useAssetsStore().allAssets?.find((asset) => current.name.includes(asset.symbol))?.mint ?? ''
     )
 })
 </script>

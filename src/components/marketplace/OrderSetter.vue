@@ -29,7 +29,8 @@
                     Sell price:{{ input.price }} Sell size:{{ input.size }}
                 </p>
                 <p>PublicKey: {{ publicKey }}</p>
-                <p>Asset Mint: {{ assetsStore.currentAsset }}</p>
+                <p>Asset Mint: {{ useGlobalStore().symbol.mint_asset }}</p>
+                <p>Pair Mint: {{ useGlobalStore().symbol.mint_pair }}</p>
                 <div>
                     <TradeInput ref="input" />
                 </div>
@@ -54,9 +55,10 @@ import { useStaratlasGmStore } from '../../stores/StaratlasGmStore'
 import { useAssetsStore } from '../../stores/AssetsStore'
 import { useGlobalStore } from '../../stores/GlobalStore'
 import { useSolanaNetworkStore } from '../../stores/SolanaNetworkStore'
-import { createToast } from 'mosha-vue-toastify';
+import { createToast } from 'mosha-vue-toastify'
 import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
+import { Currencies } from '../../typescript/constants/tokens'
 
 const tab = ref(1)
 const input = ref({ price: 0, size: 0 })
@@ -67,21 +69,23 @@ const staratlasGmStore = useStaratlasGmStore()
 const assetsStore = useAssetsStore()
 const globalStore = useGlobalStore()
 const solanaNetworkStore = useSolanaNetworkStore()
-const { selectedCurrency } = storeToRefs(useGlobalStore())
 
 async function submitOrder() {
     if (publicKey.value !== null) {
-        if (assetsStore.currentAsset !== '') {
-            const availableTokenData = globalStore.userTokens.find((userToken) => userToken.name === selectedCurrency.value);
+        if (globalStore.symbol.mint_asset) {
+            const availableTokenData = globalStore.userTokens.find(
+                (userToken) => userToken.mint === useGlobalStore().symbol.mint_pair.toString()
+            )
             // when wallet has no specific tokens `account` is an empty object
-            const availableTokens = availableTokenData && availableTokenData.data.account.data?.parsed?.info?.tokenAmount?.uiAmount;
-            const neededTokens = input.value.size * input.value.price;
+            const availableTokens =
+                availableTokenData && availableTokenData.data.account.data?.parsed?.info?.tokenAmount?.uiAmount
+            const neededTokens = input.value.size * input.value.price
 
-            if (availableTokens && (neededTokens <= availableTokens)) {
+            if (availableTokens && neededTokens <= availableTokens) {
                 const orderSide = tab.value === 1 ? OrderSide.Buy : OrderSide.Sell
                 const { transaction, signers } = await staratlasGmStore.getInitializeOrderTransaction(
                     publicKey.value,
-                    assetsStore.currentAsset,
+                    globalStore.symbol.mint_asset.toString(),
                     availableTokenData.data.account.data?.parsed?.info?.mint,
                     input.value.size,
                     input.value.price,
@@ -90,23 +94,34 @@ async function submitOrder() {
                 const signature = await sendTransaction(transaction, solanaNetworkStore.connection, {
                     signers: signers,
                 })
-                const latestBlockHash = await solanaNetworkStore.connection.getLatestBlockhash();
-                solanaNetworkStore.connection.confirmTransaction({
-                    blockhash: latestBlockHash.blockhash,
-                    lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
-                    signature: signature,
-                }, 'processed').then((result) => (result.value.err === null)
-                    ? createToast("Order created", {type: 'success'})
-                    : createToast("Error creating order", {type: 'danger'})
-                );
+                const latestBlockHash = await solanaNetworkStore.connection.getLatestBlockhash()
+                solanaNetworkStore.connection
+                    .confirmTransaction(
+                        {
+                            blockhash: latestBlockHash.blockhash,
+                            lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+                            signature: signature,
+                        },
+                        'processed'
+                    )
+                    .then((result) =>
+                        result.value.err === null
+                            ? createToast('Order created', { type: 'success' })
+                            : createToast('Error creating order', { type: 'danger' })
+                    )
             } else {
-                createToast(`Not enough ${selectedCurrency.value}`, {type: 'danger'})
+                createToast(
+                    `Not enough ${
+                        Currencies.find((currency) => useGlobalStore().symbol.name.includes(currency.name))?.name
+                    }`,
+                    { type: 'danger' }
+                )
             }
         } else {
-            createToast("Asset not selected", {type: 'danger'})
+            createToast('Asset not selected', { type: 'danger' })
         }
     } else {
-        createToast("Wallet not connected", {type: 'danger'})
+        createToast('Wallet not connected', { type: 'danger' })
     }
 }
 watch(
@@ -117,5 +132,4 @@ watch(
         }
     }
 )
-
 </script>

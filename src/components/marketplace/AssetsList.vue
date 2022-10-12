@@ -1,11 +1,7 @@
 <template>
     <h2>Asset list</h2>
     <div>
-        <p
-            v-for="asset in allAssets"
-            :key="asset._id"
-            @click="onAssetClick(asset.mint)"
-        >
+        <p v-for="asset in allAssets" :key="asset._id" @click="onAssetClick(asset.mint)">
             {{ asset.name }}
         </p>
     </div>
@@ -24,8 +20,8 @@ assetsStore.init()
 
 const onAssetClick = (assetMint: string) => {
     // staratlasGmStore.getOpenOrdersForAsset(assetMint).then(() => {});
-    assetsStore.setCurrentAsset(assetMint);
+
+    console.log('NOT-IMPLEMENTED')
+    //assetsStore.setCurrentAsset(assetMint);
 }
-
-
 </script>

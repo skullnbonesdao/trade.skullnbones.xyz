@@ -36,13 +36,13 @@ function createTVChart() {
     const container = chartContainer.value
     const chart_theme = globalStore.is_dark ? 'dark' : 'light'
     const widgetOptions = {
-        symbol: useGlobalStore().symbol, //assetSelected,
+        symbol: useGlobalStore().symbol.name, //assetSelected,
         debug: false,
         // BEWARE: no trailing slash is expected in feed URL
         /*  default: 'http://localhost:3000',*/
         /* default: '/api',*/
         /* https://api2.skullnbones.xyz*/
-        datafeed: new UDFCompatibleDatafeed('https://api2.skullnbones.xyz/udf'),
+        datafeed: new UDFCompatibleDatafeed(' https://api2.skullnbones.xyz/udf'),
         interval: '60',
         container: container,
         library_path: '/charting_library/',
@@ -86,7 +86,7 @@ function createTVChart() {
         tvWidget
             .activeChart()
             .onSymbolChanged()
-            .subscribe(null, () => (useGlobalStore().symbol = tvWidget.activeChart().symbol()))
+            .subscribe(null, () => useGlobalStore().updateSymbol(tvWidget.activeChart().symbol()))
     })
 }
 </script>

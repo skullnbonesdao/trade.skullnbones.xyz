@@ -3,8 +3,15 @@ import { defineStore } from 'pinia'
 import { SERUMRPC } from '../typescript/constants/solana'
 import { Connection, PublicKey, AccountInfo, ParsedAccountData } from '@solana/web3.js'
 import { TOKEN_PROGRAM } from '../typescript/constants/staratlas'
-import { TOKEN_ATLAS, TOKEN_USDC } from '../typescript/constants/tokens'
+import { Currencies, TOKEN_ATLAS, TOKEN_USDC } from '../typescript/constants/tokens'
 import { useDark, useToggle } from '@vueuse/core'
+import { useAssetsStore } from './AssetsStore'
+
+export interface TradeAsset {
+    name: string
+    mint_asset: PublicKey
+    mint_pair: PublicKey
+}
 
 export enum Side {
     SELL = 'sell',
@@ -15,8 +22,12 @@ export const useGlobalStore = defineStore('globalStore', {
     state: () => {
         return {
             is_dark: useDark(),
-            symbol: 'FOODATLAS',
-            selectedCurrency: 'USDC',
+            symbol: {
+                name: 'FOODATLAS',
+                mint_asset: new PublicKey('tooLsNYLiVqzg8o4m3L2Uetbn62mvMWRqkog6PQeYKL'),
+                mint_pair: new PublicKey('ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx'),
+            } as TradeAsset,
+
             side: {} as Side,
             connection: new Connection(SERUMRPC),
             userTokens: [
@@ -43,7 +54,7 @@ export const useGlobalStore = defineStore('globalStore', {
         init() {
             this.side = Side.BUY
         },
-        toggleDdark() {
+        toggleDark() {
             useToggle(!this.is_dark)
             this.is_dark = !this.is_dark
         },
@@ -61,6 +72,16 @@ export const useGlobalStore = defineStore('globalStore', {
                         })
                     })
             }
+        },
+        updateSymbol(name: string) {
+            this.symbol.mint_asset = new PublicKey(
+                useAssetsStore().allAssets.find((asset) => name.includes(asset.symbol))?.mint ?? ''
+            )
+            this.symbol.mint_pair = new PublicKey(
+                Currencies.find((currency) => name.includes(currency.name))?.mint ?? ''
+            )
+
+            this.symbol.name = name
         },
     },
 })
