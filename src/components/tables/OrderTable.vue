@@ -29,7 +29,7 @@
                                 <div class="avatar">
                                     <div class="mask mask-squircle w-12 h-12">
                                         <img
-                                            :src="'/public/sa_images/webp/' + row.orderMint + '.webp'"
+                                            :src="'/sa_images/webp/' + row.orderMint + '.webp'"
                                             alt="Avatar Tailwind CSS Component"
                                         />
                                     </div>
