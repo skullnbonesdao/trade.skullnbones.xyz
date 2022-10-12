@@ -58,6 +58,7 @@ import { useSolanaNetworkStore } from '../../stores/SolanaNetworkStore'
 import { createToast } from 'mosha-vue-toastify'
 import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
+import { Currencies } from '../../typescript/constants/tokens'
 
 const tab = ref(1)
 const input = ref({ price: 0, size: 0 })
@@ -68,13 +69,12 @@ const staratlasGmStore = useStaratlasGmStore()
 const assetsStore = useAssetsStore()
 const globalStore = useGlobalStore()
 const solanaNetworkStore = useSolanaNetworkStore()
-const { selectedCurrency } = storeToRefs(useGlobalStore())
 
 async function submitOrder() {
     if (publicKey.value !== null) {
         if (globalStore.symbol.mint_asset) {
             const availableTokenData = globalStore.userTokens.find(
-                (userToken) => userToken.name === selectedCurrency.value
+                (userToken) => userToken.mint === useGlobalStore().symbol.mint_pair.toString()
             )
             // when wallet has no specific tokens `account` is an empty object
             const availableTokens =
@@ -110,7 +110,12 @@ async function submitOrder() {
                             : createToast('Error creating order', { type: 'danger' })
                     )
             } else {
-                createToast(`Not enough ${selectedCurrency.value}`, { type: 'danger' })
+                createToast(
+                    `Not enough ${
+                        Currencies.find((currency) => useGlobalStore().symbol.name.includes(currency.name))?.name
+                    }`,
+                    { type: 'danger' }
+                )
             }
         } else {
             createToast('Asset not selected', { type: 'danger' })
