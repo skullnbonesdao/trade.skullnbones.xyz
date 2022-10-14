@@ -1,52 +1,26 @@
 <template>
     <div class="flex flex-col px-4 py-2 flex md:space-x-6 md:flex-row items-center">
-        <div class="flex flex-row">
-            <div class="inline-flex items-baseline space-x-2 w-full">
-                <div class="w-4 rounded-full">
-                    <img src="../../assets/tokens/bitcoin.webp" alt="bitcoin" />
-                </div>
+        <price-badge
+            image-name="bitcoin"
+            :price="useTokenPriceStore().token_price.bitcoin"
+            :change24h="useTokenPriceStore().change24h.bitcoin"
+        />
+        <price-badge
+            image-name="solana"
+            :price="useTokenPriceStore().token_price.solana"
+            :change24h="useTokenPriceStore().change24h.solana"
+        />
+        <price-badge
+            image-name="polis"
+            :price="useTokenPriceStore().token_price.polis"
+            :change24h="useTokenPriceStore().change24h.polis"
+        />
+        <price-badge
+            image-name="atlas"
+            :price="useTokenPriceStore().token_price.atlas"
+            :change24h="useTokenPriceStore().change24h.atlas"
+        />
 
-                <span class="w-full text-right font-bold">
-                    {{ useTokenPriceStore().token_price.bitcoin }}
-                </span>
-                <span class="w-full text-right font-bold">
-                    {{ useTokenPriceStore().change_24.bitcoin.toFixed(3) * 100 }}%
-                </span>
-            </div>
-        </div>
-        <div class="flex flex-row">
-            <div class="inline-flex items-baseline space-x-2 w-full">
-                <div class="w-4 rounded-full">
-                    <img src="../../assets/tokens/solana.webp" alt="solana" />
-                </div>
-                <span class="w-full text-right font-bold">
-                    {{ useTokenPriceStore().token_price.solana }}
-                </span>
-                <span class="w-full text-right font-bold">
-                    {{ useTokenPriceStore().change_24.solana.toFixed(3) * 100 }}%
-                </span>
-            </div>
-        </div>
-        <div class="flex flex-row">
-            <div class="inline-flex items-baseline space-x-2 w-full">
-                <div class="w-4 rounded-full">
-                    <img src="../../assets/tokens/polis.webp" alt="polis" />
-                </div>
-                <span class="w-full text-right font-bold">
-                    {{ useTokenPriceStore().token_price.polis }}
-                </span>
-            </div>
-        </div>
-        <div class="flex flex-row">
-            <div class="inline-flex items-baseline space-x-2 w-full">
-                <div class="w-4 rounded-full">
-                    <img src="../../assets/tokens/atlas.webp" alt="atlas" />
-                </div>
-                <span class="w-full text-right font-bold">
-                    {{ useTokenPriceStore().token_price.atlas }}
-                </span>
-            </div>
-        </div>
         <div
             :class="solanaNetwork.transactions_per_second < 1000 ? 'text-red-400' : 'text-green-700'"
             class="flex w-full justify-end flex-row space-x-1 items-center"
@@ -63,6 +37,7 @@
 <script lang="ts" setup>
 import { useTokenPriceStore } from '../../stores/TokenPriceStore'
 import { useSolanaNetworkStore } from '../../stores/SolanaNetworkStore'
+import PriceBadge from '../badges/PriceBadge.vue'
 
 const solanaNetwork = useSolanaNetworkStore()
 </script>

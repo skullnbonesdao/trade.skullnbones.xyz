@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { SERUMAPIWEBSOCKET } from '../typescript/constants/serum'
 import { Convert } from '../typescript/websockets/MarketLevel1'
-import { FTXMarketsInfo } from '../typescript/interfaces/FTXMarketsInfo'
 import { RestClient } from 'ftx-api'
 export const useTokenPriceStore = defineStore({
     id: 'tokenPriceStore',
@@ -13,7 +12,7 @@ export const useTokenPriceStore = defineStore({
             atlas: '0.0',
             polis: '0.0',
         },
-        change_24: {
+        change24h: {
             bitcoin: 0.0,
             solana: 0.0,
             atlas: 0.0,
@@ -24,7 +23,7 @@ export const useTokenPriceStore = defineStore({
     actions: {
         async init() {
             initWebSockets(this.ws, this.token_price)
-            await init24Change(this.change_24)
+            await init24Change(this.change24h)
         },
     },
 })
@@ -85,22 +84,22 @@ function initWebSockets(ws: WebSocket, token_price: any) {
     }
 }
 
-async function init24Change(change_24: any) {
+async function init24Change(change24h: any) {
     const client = new RestClient()
 
     client.getMarket('BTC/USD').then((data) => {
-        change_24.bitcoin = data.result.change24h
+        change24h.bitcoin = data.result.change24h
     })
 
     client.getMarket('SOL/USD').then((data) => {
-        change_24.solana = data.result.change24h
+        change24h.solana = data.result.change24h
     })
 
     client.getMarket('POLIS/USD').then((data) => {
-        change_24.polis = data.result.change24h
+        change24h.polis = data.result.change24h
     })
 
     client.getMarket('ATLAS/USD').then((data) => {
-        change_24.atlas = data.result.change24h
+        change24h.atlas = data.result.change24h
     })
 }
