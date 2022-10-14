@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-row space-x-2">
-        <div class="w-4 rounded-full pt3">
+        <div class="w-6 rounded-full pt2">
             <img class="" :src="'/tokens/' + props.imageName + '.webp'" :alt="props.imageName" />
         </div>
         <div class="flex flex-col">
