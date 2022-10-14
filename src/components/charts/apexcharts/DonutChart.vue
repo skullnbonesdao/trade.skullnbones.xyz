@@ -20,7 +20,7 @@ const chartOptions = {
     chart: {
         type: 'donut',
         toolbar: {
-            show: false,
+            show: true,
         },
     },
     responsive: [

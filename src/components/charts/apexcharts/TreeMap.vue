@@ -61,11 +61,10 @@ const props = defineProps({
 
 const chartOptions = {
     chart: {
-        height: 350,
         type: 'treemap',
-    },
-    title: {
-        text: 'Basic Treemap',
+        toolbar: {
+            show: true,
+        },
     },
     series: {
         type: Object,
