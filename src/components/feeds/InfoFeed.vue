@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col px-4 py-2 flex md:space-x-6 md:flex-row items-center">
+    <div class="flex flex-col px-4 py-2 flex md:space-x-6 md:flex-row justify-around">
         <price-badge
             image-name="bitcoin"
             :price="useTokenPriceStore().token_price.bitcoin"
@@ -23,7 +23,7 @@
 
         <div
             :class="solanaNetwork.transactions_per_second < 1000 ? 'text-red-400' : 'text-green-700'"
-            class="flex w-full justify-end flex-row space-x-1 items-center"
+            class="flex flex-row space-x-1 items-center"
         >
             <div class="i-carbon:ibm-cloud-pak-watson-aiops"></div>
             <div>
