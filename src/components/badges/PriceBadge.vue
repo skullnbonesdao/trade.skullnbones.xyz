@@ -1,9 +1,9 @@
 <template>
     <div class="flex flex-row space-x-2">
-        <div class="w-6 rounded-full pt2">
+        <div class="w-9 pt-1">
             <img class="" :src="'/tokens/' + props.imageName + '.webp'" :alt="props.imageName" />
         </div>
-        <div class="flex flex-col">
+        <div class="w-28">
             <div class="flex flex-row space-x-1">
                 <div class="i-carbon:currency-dollar"></div>
                 <div>{{ props.price }}</div>
