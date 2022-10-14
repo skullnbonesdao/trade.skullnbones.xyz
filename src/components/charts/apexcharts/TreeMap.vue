@@ -63,7 +63,7 @@ const chartOptions = {
     chart: {
         type: 'treemap',
         toolbar: {
-            show: true,
+            show: false,
         },
     },
     series: {
