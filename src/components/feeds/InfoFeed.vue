@@ -1,20 +1,44 @@
 <template>
-    <div class="flex flex-col px-4 py-2 flex md:space-x-3 md:flex-row">
-        <div class="flex flex-col">
-            <h2>BTC/USDC</h2>
-            <h3>{{ tokenPriceStore.btc }}</h3>
+    <div class="flex flex-col px-4 py-2 flex md:space-x-6 md:flex-row items-center">
+        <div class="flex flex-row">
+            <div class="inline-flex items-baseline space-x-2 w-full">
+                <div class="w-4 rounded-full">
+                    <img src="../../assets/tokens/bitcoin.webp" alt="bitcoin" />
+                </div>
+                <span class="w-full text-right font-bold">
+                    {{ tokenPriceStore.btc }}
+                </span>
+            </div>
         </div>
-        <div class="flex flex-col">
-            <h2>SOL/USDC</h2>
-            <h3>{{ tokenPriceStore.sol }}</h3>
+        <div class="flex flex-row">
+            <div class="inline-flex items-baseline space-x-2 w-full">
+                <div class="w-4 rounded-full">
+                    <img src="../../assets/tokens/solana.webp" alt="solana" />
+                </div>
+                <span class="w-full text-right font-bold">
+                    {{ tokenPriceStore.sol }}
+                </span>
+            </div>
         </div>
-        <div class="flex flex-col">
-            <h2>ATLAS/USDC</h2>
-            <h3>{{ tokenPriceStore.atlas }}</h3>
+        <div class="flex flex-row">
+            <div class="inline-flex items-baseline space-x-2 w-full">
+                <div class="w-4 rounded-full">
+                    <img src="../../assets/tokens/polis.webp" alt="polis" />
+                </div>
+                <span class="w-full text-right font-bold">
+                    {{ tokenPriceStore.polis }}
+                </span>
+            </div>
         </div>
-        <div class="flex flex-col">
-            <h2>POLIS/USDC</h2>
-            <h3>{{ tokenPriceStore.polis }}</h3>
+        <div class="flex flex-row">
+            <div class="inline-flex items-baseline space-x-2 w-full">
+                <div class="w-4 rounded-full">
+                    <img src="../../assets/tokens/atlas.webp" alt="atlas" />
+                </div>
+                <span class="w-full text-right font-bold">
+                    {{ tokenPriceStore.atlas }}
+                </span>
+            </div>
         </div>
         <div
             :class="solanaNetwork.transactions_per_second < 1000 ? 'text-red-400' : 'text-green-700'"
