@@ -5,8 +5,12 @@
                 <div class="w-4 rounded-full">
                     <img src="../../assets/tokens/bitcoin.webp" alt="bitcoin" />
                 </div>
+
                 <span class="w-full text-right font-bold">
-                    {{ tokenPriceStore.btc }}
+                    {{ useTokenPriceStore().token_price.bitcoin }}
+                </span>
+                <span class="w-full text-right font-bold">
+                    {{ useTokenPriceStore().change_24.bitcoin.toFixed(3) * 100 }}%
                 </span>
             </div>
         </div>
@@ -16,7 +20,10 @@
                     <img src="../../assets/tokens/solana.webp" alt="solana" />
                 </div>
                 <span class="w-full text-right font-bold">
-                    {{ tokenPriceStore.sol }}
+                    {{ useTokenPriceStore().token_price.solana }}
+                </span>
+                <span class="w-full text-right font-bold">
+                    {{ useTokenPriceStore().change_24.solana.toFixed(3) * 100 }}%
                 </span>
             </div>
         </div>
@@ -26,7 +33,7 @@
                     <img src="../../assets/tokens/polis.webp" alt="polis" />
                 </div>
                 <span class="w-full text-right font-bold">
-                    {{ tokenPriceStore.polis }}
+                    {{ useTokenPriceStore().token_price.polis }}
                 </span>
             </div>
         </div>
@@ -36,7 +43,7 @@
                     <img src="../../assets/tokens/atlas.webp" alt="atlas" />
                 </div>
                 <span class="w-full text-right font-bold">
-                    {{ tokenPriceStore.atlas }}
+                    {{ useTokenPriceStore().token_price.atlas }}
                 </span>
             </div>
         </div>
@@ -57,7 +64,6 @@
 import { useTokenPriceStore } from '../../stores/TokenPriceStore'
 import { useSolanaNetworkStore } from '../../stores/SolanaNetworkStore'
 
-const tokenPriceStore = useTokenPriceStore()
 const solanaNetwork = useSolanaNetworkStore()
 </script>
 

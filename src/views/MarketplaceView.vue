@@ -35,7 +35,7 @@ onMounted(async () => {
     globalStore.init()
 
     const tokenPriceWebsocket = useTokenPriceStore()
-    tokenPriceWebsocket.init()
+    await tokenPriceWebsocket.init()
 
     const solanaNetworkWebsocket = useSolanaNetworkStore()
     solanaNetworkWebsocket.init()

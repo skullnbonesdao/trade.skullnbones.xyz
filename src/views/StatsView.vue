@@ -82,7 +82,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import DonutChart from '../components/charts/apexcharts/DonutChart.vue'
-import { StaratlasToken } from '../typescript/types/StarAtlasTokenAPI'
+import { StaratlasToken } from '../typescript/interfaces/StarAtlasTokenAPI'
 import TreeMap from '../components/charts/apexcharts/TreeMap.vue'
 
 const api_atlas = ref<StaratlasToken>()
