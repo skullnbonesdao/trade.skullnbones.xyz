@@ -87,19 +87,19 @@ function initWebSockets(ws: WebSocket, token_price: any) {
 async function init24Change(change24h: any) {
     const client = new RestClient()
 
-    client.getMarket('BTC/USD').then((data) => {
+    client.getMarket('BTC/USD').then((data: any) => {
         change24h.bitcoin = data.result.change24h
     })
 
-    client.getMarket('SOL/USD').then((data) => {
+    client.getMarket('SOL/USD').then((data: any) => {
         change24h.solana = data.result.change24h
     })
 
-    client.getMarket('POLIS/USD').then((data) => {
+    client.getMarket('POLIS/USD').then((data: any) => {
         change24h.polis = data.result.change24h
     })
 
-    client.getMarket('ATLAS/USD').then((data) => {
+    client.getMarket('ATLAS/USD').then((data: any) => {
         change24h.atlas = data.result.change24h
     })
 }
