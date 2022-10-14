@@ -4,8 +4,15 @@
             <img class="" :src="'/tokens/' + props.imageName + '.webp'" :alt="props.imageName" />
         </div>
         <div class="flex flex-col">
-            <div>{{ props.price }}$</div>
-            <div>{{ (props.change24h * 100).toFixed(2) }}%</div>
+            <div class="flex flex-row space-x-1">
+                <div class="i-carbon:currency-dollar"></div>
+                <div>{{ props.price }}</div>
+            </div>
+            <div class="flex flex-row space-x-1">
+                <div v-if="props.change24h * 100 > 0" class="i-carbon:arrow-up-right text-green-400"></div>
+                <div v-if="props.change24h * 100 <= 0" class="i-carbon:arrow-down-right text-red-400"></div>
+                <div>{{ (props.change24h * 100).toFixed(2) }}%</div>
+            </div>
         </div>
     </div>
 </template>
