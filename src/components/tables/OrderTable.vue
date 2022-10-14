@@ -26,14 +26,13 @@
                             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                         >
                             <th>
-                                <div class="avatar">
-                                    <div class="mask mask-squircle w-12 h-12">
-                                        <img
-                                            :src="'/sa_images/webp/' + row.orderMint + '.webp'"
-                                            alt="Avatar Tailwind CSS Component"
-                                        />
-                                    </div>
-                                </div>
+                                <AssetImageNameBadge
+                                    p3
+                                    :symbol="
+                                        useAssetsStore().allAssets.find((asset) => asset.mint === row.orderMint)?.symbol
+                                    "
+                                    :img_url="'/sa_images/webp/' + row.orderMint + '.webp'"
+                                />
                             </th>
                             <th>{{ row.orderType }}</th>
                             <td>
@@ -58,6 +57,7 @@
 import { ref } from 'vue'
 import { Currencies } from '../../typescript/constants/tokens'
 import { useAssetsStore } from '../../stores/AssetsStore'
+import AssetImageNameBadge from '../badges/AssetImageNameBadge.vue'
 
 defineProps({
     orders: {

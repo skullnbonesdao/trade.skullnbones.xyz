@@ -2,7 +2,7 @@
     <div class="">
         <info-feed class="content-box" />
     </div>
-    <div class="flex flex-row">
+    <div class="flex flex-col md:flex-row">
         <div class="basis-2/3">
             <trading-view-chart class="content-box" />
             <order-table :orders="orders" class="content-box"></order-table>
@@ -17,7 +17,6 @@
 <script lang="ts" setup>
 import InfoFeed from '../components/feeds/InfoFeed.vue'
 import OrderbookList from '../components/marketplace/OrderbookList.vue'
-import AssetsList from '../components/marketplace/AssetsList.vue'
 import { onMounted, watchEffect } from 'vue'
 import { useTokenPriceStore } from '../stores/TokenPriceStore'
 import { useSolanaNetworkStore } from '../stores/SolanaNetworkStore'
@@ -36,8 +35,7 @@ onMounted(async () => {
     globalStore.init()
 
     const tokenPriceWebsocket = useTokenPriceStore()
-    //tokenPriceWebsocket.init()
-    const staratlasGmStore = useStaratlasGmStore()
+    await tokenPriceWebsocket.init()
 
     const solanaNetworkWebsocket = useSolanaNetworkStore()
     solanaNetworkWebsocket.init()

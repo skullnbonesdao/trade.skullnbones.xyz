@@ -78,11 +78,16 @@
                     </div>
                 </div>
 
-                <a>
-                    <span class="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white"
-                        >RogueMarket</span
-                    >
-                </a>
+                <div>
+                    <div class="avatar flex flex-row space-x-2">
+                        <div class="w-10 mask mask-hexagon">
+                            <img src="../assets/logo.png" alt="logo" />
+                        </div>
+                        <span class="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white"
+                            >RogueMarket</span
+                        >
+                    </div>
+                </div>
 
                 <div id="navbar-sticky" class="hidden justify-between items-center w-full md:flex md:w-auto md:order-0">
                     <ul
