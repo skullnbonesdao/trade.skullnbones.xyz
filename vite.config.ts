@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import Unocss from 'unocss/vite'
 import Markdown from 'vite-plugin-vue-markdown'
 import Shiki from 'markdown-it-shiki'
+// @ts-ignore
 import LinkAttributes from 'markdown-it-link-attributes'
 
 export default defineConfig({
@@ -47,6 +48,13 @@ export default defineConfig({
                 secure: false,
                 ws: true,
                 rewrite: (path) => path.replace(/^\/api/, ''),
+            },
+            '/ftx': {
+                target: 'https://ftx.com/api',
+                changeOrigin: true,
+                secure: false,
+                ws: true,
+                rewrite: (path) => path.replace(/^\/ftx/, ''),
             },
         },
     },
