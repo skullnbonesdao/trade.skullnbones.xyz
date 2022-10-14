@@ -3,14 +3,14 @@
         <div class="p-4 bg-white rounded-lg shadow md:px-6 md:py-8 dark:bg-gray-900">
             <div class="sm:flex sm:items-center sm:justify-between">
                 <div>
-                    <div class="avatar flex flex-row space-x-2">
+                    <a href="#" class="avatar flex flex-row space-x-2">
                         <div class="w-10 mask mask-hexagon">
                             <img src="../assets/logo.png" alt="logo" />
                         </div>
                         <span class="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white"
                             >RogueMarket</span
                         >
-                    </div>
+                    </a>
                 </div>
                 <ul class="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 dark:text-gray-400 space-x-4">
                     <li>
