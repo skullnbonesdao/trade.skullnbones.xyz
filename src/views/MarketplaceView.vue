@@ -10,7 +10,7 @@
         <div class="basis-1/3">
             <order-setter class="content-box" />
             <order-book-view class="content-box" />
-            <orderbook-list class="content-box overflow-y-auto" />
+            <!--            <orderbook-list class="content-box overflow-y-auto" />-->
         </div>
     </div>
 </template>

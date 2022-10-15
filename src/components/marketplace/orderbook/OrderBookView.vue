@@ -1,9 +1,8 @@
 <template>
     <div class="flex flex-col text-sm lg:text-base">
-        <h1>New orderbook</h1>
-        <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="flex flex-col">
             <!--            {{ useStaratlasGmStore().usdcOrders.buyOrders }}-->
-            <div class="flex flex-row space-x-1">
+            <div class="flex p2 flex-row space-x-1">
                 <div class="basis-1/2">
                     <order-book-header> </order-book-header>
                     <div v-for="order in orders_grouped_buy" :key="order">
