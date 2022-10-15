@@ -1,11 +1,8 @@
 <template>
-    <div
-        class="flex flex-row border-b border-t border-gray-500 order-first"
-        :class="reverse_order ? 'flex-row-reverse' : ''"
-    >
-        <p class="basis-1/3 text-left">TOTAL</p>
-        <p class="basis-1/3 text-center">SIZE</p>
-        <p class="basis-1/3 text-right">PRICE</p>
+    <div class="flex flex-row border-b border-t border-gray-500" :class="reverse_order ? 'flex-row-reverse' : ''">
+        <p class="basis-1/3" :class="reverse_order ? 'text-right' : 'text-left'">TOTAL</p>
+        <p class="basis-1/3" :class="reverse_order ? 'text-right' : 'text-left'">SIZE</p>
+        <p class="basis-1/3" :class="reverse_order ? 'text-left' : 'text-right'">PRICE</p>
     </div>
 </template>
 

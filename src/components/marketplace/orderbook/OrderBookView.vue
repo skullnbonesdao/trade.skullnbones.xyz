@@ -11,9 +11,14 @@
                     </div>
                 </div>
                 <div class="basis-1/2">
-                    <order-book-header> </order-book-header>
+                    <order-book-header :reverse_order="true"> </order-book-header>
                     <div v-for="order in orders_grouped" :key="order">
-                        <order-book-row :order="order" side="sell" :max_size="max_size"></order-book-row>
+                        <order-book-row
+                            :order="order"
+                            side="sell"
+                            :max_size="max_size"
+                            :reverse_order="true"
+                        ></order-book-row>
                     </div>
                 </div>
             </div>
