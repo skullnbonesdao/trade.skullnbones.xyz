@@ -6,17 +6,17 @@
             <div class="flex flex-row space-x-1">
                 <div class="basis-1/2">
                     <order-book-header> </order-book-header>
-                    <div v-for="order in orders_grouped" :key="order">
-                        <order-book-row :order="order" side="buy" :max_size="max_size"></order-book-row>
+                    <div v-for="order in orders_grouped_buy" :key="order">
+                        <order-book-row :order="order" side="buy" :max_size="max_size_buy"></order-book-row>
                     </div>
                 </div>
                 <div class="basis-1/2">
                     <order-book-header :reverse_order="true"> </order-book-header>
-                    <div v-for="order in orders_grouped" :key="order">
+                    <div v-for="order in orders_grouped_sell" :key="order">
                         <order-book-row
                             :order="order"
                             side="sell"
-                            :max_size="max_size"
+                            :max_size="max_size_sell"
                             :reverse_order="true"
                         ></order-book-row>
                     </div>
@@ -40,28 +40,49 @@
 <script setup>
 import { ref, watchEffect, unref } from 'vue'
 import { Order } from '@staratlas/factory'
-import { useStaratlasGmStore } from '../../../stores/StaratlasGmStore'
 
 import OrderBookHeader from './components/OrderBookHeader.vue'
 import OrderBookRow from './components/OrderBookRow.vue'
 import { useWallet } from 'solana-wallets-vue'
+import { Currencies } from '../../../typescript/constants/tokens'
+import { useGlobalStore } from '../../../stores/GlobalStore'
+import { useStaratlasGmStore } from '../../../stores/StaratlasGmStore'
 const orders = ref()
-const orders_grouped = ref()
-const max_size = ref(0)
+const orders_grouped_buy = ref()
+const orders_grouped_sell = ref()
+const max_size_buy = ref(0)
+const max_size_sell = ref(0)
+
+const selectedCurrency = ref()
 
 watchEffect(async () => {
-    orders.value = useStaratlasGmStore().atlasOrders.buyOrders
-    orders_grouped.value = groupBy(orders.value, 'uiPrice')
+    selectedCurrency.value =
+        Currencies.find((currency) => useGlobalStore().symbol.mint_pair.toString() === currency.mint)?.name ?? ''
 
-    for (const [key, value] of Object.entries(orders_grouped.value)) {
+    if (selectedCurrency.value === 'ATLAS') {
+        orders_grouped_buy.value = groupBy(useStaratlasGmStore().atlasOrders.buyOrders, 'uiPrice')
+        orders_grouped_sell.value = groupBy(useStaratlasGmStore().atlasOrders.sellOrders, 'uiPrice')
+    } else {
+        orders_grouped_buy.value = groupBy(useStaratlasGmStore().usdcOrders.buyOrders, 'uiPrice')
+        orders_grouped_sell.value = groupBy(useStaratlasGmStore().usdcOrders.sellOrders, 'uiPrice')
+    }
+
+    max_size_buy.value = find_max(orders_grouped_buy)
+    max_size_sell.value = find_max(orders_grouped_sell)
+})
+
+function find_max(grouped_orders) {
+    let max = 0
+    for (const [key, value] of Object.entries(grouped_orders.value)) {
         let sum_inner = 0
         value.forEach((element) => (sum_inner += element.orderQtyRemaining))
 
-        if (sum_inner > max_size.value) {
-            max_size.value = sum_inner
+        if (sum_inner > max) {
+            max = sum_inner
         }
     }
-})
+    return max
+}
 
 function groupBy(arrayObjects, key) {
     return arrayObjects.reduce(function (result, currentObject) {
