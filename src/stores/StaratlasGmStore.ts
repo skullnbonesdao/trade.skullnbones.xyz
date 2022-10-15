@@ -31,16 +31,6 @@ export const useStaratlasGmStore = defineStore({
     }),
 
     actions: {
-        /*async fetchALLOrders() {
-console.info('{getOrders} called!')
-const client = new GmClientService()
-await client
-.getAllOpenOrders(this.connection, TRADE_PROGRAM)
-.then((response) => { 
-this.orders = response
-})
-.catch((err) => console.log('{getOrders}: ' + err))
-},*/
         getSumOrders(side: string, pair: PublicKey) {
             const filtered = this.orders
                 .filter((order) => order.orderType === side && order.currencyMint === pair.toString())
@@ -72,6 +62,7 @@ this.orders = response
                 })
                 .catch((err: any) => console.log('{getOpenOrdersForAssetError}: ' + err))
         },
+
         async getOpenOrdersForPlayerAndAsset(playerPublicKey: string, assetMint: string) {
             await this.client
                 .getOpenOrdersForPlayerAndAsset(
@@ -85,6 +76,7 @@ this.orders = response
                     console.log('this.playerOrders', this.playerOrders)
                 })
         },
+
         async getInitializeOrderTransaction(
             playerPublicKey: PublicKey,
             assetMint: string,
