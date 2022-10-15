@@ -9,7 +9,7 @@
         </div>
         <div class="basis-1/3">
             <order-setter class="content-box" />
-            <order-book />
+            <order-book-view class="content-box" />
             <orderbook-list class="content-box overflow-y-auto" />
         </div>
     </div>
@@ -29,7 +29,7 @@ import { useGlobalStore } from '../stores/GlobalStore'
 import { ref } from 'vue'
 import { useWallet } from 'solana-wallets-vue'
 import OrderTable from '../components/tables/OrderTable.vue'
-import OrderBook from '../components/marketplace/orderbook/OrderBook.vue'
+import OrderBookView from '../components/marketplace/orderbook/OrderBookView.vue'
 
 const orders = ref()
 onMounted(async () => {
