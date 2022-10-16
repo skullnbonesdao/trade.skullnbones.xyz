@@ -18,6 +18,11 @@ export enum Side {
     BUY = 'buy',
 }
 
+type UserNft = {
+    pubkey: PublicKey;
+    account: AccountInfo<ParsedAccountData>;
+}
+
 export const useGlobalStore = defineStore('globalStore', {
     state: () => {
         return {
@@ -48,6 +53,7 @@ export const useGlobalStore = defineStore('globalStore', {
                     },
                 },
             ],
+            userStarAtlasNfts: [] as UserNft[],
         }
     },
     actions: {
@@ -63,6 +69,10 @@ export const useGlobalStore = defineStore('globalStore', {
                 await this.connection
                     .getParsedTokenAccountsByOwner(accountPublicKey, { programId: TOKEN_PROGRAM }, 'confirmed')
                     .then((response) => {
+                        this.userStarAtlasNfts = response.value.filter(
+                            (value) => useAssetsStore().allAssets.find((asset) => value?.account?.data?.parsed?.info?.mint === asset.mint)
+                        )
+                        useAssetsStore().allAssets
                         const data = response.value.filter(
                             (value) => !!value?.account?.data?.parsed?.info?.tokenAmount?.uiAmount
                         )
