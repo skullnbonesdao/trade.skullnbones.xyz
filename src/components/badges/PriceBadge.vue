@@ -6,20 +6,20 @@
         <div class="flex flex-row w-28">
             <div class="">
                 <div class="text-right">{{ props.price }}</div>
-                <div v-if="props.change24h * 100 > 0" class="text-right text-green-400">
-                    {{ (props.change24h * 100).toFixed(2) }}
+                <div v-if="props.change24h > 0" class="text-right text-green-400">
+                    {{ props.change24h.toFixed(2) }}
                 </div>
-                <div v-if="props.change24h * 100 <= 0" class="text-right text-red-400">
-                    {{ (props.change24h * 100).toFixed(2) }}
+                <div v-if="props.change24h <= 0" class="text-right text-red-400">
+                    {{ props.change24h.toFixed(2) }}
                 </div>
             </div>
             <div>
                 <div class="text-sm i-carbon-currency-dollar"></div>
-                <div v-if="props.change24h * 100 > 0" class="text-sm i-carbon-percentage text-green-400"></div>
-                <div v-if="props.change24h * 100 <= 0" class="text-sm i-carbon-percentage text-red-400"></div>
+                <div v-if="props.change24h > 0" class="text-sm i-carbon-percentage text-green-400"></div>
+                <div v-if="props.change24h <= 0" class="text-sm i-carbon-percentage text-red-400"></div>
                 <div class="space-x-0.5">
-                    <div v-if="props.change24h * 100 > 0" class="text-sm i-carbon-arrow-up-right text-green-400"></div>
-                    <div v-if="props.change24h * 100 <= 0" class="text-sm i-carbon-arrow-down-right text-red-400"></div>
+                    <div v-if="props.change24h > 0" class="text-sm i-carbon-arrow-up-right text-green-400"></div>
+                    <div v-if="props.change24h <= 0" class="text-sm i-carbon-arrow-down-right text-red-400"></div>
                 </div>
             </div>
         </div>
