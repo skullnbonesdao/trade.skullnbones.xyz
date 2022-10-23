@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { Connection, PerfSample } from '@solana/web3.js'
 import { ref } from 'vue'
 import { GENESYSGO } from '../typescript/constants/solananetwork'
+import { useGlobalStore } from './GlobalStore'
 
 export const useSolanaNetworkStore = defineStore('solanaNetwork', {
     state: () => {
@@ -16,7 +17,7 @@ export const useSolanaNetworkStore = defineStore('solanaNetwork', {
     // state: () => ({ count: 0 })
     actions: {
         init() {
-            this.connection = new Connection(GENESYSGO, 'confirmed')
+            this.connection = new Connection(useGlobalStore().rpc.url, 'confirmed')
         },
 
         async run_tps() {

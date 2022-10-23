@@ -11,6 +11,7 @@ import { RPCEndpoint } from '../typescript/interfaces/RPCEndpoint'
 export const endpoints_list: RPCEndpoint[] = [
     { name: 'portal', url: 'https://solana-mainnet.gateway.pokt.network/v1/lb/dd52c2c88c49502ea894b3bb' },
     { name: 'solana-main', url: 'https://api.mainnet-beta.solana.com' },
+    { name: 'solana-serum', url: 'https://solana-api.projectserum.com' },
 ]
 
 export interface TradeAsset {

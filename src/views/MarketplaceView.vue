@@ -33,9 +33,6 @@ import OrderBookView from '../components/marketplace/orderbook/OrderBookView.vue
 
 const orders = ref()
 onMounted(async () => {
-    const globalStore = useGlobalStore()
-    globalStore.init()
-
     const tokenPriceWebsocket = useTokenPriceStore()
     await tokenPriceWebsocket.init()
 
