@@ -4,7 +4,7 @@ import { SERUMRPC } from '../typescript/constants/solana'
 import { Connection, PublicKey, AccountInfo, ParsedAccountData } from '@solana/web3.js'
 import { TOKEN_PROGRAM } from '../typescript/constants/staratlas'
 import { Currencies, TOKEN_ATLAS, TOKEN_USDC } from '../typescript/constants/tokens'
-import { useDark, useToggle } from '@vueuse/core'
+import { useDark, useLocalStorage, useToggle } from '@vueuse/core'
 import { useAssetsStore } from './AssetsStore'
 import { RPCEndpoint } from '../typescript/interfaces/RPCEndpoint'
 
@@ -34,7 +34,7 @@ export const useGlobalStore = defineStore('globalStore', {
     state: () => {
         return {
             is_dark: useDark(),
-            rpc: endpoints_list[0],
+            rpc: useLocalStorage('rpc_local_store', endpoints_list[0]),
             symbol: {
                 name: 'FOODATLAS',
                 mint_asset: new PublicKey('foodQJAztMzX1DKpLaiounNe2BDMds5RNuPC6jsNrDG'),
