@@ -7,7 +7,7 @@
         <div>
             <div class="flex items-center">
                 <div class="text-right">{{ props.price }}</div>
-                <div class="text-sm i-carbon-currency-dollar"></div>
+                <div class="i-carbon-currency-dollar"></div>
             </div>
 
             <div class="flex items-center">
@@ -16,9 +16,8 @@
                     :class="change24h > 0 ? 'i-carbon-arrow-up-right text-green' : 'i-carbon-arrow-down-right text-red'"
                 ></div>
                 <div class="text-right" :class="change24h > 0 ? 'text-green' : 'text-red'">
-                    {{ props.change24h.toFixed(2) }}
+                    {{ props.change24h.toFixed(2) }}%
                 </div>
-                <div class="text-sm i-carbon-percentage" :class="change24h > 0 ? 'text-green' : 'text-red'"></div>
             </div>
         </div>
     </div>
