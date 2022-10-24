@@ -6,6 +6,8 @@
 
 ## DEV
 
+Node 16.0
+
 - install dependencies: `npm install` or `yarn install`
 - run app: `npm run dev`
 
