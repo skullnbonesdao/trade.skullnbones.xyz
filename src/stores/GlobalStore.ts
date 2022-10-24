@@ -4,8 +4,15 @@ import { SERUMRPC } from '../typescript/constants/solana'
 import { Connection, PublicKey, AccountInfo, ParsedAccountData } from '@solana/web3.js'
 import { TOKEN_PROGRAM } from '../typescript/constants/staratlas'
 import { Currencies, TOKEN_ATLAS, TOKEN_USDC } from '../typescript/constants/tokens'
-import { useDark, useToggle } from '@vueuse/core'
+import { useDark, useLocalStorage, useToggle } from '@vueuse/core'
 import { useAssetsStore } from './AssetsStore'
+import { RPCEndpoint } from '../typescript/interfaces/RPCEndpoint'
+
+export const endpoints_list: RPCEndpoint[] = [
+    { name: 'portal', url: 'https://solana-mainnet.gateway.pokt.network/v1/lb/dd52c2c88c49502ea894b3bb' },
+    { name: 'solana-main', url: 'https://api.mainnet-beta.solana.com' },
+    { name: 'solana-serum', url: 'https://solana-api.projectserum.com' },
+]
 
 export interface TradeAsset {
     name: string
@@ -19,14 +26,15 @@ export enum Side {
 }
 
 type UserNft = {
-    pubkey: PublicKey;
-    account: AccountInfo<ParsedAccountData>;
+    pubkey: PublicKey
+    account: AccountInfo<ParsedAccountData>
 }
 
 export const useGlobalStore = defineStore('globalStore', {
     state: () => {
         return {
             is_dark: useDark(),
+            rpc: useLocalStorage('rpc_local_store', endpoints_list[0]),
             symbol: {
                 name: 'FOODATLAS',
                 mint_asset: new PublicKey('foodQJAztMzX1DKpLaiounNe2BDMds5RNuPC6jsNrDG'),
@@ -69,8 +77,10 @@ export const useGlobalStore = defineStore('globalStore', {
                 await this.connection
                     .getParsedTokenAccountsByOwner(accountPublicKey, { programId: TOKEN_PROGRAM }, 'confirmed')
                     .then((response) => {
-                        this.userStarAtlasNfts = response.value.filter(
-                            (value) => useAssetsStore().allAssets.find((asset) => value?.account?.data?.parsed?.info?.mint === asset.mint)
+                        this.userStarAtlasNfts = response.value.filter((value) =>
+                            useAssetsStore().allAssets.find(
+                                (asset) => value?.account?.data?.parsed?.info?.mint === asset.mint
+                            )
                         )
                         useAssetsStore().allAssets
                         const data = response.value.filter(

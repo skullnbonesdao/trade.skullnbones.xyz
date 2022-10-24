@@ -8,10 +8,10 @@ import { useStaratlasGmStore } from './stores/StaratlasGmStore'
 import { useAssetsStore } from './stores/AssetsStore'
 import { useSolanaNetworkStore } from './stores/SolanaNetworkStore'
 
-onMounted(async () => {
-    const globalStore = useGlobalStore()
-    globalStore.init()
+const globalStore = useGlobalStore()
+globalStore.init()
 
+onMounted(async () => {
     const tokenPriceWebsocket = useTokenPriceStore()
     //tokenPriceWebsocket.init()
     const staratlasGmStore = useStaratlasGmStore()
