@@ -42,6 +42,14 @@ export default defineConfig({
 
     server: {
         proxy: {
+            '/rcpportal': {
+                target: 'https://solana-mainnet.gateway.pokt.network/v1/lb/54c6d469ad149f8ca51f0908',
+                changeOrigin: true,
+                secure: true,
+                ws: true,
+                rewrite: (path) => path.replace(/^\/rcpportal/, ''),
+            },
+
             '/api': {
                 target: 'https://api2.skullnbones.xyz',
                 changeOrigin: true,
@@ -58,13 +66,4 @@ export default defineConfig({
             },
         },
     },
-    /*   resolve: {
-alias: {
-process: 'process/browser',
-stream: 'stream-browserify',
-zlib: 'browserify-zlib',
-util: 'util',
-web3: path.resolve(__dirname, './node_modules/web3/dist/web3.min.js'),
-},
-},*/
 })
