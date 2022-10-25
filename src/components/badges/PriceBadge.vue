@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-row space-x-1">
+    <div class="flex flex-row space-x-2">
         <div class="w-9 pt-3">
             <img class="" :src="'/tokens/' + props.imageName + '.png'" :alt="props.imageName" />
         </div>
