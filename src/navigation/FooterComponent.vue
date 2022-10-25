@@ -14,12 +14,17 @@
                 </div>
                 <ul class="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 dark:text-gray-400 space-x-4">
                     <li>
-                        RPC-Endpoint
-                        <select v-model="useGlobalStore().rpc">
-                            <option v-bind:value="{ name: rpc.name, url: rpc.url }" v-for="rpc in endpoints_list">
-                                {{ rpc.name }}
-                            </option>
-                        </select>
+                        <label class="input-group">
+                            <span class="dark:bg-gray-800 dark:text-gray-400">RPC</span>
+                            <select
+                                class="select select-xs dark:bg-gray-800 dark:text-gray-400"
+                                v-model="useGlobalStore().rpc"
+                            >
+                                <option v-bind:value="{ name: rpc.name, url: rpc.url }" v-for="rpc in endpoints_list">
+                                    {{ rpc.name }}
+                                </option>
+                            </select></label
+                        >
                     </li>
 
                     <li>
