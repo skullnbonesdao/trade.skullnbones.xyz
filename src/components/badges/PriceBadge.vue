@@ -13,9 +13,9 @@
             <div class="flex items-center">
                 <div
                     class="text-sm"
-                    :class="change24h > 0 ? 'i-carbon-arrow-up-right text-green' : 'i-carbon-arrow-down-right text-red'"
+                    :class="change24h > 0 ? 'i-carbon-arrow-up-right text-buy' : 'i-carbon-arrow-down-right text-sell'"
                 ></div>
-                <div class="text-right" :class="change24h > 0 ? 'text-green' : 'text-red'">
+                <div class="text-right" :class="change24h > 0 ? 'text-buy' : 'text-sell'">
                     {{ props.change24h.toFixed(2) }}%
                 </div>
             </div>

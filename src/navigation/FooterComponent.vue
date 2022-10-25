@@ -17,7 +17,7 @@
                         <label class="input-group">
                             <span class="dark:bg-gray-800 dark:text-gray-400">RPC</span>
                             <select
-                                class="select select-xs dark:bg-gray-800 dark:text-gray-400"
+                                class="select select-xs dark:bg-gray-700 dark:text-gray-400"
                                 v-model="useGlobalStore().rpc"
                             >
                                 <option v-bind:value="{ name: rpc.name, url: rpc.url }" v-for="rpc in endpoints_list">
