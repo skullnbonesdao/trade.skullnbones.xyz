@@ -34,7 +34,9 @@
                                     :img_url="'/sa_images/webp/' + row.orderMint + '.webp'"
                                 />
                             </th>
-                            <th>{{ row.orderType }}</th>
+                            <th class="uppercase" :class="row.orderType === 'sell' ? 'text-red' : 'text-green'">
+                                {{ row.orderType }}
+                            </th>
                             <td>
                                 {{ useAssetsStore().allAssets.find((asset) => asset.mint === row.orderMint)?.name }}
                             </td>
@@ -45,6 +47,20 @@
                                 {{ row.uiPrice }}
                             </td>
                             <td>{{ row.orderOriginationQty }}/{{ row.orderQtyRemaining }}</td>
+
+                            <td>
+                                <div class="flex justify-around">
+                                    <button
+                                        class="btn text-yellow"
+                                        @click="createToast(`NOT-Implemented`, TOAST_WARNING)"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button class="btn text-red" @click="createToast(`NOT-Implemented`, TOAST_WARNING)">
+                                        Close
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
                     </template>
                 </VTable>
@@ -58,6 +74,8 @@ import { ref } from 'vue'
 import { Currencies } from '../../typescript/constants/tokens'
 import { useAssetsStore } from '../../stores/AssetsStore'
 import AssetImageNameBadge from '../badges/AssetImageNameBadge.vue'
+import { createToast } from 'mosha-vue-toastify'
+import { TOAST_WARNING } from '../../typescript/constants/toast-config'
 
 defineProps({
     orders: {

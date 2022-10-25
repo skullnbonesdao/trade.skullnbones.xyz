@@ -5,8 +5,8 @@
                 <img class="rounded-md" :src="img_url" alt="asset_image" />
             </div>
         </div>
-        <div class="absolute pt-9">
-            <div class="badge">{{ symbol }}</div>
+        <div class="absolute pt-8">
+            <div class="bg-black p-1 rounded-md">{{ symbol }}</div>
         </div>
     </div>
 </template>
