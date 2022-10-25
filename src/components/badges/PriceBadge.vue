@@ -1,10 +1,13 @@
 <template>
     <div class="flex flex-row space-x-1">
-        <div class="w-9 pt-1">
-            <img class="" :src="'/tokens/' + props.imageName + '.webp'" :alt="props.imageName" />
+        <div class="w-9 pt-3">
+            <img class="" :src="'/tokens/' + props.imageName + '.png'" :alt="props.imageName" />
         </div>
 
         <div>
+            <div class="flex items-center">
+                <div class="text-right uppercase">{{ props.imageName }}</div>
+            </div>
             <div class="flex items-center">
                 <div class="text-right">{{ props.price }}</div>
                 <div class="i-carbon-currency-dollar"></div>
