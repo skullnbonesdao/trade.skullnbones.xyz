@@ -66,7 +66,6 @@ const currentTab = (tabNumber: number) => (tab.value = tabNumber)
 
 const { publicKey, sendTransaction } = useWallet()
 const staratlasGmStore = useStaratlasGmStore()
-const assetsStore = useAssetsStore()
 const globalStore = useGlobalStore()
 const solanaNetworkStore = useSolanaNetworkStore()
 

@@ -6,6 +6,7 @@ import { TOKEN_PROGRAM } from '../typescript/constants/staratlas'
 import { Currencies, TOKEN_ATLAS, TOKEN_USDC } from '../typescript/constants/tokens'
 import { useDark, useLocalStorage, useToggle } from '@vueuse/core'
 import { useAssetsStore } from './AssetsStore'
+import { useStaratlasGmStore } from './StaratlasGmStore'
 import { RPCEndpoint } from '../typescript/interfaces/RPCEndpoint'
 
 export const endpoints_list: RPCEndpoint[] = [
@@ -101,7 +102,7 @@ export const useGlobalStore = defineStore('globalStore', {
             this.symbol.mint_pair = new PublicKey(
                 Currencies.find((currency) => name.includes(currency.name))?.mint ?? ''
             )
-
+            useStaratlasGmStore().getOpenOrdersForAsset(this.symbol.mint_asset.toString())
             this.symbol.name = name
         },
     },

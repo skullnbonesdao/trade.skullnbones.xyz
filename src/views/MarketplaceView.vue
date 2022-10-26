@@ -9,15 +9,13 @@
         </div>
         <div class="basis-1/3">
             <order-setter class="content-box" />
-            <order-book-view class="content-box" />
-            <!--            <orderbook-list class="content-box overflow-y-auto" />-->
+            <order-book class="content-box" />
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
 import InfoFeed from '../components/feeds/InfoFeed.vue'
-import OrderbookList from '../components/marketplace/OrderbookList.vue'
 import { onMounted, watchEffect } from 'vue'
 import { useTokenPriceStore } from '../stores/TokenPriceStore'
 import { useSolanaNetworkStore } from '../stores/SolanaNetworkStore'
@@ -29,7 +27,7 @@ import { endpoints_list, useGlobalStore } from '../stores/GlobalStore'
 import { ref } from 'vue'
 import { useWallet } from 'solana-wallets-vue'
 import OrderTable from '../components/tables/OrderTable.vue'
-import OrderBookView from '../components/marketplace/orderbook/OrderBookView.vue'
+import OrderBook from '../components/marketplace/orderbook/OrderBook.vue'
 
 const orders = ref()
 onMounted(async () => {
