@@ -1,52 +1,43 @@
 <template>
     <div class="flex flex-col text-sm lg:text-base">
         <div class="flex flex-col">
-            <!--            {{ useStaratlasGmStore().usdcOrders.buyOrders }}-->
             <div class="flex p2 flex-row space-x-1">
                 <div class="basis-1/2">
                     <order-book-header> </order-book-header>
-                    <div v-for="order in orders_grouped_buy" :key="order">
-                        <order-book-row :order="order" side="buy" :max_size="max_size_buy"></order-book-row>
+                    <div v-for="orderBlock in orders_grouped_buy" :key="orderBlock">
+                        <order-book-row
+                            :order="orderBlock"
+                            side="buy"
+                            :max_size="max_size_buy"
+                        />
                     </div>
                 </div>
                 <div class="basis-1/2">
                     <order-book-header :reverse_order="true"> </order-book-header>
-                    <div v-for="order in orders_grouped_sell" :key="order">
+                    <div v-for="orderBlock in orders_grouped_sell" :key="orderBlock">
                         <order-book-row
-                            :order="order"
+                            :order="orderBlock"
                             side="sell"
                             :max_size="max_size_sell"
                             :reverse_order="true"
-                        ></order-book-row>
+                        />
                     </div>
                 </div>
             </div>
-
-            <!--            <OrderBookSocketStateDisplay>
-                <OrderBookSideHeader rtl>
-                    <OrderBookSide type="asks" originX="r" originY="b" />
-                    <OrderBookSpread />
-                    <OrderBookSide type="bids" originX="r" />
-                </OrderBookSideHeader>
-            </OrderBookSocketStateDisplay>-->
         </div>
         <div class="flex items-center justify-center h-14">
-            <!--            <OrderBookFooter />-->
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, watchEffect, unref } from 'vue'
-import { Order } from '@staratlas/factory'
-
+import { ref, watchEffect } from 'vue'
 import OrderBookHeader from './components/OrderBookHeader.vue'
 import OrderBookRow from './components/OrderBookRow.vue'
-import { useWallet } from 'solana-wallets-vue'
 import { Currencies } from '../../../typescript/constants/tokens'
 import { useGlobalStore } from '../../../stores/GlobalStore'
 import { useStaratlasGmStore } from '../../../stores/StaratlasGmStore'
-const orders = ref()
+
 const orders_grouped_buy = ref()
 const orders_grouped_sell = ref()
 const max_size_buy = ref(0)

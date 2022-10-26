@@ -4,8 +4,6 @@ import { Connection, PublicKey, Keypair, Transaction } from '@solana/web3.js'
 import { TRADE_PROGRAM } from '../typescript/constants/staratlas'
 import { TOKEN_ATLAS, TOKEN_USDC } from '../typescript/constants/tokens'
 import { SERUMRPC } from '../typescript/constants/solana'
-import { BN } from 'bn.js'
-import { useWallet } from 'solana-wallets-vue'
 
 type getInitializeOrderTransactionResponse = {
     transaction: Transaction
@@ -62,21 +60,6 @@ export const useStaratlasGmStore = defineStore({
                 })
                 .catch((err: any) => console.log('{getOpenOrdersForAssetError}: ' + err))
         },
-
-        async getOpenOrdersForPlayerAndAsset(playerPublicKey: string, assetMint: string) {
-            await this.client
-                .getOpenOrdersForPlayerAndAsset(
-                    this.connection,
-                    new PublicKey(playerPublicKey),
-                    new PublicKey(assetMint),
-                    TRADE_PROGRAM
-                )
-                .then((response: any) => {
-                    this.playerOrders = response
-                    console.log('this.playerOrders', this.playerOrders)
-                })
-        },
-
         async getInitializeOrderTransaction(
             playerPublicKey: PublicKey,
             assetMint: string,

@@ -4,7 +4,6 @@
 
 <script setup>
 import { onMounted, watch } from 'vue'
-import { useDark, useToggle } from '@vueuse/core'
 import { UDFCompatibleDatafeed } from '../../../typescript/tradingview_adapter/udf/lib/udf-compatible-datafeed.js'
 /*import { widget } from '../../../../public/charting_library/charting_library.js'*/
 import { widget } from '../../../../public/charting_library'
@@ -66,7 +65,7 @@ function createTVChart() {
     tvWidget.onChartReady(() => {
         tvWidget.headerReady().then(() => {
             const button = tvWidget.createButton()
-
+            useGlobalStore().updateSymbol(tvWidget.activeChart().symbol())
             button.setAttribute('title', 'Click to show a notification popup')
             button.classList.add('apply-common-tooltip')
 
@@ -86,7 +85,9 @@ function createTVChart() {
         tvWidget
             .activeChart()
             .onSymbolChanged()
-            .subscribe(null, () => useGlobalStore().updateSymbol(tvWidget.activeChart().symbol()))
+            .subscribe(null, () => {
+                useGlobalStore().updateSymbol(tvWidget.activeChart().symbol())
+            })
     })
 }
 </script>
