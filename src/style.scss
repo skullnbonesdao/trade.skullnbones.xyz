@@ -1,27 +1,40 @@
 h1 {
-    @apply text-6xl text-center
+    @apply text-6xl text-center;
 }
 
 h2 {
-    @apply text-4xl text-center
-
+    @apply text-4xl text-center;
 }
 h3 {
-   @apply text-2xl text-center
+    @apply text-2xl text-center;
+}
 
+.text-light {
+    color: #f1f2ff;
+}
+
+.text-yellow {
+    color: #ceaf13;
+}
+
+.text-red {
+    color: #ee0000;
+}
+
+.text-green {
+    color: #24de18;
 }
 
 .content-box {
-    @apply bg-gray-100 dark:bg-gray-800 dark:text-gray-100 shadow-xl rounded-box p2 m2
+    @apply bg-gray-100 dark:bg-gray-800 dark:text-gray-100 shadow-xl rounded-box p2 m2;
 }
-
 
 .border {
     border: 1px solid #434343;
     border-radius: 2px;
 }
 
-.nav-tabs .nav-item .nav-link{
+.nav-tabs .nav-item .nav-link {
     color: inherit;
     border-radius: 4px;
 }

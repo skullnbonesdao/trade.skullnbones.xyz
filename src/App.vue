@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { watch } from 'vue'
 import NavBar from './navigation/NavBar.vue'
 import FooterComponent from './navigation/FooterComponent.vue'
 import { onMounted } from 'vue'
@@ -7,6 +8,8 @@ import { useTokenPriceStore } from './stores/TokenPriceStore'
 import { useStaratlasGmStore } from './stores/StaratlasGmStore'
 import { useAssetsStore } from './stores/AssetsStore'
 import { useSolanaNetworkStore } from './stores/SolanaNetworkStore'
+import { createToast } from 'mosha-vue-toastify'
+import { TOAST_SUCCESS } from './typescript/constants/toast-config'
 
 const globalStore = useGlobalStore()
 globalStore.init()
@@ -33,6 +36,14 @@ onMounted(async () => {
 useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(asset.symbol))?.mint ?? ''
 )*/
 })
+
+watch(
+    () => useGlobalStore().rpc,
+    (n) => {
+        createToast(`Changed RPC to: ${n.name}`, TOAST_SUCCESS)
+        useGlobalStore().init()
+    }
+)
 </script>
 
 <template>

@@ -9,9 +9,9 @@ import { useAssetsStore } from './AssetsStore'
 import { RPCEndpoint } from '../typescript/interfaces/RPCEndpoint'
 
 export const endpoints_list: RPCEndpoint[] = [
-    { name: 'portal', url: 'https://solana-mainnet.gateway.pokt.network/v1/lb/dd52c2c88c49502ea894b3bb' },
     { name: 'solana-main', url: 'https://api.mainnet-beta.solana.com' },
     { name: 'solana-serum', url: 'https://solana-api.projectserum.com' },
+    { name: 'ankr', url: 'https://rpc.ankr.com/solana' },
 ]
 
 export interface TradeAsset {
@@ -42,7 +42,7 @@ export const useGlobalStore = defineStore('globalStore', {
             } as TradeAsset,
 
             side: {} as Side,
-            connection: new Connection(SERUMRPC),
+            connection: {} as Connection,
             userTokens: [
                 {
                     name: 'ATLAS',
@@ -66,6 +66,7 @@ export const useGlobalStore = defineStore('globalStore', {
     },
     actions: {
         init() {
+            this.connection = new Connection(this.rpc.url)
             this.side = Side.BUY
         },
         toggleDark() {
