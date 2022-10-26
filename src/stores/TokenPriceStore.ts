@@ -86,33 +86,25 @@ function initWebSockets(ws: WebSocket, token_price: any) {
 }
 
 async function init24Change(change24h: any) {
-    fetch(
-        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false'
-    )
+    fetch('/coingecko/?vs_currency=usd&ids=bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false')
         .then((res) => res.json())
         .then((data: CoingeckoTokenInfo[]) => {
             change24h.bitcoin = data[0].price_change_percentage_24h
         })
 
-    fetch(
-        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=solana&order=market_cap_desc&per_page=100&page=1&sparkline=false'
-    )
+    fetch('/coingecko/?vs_currency=usd&ids=solana&order=market_cap_desc&per_page=100&page=1&sparkline=false')
         .then((res) => res.json())
         .then((data: CoingeckoTokenInfo[]) => {
             change24h.solana = data[0].price_change_percentage_24h
         })
 
-    fetch(
-        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=star-atlas-dao&order=market_cap_desc&per_page=100&page=1&sparkline=false'
-    )
+    fetch('/coingecko/?vs_currency=usd&ids=star-atlas-dao&order=market_cap_desc&per_page=100&page=1&sparkline=false')
         .then((res) => res.json())
         .then((data: CoingeckoTokenInfo[]) => {
             change24h.polis = data[0].price_change_percentage_24h
         })
 
-    fetch(
-        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=star-atlas&order=market_cap_desc&per_page=100&page=1&sparkline=false'
-    )
+    fetch('/coingecko/?vs_currency=usd&ids=star-atlas&order=market_cap_desc&per_page=100&page=1&sparkline=false')
         .then((res) => res.json())
         .then((data: CoingeckoTokenInfo[]) => {
             change24h.atlas = data[0].price_change_percentage_24h

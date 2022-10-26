@@ -30,7 +30,7 @@ export const useSolanaNetworkStore = defineStore('solanaNetwork', {
                 })
                 this.transactions_per_second = this.transactions_per_second / tps.length
 
-                await new Promise((r) => setTimeout(r, 5000))
+                await new Promise((r) => setTimeout(r, 10000))
             }
         },
     },
