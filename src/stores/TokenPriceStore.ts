@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { SERUMAPIWEBSOCKET } from '../typescript/constants/serum'
 import { Convert } from '../typescript/websockets/MarketLevel1'
+import { CoingeckoTokenInfo } from '../typescript/interfaces/CoingeckoTokenInfo'
 
 export const useTokenPriceStore = defineStore({
     id: 'tokenPriceStore',
@@ -85,27 +86,35 @@ function initWebSockets(ws: WebSocket, token_price: any) {
 }
 
 async function init24Change(change24h: any) {
-    fetch('/ftx/markets/BTC/USD')
+    fetch(
+        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false'
+    )
         .then((res) => res.json())
-        .then((data: any) => {
-            change24h.bitcoin = data.result.change24h
+        .then((data: CoingeckoTokenInfo[]) => {
+            change24h.bitcoin = data[0].price_change_percentage_24h
         })
 
-    fetch('/ftx/markets/SOL/USD')
+    fetch(
+        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=solana&order=market_cap_desc&per_page=100&page=1&sparkline=false'
+    )
         .then((res) => res.json())
-        .then((data: any) => {
-            change24h.solana = data.result.change24h
+        .then((data: CoingeckoTokenInfo[]) => {
+            change24h.solana = data[0].price_change_percentage_24h
         })
 
-    fetch('/ftx/markets/POLIS/USD')
+    fetch(
+        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=star-atlas-dao&order=market_cap_desc&per_page=100&page=1&sparkline=false'
+    )
         .then((res) => res.json())
-        .then((data: any) => {
-            change24h.polis = data.result.change24h
+        .then((data: CoingeckoTokenInfo[]) => {
+            change24h.polis = data[0].price_change_percentage_24h
         })
 
-    fetch('/ftx/markets/ATLAS/USD')
+    fetch(
+        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=star-atlas&order=market_cap_desc&per_page=100&page=1&sparkline=false'
+    )
         .then((res) => res.json())
-        .then((data: any) => {
-            change24h.atlas = data.result.change24h
+        .then((data: CoingeckoTokenInfo[]) => {
+            change24h.atlas = data[0].price_change_percentage_24h
         })
 }

@@ -23,7 +23,7 @@ import { useStaratlasGmStore } from '../stores/StaratlasGmStore'
 import { useAssetsStore } from '../stores/AssetsStore'
 import TradingViewChart from '../components/charts/tradingview/TradingViewChart.vue'
 import OrderSetter from '../components/marketplace/OrderSetter.vue'
-import { useGlobalStore } from '../stores/GlobalStore'
+import { endpoints_list, useGlobalStore } from '../stores/GlobalStore'
 import { ref } from 'vue'
 import { useWallet } from 'solana-wallets-vue'
 import OrderTable from '../components/tables/OrderTable.vue'
@@ -31,9 +31,6 @@ import OrderBook from '../components/marketplace/orderbook/OrderBook.vue'
 
 const orders = ref()
 onMounted(async () => {
-    const globalStore = useGlobalStore()
-    globalStore.init()
-
     const tokenPriceWebsocket = useTokenPriceStore()
     await tokenPriceWebsocket.init()
 
