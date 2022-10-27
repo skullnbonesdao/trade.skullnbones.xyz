@@ -4,6 +4,7 @@ import { Connection, PublicKey, Keypair, Transaction } from '@solana/web3.js'
 import { TRADE_PROGRAM } from '../typescript/constants/staratlas'
 import { TOKEN_ATLAS, TOKEN_USDC } from '../typescript/constants/tokens'
 import { SERUMRPC } from '../typescript/constants/solana'
+import { useGlobalStore } from './GlobalStore'
 
 type getInitializeOrderTransactionResponse = {
     transaction: Transaction
@@ -15,7 +16,7 @@ export const useStaratlasGmStore = defineStore({
 
     state: () => ({
         client: new GmClientService(),
-        connection: new Connection(SERUMRPC),
+        connection: new Connection(useGlobalStore().rpc.url),
         orders: [] as Order[],
         playerOrders: [] as Order[],
         atlasOrders: {

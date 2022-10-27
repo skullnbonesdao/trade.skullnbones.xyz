@@ -1,6 +1,5 @@
 // stores/counter.js
 import { defineStore } from 'pinia'
-import { SERUMRPC } from '../typescript/constants/solana'
 import { Connection, PublicKey, AccountInfo, ParsedAccountData } from '@solana/web3.js'
 import { TOKEN_PROGRAM } from '../typescript/constants/staratlas'
 import { Currencies, TOKEN_ATLAS, TOKEN_USDC } from '../typescript/constants/tokens'
@@ -10,8 +9,8 @@ import { useStaratlasGmStore } from './StaratlasGmStore'
 import { RPCEndpoint } from '../typescript/interfaces/RPCEndpoint'
 
 export const endpoints_list: RPCEndpoint[] = [
-    { name: 'solana-main', url: 'https://api.mainnet-beta.solana.com' },
-    { name: 'solana-serum', url: 'https://solana-api.projectserum.com' },
+    { name: 'solana-main', url: 'https://api.mainnet-beta.solana.com/' },
+    { name: 'solana-serum', url: 'https://solana-api.projectserum.com/' },
     { name: 'ankr', url: 'https://rpc.ankr.com/solana' },
 ]
 
@@ -67,7 +66,7 @@ export const useGlobalStore = defineStore('globalStore', {
     },
     actions: {
         init() {
-            this.connection = new Connection(this.rpc.url)
+            this.connection = new Connection(this.rpc.url, { httpHeaders: {} })
             this.side = Side.BUY
         },
         toggleDark() {

@@ -5,9 +5,28 @@ import Markdown from 'vite-plugin-vue-markdown'
 import Shiki from 'markdown-it-shiki'
 // @ts-ignore
 import LinkAttributes from 'markdown-it-link-attributes'
+import * as path from 'path'
 
 export default defineConfig({
     base: '/',
+
+    server: {
+        proxy: {
+            '/coingecko': {
+                target: 'https://api.coingecko.com/api/v3/coins/markets',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/coingecko/, ''),
+            },
+        },
+    },
+    resolve: {
+        alias: {
+            process: 'process/browser',
+            stream: 'stream-browserify',
+            zlib: 'browserify-zlib',
+            util: 'util',
+        },
+    },
 
     plugins: [
         vue({
@@ -38,32 +57,5 @@ export default defineConfig({
     },
     build: {
         target: 'es2020',
-    },
-
-    server: {
-        proxy: {
-            '/rcpportal': {
-                target: 'https://solana-mainnet.gateway.pokt.network/v1/lb/54c6d469ad149f8ca51f0908',
-                changeOrigin: true,
-                secure: true,
-                ws: true,
-                rewrite: (path) => path.replace(/^\/rcpportal/, ''),
-            },
-
-            '/api': {
-                target: 'https://api2.skullnbones.xyz',
-                changeOrigin: true,
-                secure: false,
-                ws: true,
-                rewrite: (path) => path.replace(/^\/api/, ''),
-            },
-            '/ftx': {
-                target: 'https://ftx.com/api',
-                changeOrigin: true,
-                secure: false,
-                ws: true,
-                rewrite: (path) => path.replace(/^\/ftx/, ''),
-            },
-        },
     },
 })

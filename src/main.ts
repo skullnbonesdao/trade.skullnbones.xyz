@@ -17,7 +17,7 @@ import PortfolioView from '../src/views/PortfolioView.vue'
 import StatsView from '../src/views/StatsView.vue'
 import About from '../src/views/About.vue'
 // @ts-ignore
-import { createHead } from '@vueuse/head' // <--
+//import { createHead } from '@vueuse/head' // <--
 import 'solana-wallets-vue/styles.css'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import { PhantomWalletAdapter, SlopeWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets'
@@ -25,7 +25,7 @@ import SolanaWallets from 'solana-wallets-vue'
 import SmartTable from 'vuejs-smart-table'
 import VueApexCharts from 'vue3-apexcharts'
 
-const head = createHead()
+//const head = createHead()
 const pinia = createPinia()
 
 const routes = [
@@ -52,7 +52,7 @@ const router = createRouter({
 })
 
 createApp(App)
-    .use(head)
+    //.use(head)
     .use(pinia)
     .use(SolanaWallets, walletOptions)
     .use(VueApexCharts)
