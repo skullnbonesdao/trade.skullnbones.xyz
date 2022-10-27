@@ -66,7 +66,6 @@ export const useGlobalStore = defineStore('globalStore', {
     },
     actions: {
         init() {
-            console.log(this.rpc.url.toString())
             this.connection = new Connection(this.rpc.url, { httpHeaders: {} })
             this.side = Side.BUY
         },
