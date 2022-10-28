@@ -85,7 +85,7 @@ export const useAssetsStore = defineStore({
     id: 'assetsStore',
     state: () => {
         return {
-            allAssets: {} as Asset[],
+            allAssets: [] as Asset[],
         }
     },
 

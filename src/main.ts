@@ -24,8 +24,9 @@ import { PhantomWalletAdapter, SlopeWalletAdapter, SolflareWalletAdapter } from 
 import SolanaWallets from 'solana-wallets-vue'
 import SmartTable from 'vuejs-smart-table'
 import VueApexCharts from 'vue3-apexcharts'
+import { createHead } from '@vueuse/head'
 
-//const head = createHead()
+const head = createHead()
 const pinia = createPinia()
 
 const routes = [
@@ -52,7 +53,7 @@ const router = createRouter({
 })
 
 createApp(App)
-    //.use(head)
+    .use(head)
     .use(pinia)
     .use(SolanaWallets, walletOptions)
     .use(VueApexCharts)
