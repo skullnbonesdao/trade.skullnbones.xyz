@@ -86,7 +86,11 @@ function initWebSockets(ws: WebSocket, token_price: any) {
 }
 
 async function init24Change(change24h: any) {
-    fetch('/coingecko/?vs_currency=usd&ids=bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false')
+    console.log(import.meta.env.VITE_CGBITCOIN)
+    console.log(import.meta.env.MODE)
+    console.log(import.meta.env.DEV)
+
+    fetch(import.meta.env.VITE_CGBITCOIN ?? '')
         .then((res) => res.json())
         .then((data: CoingeckoTokenInfo[]) => {
             change24h.bitcoin = data[0].price_change_percentage_24h

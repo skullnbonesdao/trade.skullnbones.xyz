@@ -19,6 +19,15 @@ export default defineConfig({
             },
         },
     },
+    preview: {
+        proxy: {
+            '/coingecko': {
+                target: 'https://api.coingecko.com/api/v3/coins/markets',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/coingecko/, ''),
+            },
+        },
+    },
     resolve: {
         alias: {
             process: 'process/browser',
