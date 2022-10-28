@@ -86,10 +86,6 @@ function initWebSockets(ws: WebSocket, token_price: any) {
 }
 
 async function init24Change(change24h: any) {
-    console.log(import.meta.env.VITE_CGBITCOIN)
-    console.log(import.meta.env.MODE)
-    console.log(import.meta.env.DEV)
-
     fetch(import.meta.env.VITE_CGBITCOIN ?? '')
         .then((res) => res.json())
         .then((data: CoingeckoTokenInfo[]) => {
