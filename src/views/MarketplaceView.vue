@@ -1,6 +1,7 @@
 <template>
-    <div class="">
+    <div class="flex flex-col">
         <info-feed class="content-box" />
+        <asset-info class="content-box" />
     </div>
     <div class="flex flex-col md:flex-row">
         <div class="basis-2/3">
@@ -28,6 +29,7 @@ import { ref } from 'vue'
 import { useWallet } from 'solana-wallets-vue'
 import OrderTable from '../components/tables/OrderTable.vue'
 import OrderBook from '../components/marketplace/orderbook/OrderBook.vue'
+import AssetInfo from '../components/marketplace/AssetInfo.vue'
 
 const orders = ref()
 onMounted(async () => {
