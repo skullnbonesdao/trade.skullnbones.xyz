@@ -1,12 +1,12 @@
 h1 {
-    @apply text-6xl text-center;
+    @apply text-6xl;
 }
 
 h2 {
-    @apply text-4xl text-center;
+    @apply text-4xl;
 }
 h3 {
-    @apply text-2xl text-center;
+    @apply text-2xl;
 }
 
 .text-light {
@@ -26,7 +26,7 @@ h3 {
 }
 
 .content-box {
-    @apply bg-gray-100 dark:bg-gray-800 dark:text-gray-100 shadow-xl rounded-box p2 m2;
+    @apply bg-gray-100 dark:bg-gray-800 dark:text-gray-100 shadow-xl rounded-box p2;
 }
 
 .border {
@@ -66,4 +66,20 @@ h3 {
     border-bottom-left-radius: 0;
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
+}
+
+table {
+    @apply w-full text-sm text-left text-gray-500 dark:text-gray-400;
+}
+
+thead {
+    @apply text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400;
+}
+
+th {
+    @apply px-6 py-3;
+}
+
+tr {
+    @apply bg-white border-b dark:bg-gray-800 dark:border-gray-700;
 }

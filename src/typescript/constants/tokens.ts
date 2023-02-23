@@ -1,14 +1,20 @@
 import { PublicKey } from '@solana/web3.js'
 
-export const TOKEN_USDC = new PublicKey('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v')
-export const TOKEN_ATLAS = new PublicKey('ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx')
+export enum E_CURRENCIES {
+    USDC,
+    ATLAS,
+    POLIS,
+    SOL,
+}
 
-export const Currencies = [
+export const CURRENCIES = [
     {
+        type: E_CURRENCIES.USDC,
         name: 'USDC',
         mint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
     },
     {
+        type: E_CURRENCIES.USDC,
         name: 'ATLAS',
         mint: 'ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx',
     },

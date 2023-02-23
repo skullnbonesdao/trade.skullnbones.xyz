@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col px-4 py-2 flex md:space-x-6 md:flex-row justify-around">
+    <div class="flex flex-col flex md:space-x-6 md:flex-row justify-around">
         <price-badge
             image-name="bitcoin"
             :price="useTokenPriceStore().token_price.bitcoin"

@@ -57,8 +57,7 @@ import { useGlobalStore } from '../../stores/GlobalStore'
 import { useSolanaNetworkStore } from '../../stores/SolanaNetworkStore'
 import { createToast } from 'mosha-vue-toastify'
 import { watch } from 'vue'
-import { Currencies } from '../../typescript/constants/tokens'
-import { PublicKey } from '@solana/web3.js'
+import { CURRENCIES } from '../../typescript/constants/tokens'
 
 const tab = ref(1)
 const input = ref({ price: 0, size: 0 })
@@ -75,39 +74,31 @@ async function submitOrder() {
     const availableTokenData = globalStore.userTokens.find(
         (userToken) => userToken.mint === useGlobalStore().symbol.mint_pair.toString()
     )
-    if (input.value.size === 0 || input.value.price === 0) return createToast(
-        "Incorrect price or size",
-        { type: 'danger' }
-    )
+    if (input.value.size === 0 || input.value.price === 0)
+        return createToast('Incorrect price or size', { type: 'danger' })
     // when wallet has no specific tokens `account` is an empty object
-    if (availableTokenData === undefined) return createToast(
-        "No available token data on this wallet",
-        { type: 'danger' }
-    )
+    if (availableTokenData === undefined)
+        return createToast('No available token data on this wallet', { type: 'danger' })
     const availableTokens = availableTokenData.data.account.data?.parsed?.info?.tokenAmount?.uiAmount
 
-    if (availableTokens === undefined) return createToast(
-        "Empty token data",
-        { type: 'danger' }
-    )
+    if (availableTokens === undefined) return createToast('Empty token data', { type: 'danger' })
 
     const neededTokens = input.value.size * input.value.price
     const orderSide = tab.value === 1 ? OrderSide.Buy : OrderSide.Sell
 
-    if ((orderSide === OrderSide.Buy) && (neededTokens > availableTokens)) return createToast(
-        `Not enough ${
-            Currencies.find((currency) => useGlobalStore().symbol.name.includes(currency.name))?.name
-        }`,
-        { type: 'danger' }
-    )
-
-    if (orderSide === OrderSide.Sell) {
-        const selectedUserAsset = globalStore.userStarAtlasNfts.find((asset) => asset.account.data?.parsed?.info?.mint === globalStore.symbol.mint_asset.toString())
-        const selectedUserAssetAmount = selectedUserAsset?.account?.data?.parsed?.info?.tokenAmount?.uiAmount
-        if (selectedUserAssetAmount < input.value.size) return createToast(
-            `Not enough ${globalStore.symbol.name}`,
+    if (orderSide === OrderSide.Buy && neededTokens > availableTokens)
+        return createToast(
+            `Not enough ${CURRENCIES.find((currency) => useGlobalStore().symbol.name.includes(currency.name))?.name}`,
             { type: 'danger' }
         )
+
+    if (orderSide === OrderSide.Sell) {
+        const selectedUserAsset = globalStore.userStarAtlasNfts.find(
+            (asset) => asset.account.data?.parsed?.info?.mint === globalStore.symbol.mint_asset.toString()
+        )
+        const selectedUserAssetAmount = selectedUserAsset?.account?.data?.parsed?.info?.tokenAmount?.uiAmount
+        if (selectedUserAssetAmount < input.value.size)
+            return createToast(`Not enough ${globalStore.symbol.name}`, { type: 'danger' })
     }
     const { transaction, signers } = await staratlasGmStore.getInitializeOrderTransaction(
         publicKey.value,
@@ -115,7 +106,7 @@ async function submitOrder() {
         new PublicKey(availableTokenData.data.account.data?.parsed?.info?.mint),
         input.value.size,
         input.value.price,
-        orderSide,
+        orderSide
     )
     const signature = await sendTransaction(transaction, solanaNetworkStore.connection, {
         signers: signers,

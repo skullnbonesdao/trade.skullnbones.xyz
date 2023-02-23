@@ -17,6 +17,11 @@ export default defineConfig({
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/coingecko/, ''),
             },
+            '/api': {
+                target: 'https://api2.skullnbones.xyz',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, ''),
+            },
         },
     },
     preview: {

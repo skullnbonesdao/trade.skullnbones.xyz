@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import { GmClientService, Order, OrderSide } from '@staratlas/factory'
-import { Connection, PublicKey, Keypair, Transaction } from '@solana/web3.js'
+import { Connection, Keypair, PublicKey, Transaction } from '@solana/web3.js'
 import { TRADE_PROGRAM } from '../typescript/constants/staratlas'
-import { TOKEN_ATLAS, TOKEN_USDC } from '../typescript/constants/tokens'
-import { SERUMRPC } from '../typescript/constants/solana'
+import { CURRENCIES, E_CURRENCIES } from '../typescript/constants/tokens'
+
 import { useGlobalStore } from './GlobalStore'
 
 type getInitializeOrderTransactionResponse = {
@@ -44,19 +44,39 @@ export const useStaratlasGmStore = defineStore({
                     this.orders = response
 
                     this.atlasOrders.buyOrders = this.orders
-                        .filter((order) => order.orderType === 'buy' && order.currencyMint === TOKEN_ATLAS.toString())
+                        .filter(
+                            (order) =>
+                                order.orderType === 'buy' &&
+                                order.currencyMint ===
+                                    CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)?.mint.toString()
+                        )
                         .sort((a, b) => a.uiPrice - b.uiPrice)
 
                     this.atlasOrders.sellOrders = this.orders
-                        .filter((order) => order.orderType === 'sell' && order.currencyMint === TOKEN_ATLAS.toString())
+                        .filter(
+                            (order) =>
+                                order.orderType === 'sell' &&
+                                order.currencyMint ===
+                                    CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)?.mint.toString()
+                        )
                         .sort((a, b) => a.uiPrice - b.uiPrice)
 
                     this.usdcOrders.buyOrders = this.orders
-                        .filter((order) => order.orderType === 'buy' && order.currencyMint === TOKEN_USDC.toString())
+                        .filter(
+                            (order) =>
+                                order.orderType === 'buy' &&
+                                order.currencyMint ===
+                                    CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)?.mint.toString()
+                        )
                         .sort((a, b) => a.uiPrice - b.uiPrice)
 
                     this.usdcOrders.sellOrders = this.orders
-                        .filter((order) => order.orderType === 'sell' && order.currencyMint === TOKEN_USDC.toString())
+                        .filter(
+                            (order) =>
+                                order.orderType === 'sell' &&
+                                order.currencyMint ===
+                                    CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)?.mint.toString()
+                        )
                         .sort((a, b) => a.uiPrice - b.uiPrice)
                 })
                 .catch((err: any) => console.log('{getOpenOrdersForAssetError}: ' + err))
