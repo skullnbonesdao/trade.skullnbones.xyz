@@ -7,15 +7,27 @@ export enum E_CURRENCIES {
     SOL,
 }
 
-export const CURRENCIES = [
+export interface I_CURRENCY {
+    type: E_CURRENCIES
+    name: String
+    mint: String
+    char: String
+    image_path: String
+}
+
+export const CURRENCIES: Array<I_CURRENCY> = [
     {
         type: E_CURRENCIES.USDC,
         name: 'USDC',
         mint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+        char: '$',
+        image_path: 'tokens/usdc.png',
     },
     {
-        type: E_CURRENCIES.USDC,
+        type: E_CURRENCIES.ATLAS,
         name: 'ATLAS',
         mint: 'ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx',
+        char: 'A',
+        image_path: 'tokens/atlas.png',
     },
 ]
