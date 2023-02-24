@@ -38,7 +38,7 @@ import { Button } from 'flowbite-vue'
 import { useGlobalStore } from '../../stores/GlobalStore'
 import { useAssetsStore } from '../../stores/AssetsStore'
 import AssetImageNameBadge from '../badges/AssetImageNameBadge.vue'
-import { CURRENCIES } from '../../typescript/constants/tokens'
+import { CURRENCIES } from '../../typescript/constants/currencies'
 </script>
 
 <style scoped></style>

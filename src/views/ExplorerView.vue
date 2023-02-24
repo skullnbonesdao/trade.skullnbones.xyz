@@ -48,6 +48,7 @@
                         <th class="text-right">Size</th>
                         <th class="text-right">Price</th>
                         <th class="text-right">Cost</th>
+                        <th class="text-right"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,7 +62,7 @@
                                 />
                             </div>
                         </th>
-                        <td>{{ trade.pair }}</td>
+                        <td class="font-bold">{{ trade.pair }}</td>
                         <td>{{ new Date(trade.timestamp).toUTCString() }}</td>
                         <td>{{ trade.signature.slice(0, 3) }}[...]{{ trade.signature.slice(-3) }}</td>
 
@@ -90,15 +91,31 @@
                             </div>
                         </td>
                         <td class="text-right">{{ trade.size }}</td>
-                        <td class="text-right">{{ trade.price.toFixed(5) }}</td>
+                        <td class="">
+                            <div class="flex flex-row justify-end items-center space-x-2">
+                                <div class="text-right">{{ trade.price.toFixed(5) }}</div>
+
+                                <CurrencyIcon
+                                    class="w-4 h-4"
+                                    :currency="CURRENCIES.find((c) => c.mint === trade.currencyMint)"
+                                />
+                            </div>
+                        </td>
+
                         <td class="">
                             <div class="flex flex-row justify-end items-center space-x-2">
                                 <div class="text-right">{{ trade.cost.toFixed(2) }}</div>
 
                                 <CurrencyIcon
-                                    class="w-3 h-3"
+                                    class="w-4 h-4"
                                     :currency="CURRENCIES.find((c) => c.mint === trade.currencyMint)"
                                 />
+                            </div>
+                        </td>
+                        <td class="">
+                            <div class="flex flex-row justify-end items-center space-x-2">
+                                <ExplorerIcon :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLSCAN)" />
+                                <ExplorerIcon :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLANAFM)" />
                             </div>
                         </td>
                     </tr>
@@ -113,8 +130,11 @@ import { Api, TradesResponse } from '../typescript/skullnbones_api/skullnbones_a
 import { onMounted, reactive, ref, watch } from 'vue'
 import { useGlobalStore } from '../stores/GlobalStore'
 import CurrencyIcon from '../components/icon-helper/CurrencyIcon.vue'
-import { CURRENCIES } from '../typescript/constants/tokens'
+import { CURRENCIES } from '../typescript/constants/currencies'
 import ChartjsLineChart from '../components/charts/chartjs/ChartjsLineChart.vue'
+import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
+import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer.js'
+import { Button } from 'flowbite-vue'
 
 const selected_search_type = ref<'mint' | 'address' | 'signature'>('mint')
 const api_trades = ref<Array<TradesResponse>>()

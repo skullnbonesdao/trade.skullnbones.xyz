@@ -76,7 +76,7 @@ import { useAssetsStore } from '../../stores/AssetsStore'
 import AssetImageNameBadge from '../badges/AssetImageNameBadge.vue'
 import { createToast } from 'mosha-vue-toastify'
 import { TOAST_WARNING } from '../../typescript/constants/toast-config'
-import { CURRENCIES } from '../../typescript/constants/tokens'
+import { CURRENCIES } from '../../typescript/constants/currencies'
 
 defineProps({
     orders: {

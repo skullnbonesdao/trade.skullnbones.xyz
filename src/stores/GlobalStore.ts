@@ -6,7 +6,7 @@ import { useDark, useLocalStorage, useToggle } from '@vueuse/core'
 import { useAssetsStore } from './AssetsStore'
 import { useStaratlasGmStore } from './StaratlasGmStore'
 import { RPCEndpoint } from '../typescript/interfaces/RPCEndpoint'
-import { CURRENCIES, E_CURRENCIES } from '../typescript/constants/tokens'
+import { CURRENCIES, E_CURRENCIES } from '../typescript/constants/currencies'
 
 export const endpoints_list: RPCEndpoint[] = [
     { name: 'extrnode', url: 'https://solana-mainnet.rpc.extrnode.com' },

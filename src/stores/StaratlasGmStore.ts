@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { GmClientService, Order, OrderSide } from '@staratlas/factory'
 import { Connection, Keypair, PublicKey, Transaction } from '@solana/web3.js'
 import { TRADE_PROGRAM } from '../typescript/constants/staratlas'
-import { CURRENCIES, E_CURRENCIES } from '../typescript/constants/tokens'
+import { CURRENCIES, E_CURRENCIES } from '../typescript/constants/currencies'
 
 import { useGlobalStore } from './GlobalStore'
 

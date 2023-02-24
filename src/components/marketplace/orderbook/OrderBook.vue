@@ -32,7 +32,7 @@ import OrderBookRow from './components/OrderBookRow.vue'
 
 import { useGlobalStore } from '../../../stores/GlobalStore'
 import { useStaratlasGmStore } from '../../../stores/StaratlasGmStore'
-import { CURRENCIES } from '../../../typescript/constants/tokens'
+import { CURRENCIES } from '../../../typescript/constants/currencies'
 
 const orders_grouped_buy = ref()
 const orders_grouped_sell = ref()

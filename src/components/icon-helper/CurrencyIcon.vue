@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PropType } from 'vue'
-import { I_CURRENCY } from '../../typescript/constants/tokens'
+import { I_CURRENCY } from '../../typescript/constants/currencies'
 
 const props = defineProps({
     currency: Object as PropType<I_CURRENCY>,
