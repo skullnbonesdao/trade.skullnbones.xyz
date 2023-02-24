@@ -116,7 +116,7 @@
                             <div class="flex flex-row justify-end items-center space-x-2">
                                 <a
                                     :href="
-                                        EXPLORER.find((e) => e.type === E_EXPLORER.SOLSCAN).url +
+                                        EXPLORER.find((e) => e.type === E_EXPLORER.SOLSCAN)?.url +
                                         '/tx/' +
                                         trade.signature
                                     "
@@ -128,7 +128,7 @@
                                 </a>
                                 <a
                                     :href="
-                                        EXPLORER.find((e) => e.type === E_EXPLORER.SOLANAFM).url +
+                                        EXPLORER.find((e) => e.type === E_EXPLORER.SOLANAFM)?.url +
                                         '/tx/' +
                                         trade.signature
                                     "
