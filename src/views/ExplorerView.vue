@@ -32,6 +32,9 @@
             </div>
         </div>
 
+        <div class="flex h-56" v-if="chart.is_shown && selected_search_type === 'mint'">
+            <chartjs-line-chart :data="chart.data" :labels="chart.lables"></chartjs-line-chart>
+        </div>
         <div class="relative overflow-x-auto">
             <table>
                 <thead>
@@ -107,16 +110,20 @@
 
 <script setup lang="ts">
 import { Api, TradesResponse } from '../typescript/skullnbones_api/skullnbones_api'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import { useGlobalStore } from '../stores/GlobalStore'
 import CurrencyIcon from '../components/icon-helper/CurrencyIcon.vue'
 import { CURRENCIES } from '../typescript/constants/tokens'
+import ChartjsLineChart from '../components/charts/chartjs/ChartjsLineChart.vue'
 
 const selected_search_type = ref<'mint' | 'address' | 'signature'>('mint')
-
 const api_trades = ref<Array<TradesResponse>>()
-
 const user_search_text = ref('ammo')
+const chart = reactive({
+    is_shown: false,
+    data: [0, 1, 2],
+    lables: [0, 1, 2],
+})
 
 watch(user_search_text, () => {
     console.log(user_search_text)
@@ -127,30 +134,43 @@ onMounted(async () => {
     action_fetch_api()
 })
 
-function action_fetch_api() {
-    fetch('https://api2.skullnbones.xyz/info')
-        .then((resp) => resp.text())
-        .then((data) => console.log(data))
+async function action_fetch_api() {
+    chart.is_shown = false
 
     const api = new Api({ baseUrl: 'https://api2.skullnbones.xyz' })
+    let data: TradesResponse[] = []
 
     switch (selected_search_type.value) {
         case 'mint':
-            api.trades
+            await api.trades
                 .getMint({ mint: user_search_text.value, limit: 100 })
-                .then((resp) => (api_trades.value = resp.data))
+                .then((resp) => {
+                    data = resp.data
+                })
+                .catch((err) => console.error(err))
             break
         case 'address':
-            api.trades
+            await api.trades
                 .getAddress({ address: user_search_text.value, limit: 100 })
-                .then((resp) => (api_trades.value = resp.data))
+                .then((resp) => {
+                    data = resp.data
+                })
+                .catch((err) => console.error(err))
             break
         case 'signature':
-            api.trades
+            await api.trades
                 .getSignature({ signature: user_search_text.value })
-                .then((resp) => (api_trades.value = resp.data))
+                .then((resp) => {
+                    data = resp.data
+                })
+                .catch((err) => console.error(err))
             break
     }
+
+    api_trades.value = data
+    chart.data = data.flatMap((trade) => trade.price) as never
+    chart.lables = data.flatMap((trade) => trade.timestamp) as never
+    chart.is_shown = true
 }
 </script>
 
