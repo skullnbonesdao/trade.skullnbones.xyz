@@ -1,0 +1,924 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+    "title": "RogueMarketAPI",
+        "description": "This API is used by the RogueMarket to display charts and data",
+        "contact": {
+        "name": ""
+    },
+    "license": {
+        "name": "MIT"
+    },
+    "version": "0.2.2"
+},
+    "paths": {
+    "/info": {
+        "get": {
+            "tags": [
+                "default"
+            ],
+                "summary": "Info",
+                "description": "Info\n\nResponses with info object.\n",
+                "operationId": "get_info",
+                "responses": {
+                "200": {
+                    "description": "Get time successfully",
+                        "content": {
+                        "text/plain": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "deprecated": false
+        }
+    },
+    "/stats/first_timestamp": {
+        "get": {
+            "tags": [
+                "stats"
+            ],
+                "summary": "First timestamp",
+                "description": "First timestamp\n\nResponses with logged trade timestamp.\n",
+                "operationId": "get_first_timestamp",
+                "responses": {
+                "200": {
+                    "description": "Get time successfully",
+                        "content": {
+                        "text/plain": {
+                            "schema": {
+                                "type": "array",
+                                    "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "deprecated": false
+        }
+    },
+    "/stats/last_timestamp": {
+        "get": {
+            "tags": [
+                "stats"
+            ],
+                "summary": "Last timestamp",
+                "description": "Last timestamp\n\nResponses with logged trade timestamp.\n",
+                "operationId": "get_last_timestamp",
+                "responses": {
+                "200": {
+                    "description": "Get time successfully",
+                        "content": {
+                        "text/plain": {
+                            "schema": {
+                                "type": "array",
+                                    "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "deprecated": false
+        }
+    },
+    "/trades/address": {
+        "get": {
+            "tags": [
+                "trades"
+            ],
+                "summary": "Get trade for address",
+                "description": "Get trade for address\n\nResponses with an array of trades for buy/sell-wallet-address.\n",
+                "operationId": "get_address",
+                "parameters": [
+                {
+                    "name": "address",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "name": "limit",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            ],
+                "responses": {
+                "200": {
+                    "description": "Response: Time successful",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                    "items": {
+                                    "$ref": "#/components/schemas/TradesResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "deprecated": false
+        }
+    },
+    "/trades/last": {
+        "get": {
+            "tags": [
+                "trades"
+            ],
+                "summary": "Get last trade from SYMBOL",
+                "description": "Get last trade from SYMBOL\n\nResponses with a last trade for a given symbol. [max. 100]\n",
+                "operationId": "get_last",
+                "parameters": [
+                {
+                    "name": "symbol",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "style": "form",
+                    "example": "FOODATLAS"
+                },
+                {
+                    "name": "limit",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            ],
+                "responses": {
+                "200": {
+                    "description": "Response: Time successful",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                    "items": {
+                                    "$ref": "#/components/schemas/TradesResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "deprecated": false
+        }
+    },
+    "/trades/mint": {
+        "get": {
+            "tags": [
+                "trades"
+            ],
+                "summary": "Get trade for mint",
+                "description": "Get trade for mint\n\nResponses with an array of trades for asset/token-mint.\n",
+                "operationId": "get_mint",
+                "parameters": [
+                {
+                    "name": "mint",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "name": "limit",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            ],
+                "responses": {
+                "200": {
+                    "description": "Response: Time successful",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                    "items": {
+                                    "$ref": "#/components/schemas/TradesResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "deprecated": false
+        }
+    },
+    "/trades/signature": {
+        "get": {
+            "tags": [
+                "trades"
+            ],
+                "summary": "Get trade for signature",
+                "description": "Get trade for signature\n\nResponses with a trade for a given signature.\n",
+                "operationId": "get_signature",
+                "parameters": [
+                {
+                    "name": "signature",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+                "responses": {
+                "200": {
+                    "description": "Response: Time successful",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                    "items": {
+                                    "$ref": "#/components/schemas/TradesResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "deprecated": false
+        }
+    },
+    "/udf/": {
+        "get": {
+            "tags": [
+                "udf"
+            ],
+                "summary": "UDF Home",
+                "description": "UDF Home\n\nResponses with server time.\n",
+                "operationId": "get_home",
+                "responses": {
+                "200": {
+                    "description": "Get time successfully",
+                        "content": {
+                        "text/plain": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "deprecated": false
+        }
+    },
+    "/udf/config": {
+        "get": {
+            "tags": [
+                "udf"
+            ],
+                "summary": "Get UDF-Config",
+                "description": "Get UDF-Config\n\nResponses with a UDF config in json.\n",
+                "operationId": "get_config",
+                "responses": {
+                "200": {
+                    "description": "Response: Config successful",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                    "items": {
+                                    "$ref": "#/components/schemas/UdfConfig"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "deprecated": false
+        }
+    },
+    "/udf/history": {
+        "get": {
+            "tags": [
+                "udf"
+            ],
+                "summary": "Get History request",
+                "description": "Get History request\n\nResponses with a History-Result in json (oclh).\n",
+                "operationId": "get_history",
+                "parameters": [
+                {
+                    "name": "symbol",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "style": "form",
+                    "example": "FOOD"
+                },
+                {
+                    "name": "from",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                },
+                {
+                    "name": "to",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                },
+                {
+                    "name": "resolution",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "name": "countback",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            ],
+                "responses": {
+                "200": {
+                    "description": "Response: SymbolInfo successful",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                    "items": {
+                                    "$ref": "#/components/schemas/UdfHistory"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "deprecated": false
+        }
+    },
+    "/udf/search": {
+        "get": {
+            "tags": [
+                "udf"
+            ],
+                "summary": "Get Search request",
+                "description": "Get Search request\n\nResponses with a Search-Result in json.\n",
+                "operationId": "get_search",
+                "parameters": [
+                {
+                    "name": "query",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "style": "form",
+                    "example": "FOOD"
+                },
+                {
+                    "name": "shipType",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "name": "exchange",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "name": "limit",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "style": "form",
+                    "example": "2"
+                }
+            ],
+                "responses": {
+                "200": {
+                    "description": "Response: SymbolInfo successful",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                    "items": {
+                                    "$ref": "#/components/schemas/UdfSearchSymbol"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "deprecated": false
+        }
+    },
+    "/udf/symbol_info": {
+        "get": {
+            "tags": [
+                "udf"
+            ],
+                "summary": "Get Symbol group request",
+                "description": "Get Symbol group request\n\nResponses with a SymbolGroup in json.\n",
+                "operationId": "get_symbol_info",
+                "parameters": [
+                {
+                    "name": "group",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "style": "form",
+                    "example": "FOOD"
+                }
+            ],
+                "responses": {
+                "200": {
+                    "description": "Response: SymbolInfo successful",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                    "items": {
+                                    "$ref": "#/components/schemas/UdfSymbolInfo"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "deprecated": false
+        }
+    },
+    "/udf/symbols": {
+        "get": {
+            "tags": [
+                "udf"
+            ],
+                "summary": "Get Symbol resolve request",
+                "description": "Get Symbol resolve request\n\nResponses with a SymbolInfo in json.\n",
+                "operationId": "get_symbols",
+                "parameters": [
+                {
+                    "name": "symbol",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "style": "form",
+                    "example": "FOOD"
+                }
+            ],
+                "responses": {
+                "200": {
+                    "description": "Response: SymbolInfo successful",
+                        "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                    "items": {
+                                    "$ref": "#/components/schemas/UdfSymbolInfo"
+                                }
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Nothing found"
+                }
+            },
+            "deprecated": false
+        }
+    },
+    "/udf/time": {
+        "get": {
+            "tags": [
+                "udf"
+            ],
+                "summary": "Get ServerTime",
+                "description": "Get ServerTime\n\nResponses with server time.\n",
+                "operationId": "get_time",
+                "responses": {
+                "200": {
+                    "description": "Response: Time successful",
+                        "content": {
+                        "text/plain": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "deprecated": false
+        }
+    }
+},
+    "components": {
+    "schemas": {
+        "Exchange": {
+            "type": "object",
+                "required": [
+                "value",
+                "name",
+                "desc"
+            ],
+                "properties": {
+                "desc": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "SymbolsType": {
+            "type": "object",
+                "required": [
+                "value",
+                "name"
+            ],
+                "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "TradesResponse": {
+            "type": "object",
+                "required": [
+                "signature",
+                "timestamp",
+                "assetMint",
+                "currencyMint",
+                "orderTaker",
+                "orderInitializer",
+                "size",
+                "price",
+                "cost",
+                "pair"
+            ],
+                "properties": {
+                "assetMint": {
+                    "type": "string"
+                },
+                "cost": {
+                    "type": "number",
+                        "format": "float"
+                },
+                "currencyMint": {
+                    "type": "string"
+                },
+                "orderInitializer": {
+                    "type": "string"
+                },
+                "orderTaker": {
+                    "type": "string"
+                },
+                "pair": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number",
+                        "format": "float"
+                },
+                "signature": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "integer",
+                        "format": "int64"
+                },
+                "timestamp": {
+                    "type": "integer",
+                        "format": "int64"
+                }
+            }
+        },
+        "UdfConfig": {
+            "type": "object",
+                "required": [
+                "exchanges",
+                "symbols_types",
+                "supported_resolutions",
+                "supports_search",
+                "supports_group_request",
+                "supports_marks",
+                "supports_timescale_marks",
+                "supports_time"
+            ],
+                "properties": {
+                "exchanges": {
+                    "type": "array",
+                        "items": {
+                        "$ref": "#/components/schemas/Exchange"
+                    }
+                },
+                "supported_resolutions": {
+                    "type": "array",
+                        "items": {
+                        "type": "string"
+                    }
+                },
+                "supports_group_request": {
+                    "type": "boolean"
+                },
+                "supports_marks": {
+                    "type": "boolean"
+                },
+                "supports_search": {
+                    "type": "boolean"
+                },
+                "supports_time": {
+                    "type": "boolean"
+                },
+                "supports_timescale_marks": {
+                    "type": "boolean"
+                },
+                "symbols_types": {
+                    "type": "array",
+                        "items": {
+                        "$ref": "#/components/schemas/SymbolsType"
+                    }
+                }
+            }
+        },
+        "UdfHistory": {
+            "type": "object",
+                "required": [
+                "s",
+                "t",
+                "c",
+                "o",
+                "h",
+                "l",
+                "v"
+            ],
+                "properties": {
+                "c": {
+                    "type": "array",
+                        "items": {
+                        "type": "number",
+                            "format": "float"
+                    }
+                },
+                "h": {
+                    "type": "array",
+                        "items": {
+                        "type": "number",
+                            "format": "float"
+                    }
+                },
+                "l": {
+                    "type": "array",
+                        "items": {
+                        "type": "number",
+                            "format": "float"
+                    }
+                },
+                "o": {
+                    "type": "array",
+                        "items": {
+                        "type": "number",
+                            "format": "float"
+                    }
+                },
+                "s": {
+                    "type": "string"
+                },
+                "t": {
+                    "type": "array",
+                        "items": {
+                        "type": "integer",
+                            "format": "int64"
+                    }
+                },
+                "v": {
+                    "type": "array",
+                        "items": {
+                        "type": "number",
+                            "format": "float"
+                    }
+                }
+            }
+        },
+        "UdfSearchSymbol": {
+            "type": "object",
+                "required": [
+                "symbol",
+                "full_name",
+                "description",
+                "exchange",
+                "ticker",
+                "type"
+            ],
+                "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "exchange": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "symbol": {
+                    "type": "string"
+                },
+                "ticker": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "UdfSymbolInfo": {
+            "type": "object",
+                "required": [
+                "symbol",
+                "ticker",
+                "name",
+                "full_name",
+                "description",
+                "exchange",
+                "listed_exchange",
+                "type",
+                "currency_code",
+                "session",
+                "timezone",
+                "minmovement",
+                "minmov",
+                "minmovement2",
+                "minmov2",
+                "pricescale",
+                "supported_resolutions",
+                "has_intraday",
+                "has_daily",
+                "has_weekly_and_monthly",
+                "data_status"
+            ],
+                "properties": {
+                "currency_code": {
+                    "type": "array",
+                        "items": {
+                        "type": "string"
+                    }
+                },
+                "data_status": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "array",
+                        "items": {
+                        "type": "string"
+                    }
+                },
+                "exchange": {
+                    "type": "string"
+                },
+                "full_name": {
+                    "type": "array",
+                        "items": {
+                        "type": "string"
+                    }
+                },
+                "has_daily": {
+                    "type": "boolean"
+                },
+                "has_intraday": {
+                    "type": "boolean"
+                },
+                "has_weekly_and_monthly": {
+                    "type": "boolean"
+                },
+                "listed_exchange": {
+                    "type": "string"
+                },
+                "minmov": {
+                    "type": "number",
+                        "format": "float"
+                },
+                "minmov2": {
+                    "type": "number",
+                        "format": "float"
+                },
+                "minmovement": {
+                    "type": "number",
+                        "format": "float"
+                },
+                "minmovement2": {
+                    "type": "number",
+                        "format": "float"
+                },
+                "name": {
+                    "type": "array",
+                        "items": {
+                        "type": "string"
+                    }
+                },
+                "pricescale": {
+                    "type": "array",
+                        "items": {
+                        "type": "integer",
+                            "format": "int64"
+                    }
+                },
+                "session": {
+                    "type": "string"
+                },
+                "supported_resolutions": {
+                    "type": "array",
+                        "items": {
+                        "type": "string"
+                    }
+                },
+                "symbol": {
+                    "type": "array",
+                        "items": {
+                        "type": "string"
+                    }
+                },
+                "ticker": {
+                    "type": "array",
+                        "items": {
+                        "type": "string"
+                    }
+                },
+                "timezone": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securitySchemes": {
+        "api_key": {
+            "type": "apiKey",
+                "in": "header",
+                "name": "todo_apikey"
+        }
+    }
+},
+    "tags": [
+    {
+        "name": "default",
+        "description": "Default Data endpoints"
+    },
+    {
+        "name": "udf",
+        "description": "UDF compatible endpoints"
+    },
+    {
+        "name": "stats",
+        "description": "Stats endpoints"
+    },
+    {
+        "name": "trades",
+        "description": "Trade endpoints"
+    }
+]
+}

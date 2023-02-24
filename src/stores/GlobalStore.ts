@@ -1,17 +1,18 @@
 // stores/counter.js
 import { defineStore } from 'pinia'
-import { Connection, PublicKey, AccountInfo, ParsedAccountData } from '@solana/web3.js'
+import { AccountInfo, Connection, ParsedAccountData, PublicKey } from '@solana/web3.js'
 import { TOKEN_PROGRAM } from '../typescript/constants/staratlas'
-import { Currencies, TOKEN_ATLAS, TOKEN_USDC } from '../typescript/constants/tokens'
 import { useDark, useLocalStorage, useToggle } from '@vueuse/core'
 import { useAssetsStore } from './AssetsStore'
 import { useStaratlasGmStore } from './StaratlasGmStore'
 import { RPCEndpoint } from '../typescript/interfaces/RPCEndpoint'
+import { CURRENCIES, E_CURRENCIES } from '../typescript/constants/currencies'
 
 export const endpoints_list: RPCEndpoint[] = [
+    { name: 'extrnode', url: 'https://solana-mainnet.rpc.extrnode.com' },
+    { name: 'ankr', url: 'https://rpc.ankr.com/solana' },
     { name: 'solana-main', url: 'https://api.mainnet-beta.solana.com/' },
     { name: 'solana-serum', url: 'https://solana-api.projectserum.com/' },
-    { name: 'ankr', url: 'https://rpc.ankr.com/solana' },
 ]
 
 export interface TradeAsset {
@@ -46,7 +47,7 @@ export const useGlobalStore = defineStore('globalStore', {
             userTokens: [
                 {
                     name: 'ATLAS',
-                    mint: TOKEN_ATLAS.toString(),
+                    mint: CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)?.mint.toString(),
                     data: {
                         pubkey: {} as PublicKey,
                         account: {} as AccountInfo<ParsedAccountData>,
@@ -54,7 +55,7 @@ export const useGlobalStore = defineStore('globalStore', {
                 },
                 {
                     name: 'USDC',
-                    mint: TOKEN_USDC.toString(),
+                    mint: CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)?.mint.toString(),
                     data: {
                         pubkey: {} as PublicKey,
                         account: {} as AccountInfo<ParsedAccountData>,
@@ -99,7 +100,7 @@ export const useGlobalStore = defineStore('globalStore', {
                 useAssetsStore().allAssets.find((asset) => name.includes(asset.symbol))?.mint ?? ''
             )
             this.symbol.mint_pair = new PublicKey(
-                Currencies.find((currency) => name.includes(currency.name))?.mint ?? ''
+                CURRENCIES.find((currency) => name.includes(currency.name))?.mint ?? ''
             )
             useStaratlasGmStore().getOpenOrdersForAsset(this.symbol.mint_asset.toString())
             this.symbol.name = name

@@ -1,15 +1,18 @@
 <template>
     <div class="">
-        <info-feed class="content-box" />
-    </div>
-    <div class="flex flex-col md:flex-row">
-        <div class="basis-2/3">
-            <trading-view-chart class="content-box" />
-            <order-table :orders="orders" class="content-box"></order-table>
+        <div class="flex flex-col">
+            <info-feed class="bg-gray-100 dark:bg-gray-800 dark:text-gray-100 shadow-xl p2" />
+            <asset-info class="content-box m-2" />
         </div>
-        <div class="basis-1/3">
-            <order-setter class="content-box" />
-            <order-book class="content-box" />
+        <div class="flex flex-col md:flex-row space-x-1">
+            <div class="basis-2/3">
+                <trading-view-chart class="content-box m-2" />
+                <order-table :orders="orders" class="content-box m-2"></order-table>
+            </div>
+            <div class="basis-1/3">
+                <order-setter class="content-box m-2" />
+                <order-book class="content-box m-2" />
+            </div>
         </div>
     </div>
 </template>
@@ -28,6 +31,7 @@ import { ref } from 'vue'
 import { useWallet } from 'solana-wallets-vue'
 import OrderTable from '../components/tables/OrderTable.vue'
 import OrderBook from '../components/marketplace/orderbook/OrderBook.vue'
+import AssetInfo from '../components/marketplace/AssetInfo.vue'
 
 const orders = ref()
 onMounted(async () => {

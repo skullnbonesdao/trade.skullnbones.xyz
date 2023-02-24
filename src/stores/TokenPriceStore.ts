@@ -23,8 +23,8 @@ export const useTokenPriceStore = defineStore({
 
     actions: {
         async init() {
-            initWebSockets(this.ws, this.token_price)
-            await init24Change(this.change24h)
+            //initWebSockets(this.ws, this.token_price)
+            await init24Change(this.token_price, this.change24h)
         },
     },
 })
@@ -85,32 +85,32 @@ function initWebSockets(ws: WebSocket, token_price: any) {
     }
 }
 
-async function init24Change(change24h: any) {
-    console.log(import.meta.env.VITE_CGBITCOIN)
-    console.log(import.meta.env.MODE)
-    console.log(import.meta.env.DEV)
-
+async function init24Change(token_price: any, change24h: any) {
     fetch(import.meta.env.VITE_CGBITCOIN ?? '')
         .then((res) => res.json())
         .then((data: CoingeckoTokenInfo[]) => {
+            token_price.bitcoin = data[0].current_price
             change24h.bitcoin = data[0].price_change_percentage_24h
         })
 
     fetch(import.meta.env.VITE_CGSOLANA ?? '')
         .then((res) => res.json())
         .then((data: CoingeckoTokenInfo[]) => {
+            token_price.solana = data[0].current_price
             change24h.solana = data[0].price_change_percentage_24h
         })
 
     fetch(import.meta.env.VITE_CGPOLIS ?? '')
         .then((res) => res.json())
         .then((data: CoingeckoTokenInfo[]) => {
+            token_price.polis = data[0].current_price
             change24h.polis = data[0].price_change_percentage_24h
         })
 
     fetch(import.meta.env.VITE_CGATLAS ?? '')
         .then((res) => res.json())
         .then((data: CoingeckoTokenInfo[]) => {
+            token_price.atlas = data[0].current_price
             change24h.atlas = data[0].price_change_percentage_24h
         })
 }

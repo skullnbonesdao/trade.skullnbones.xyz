@@ -41,7 +41,7 @@
                                 {{ useAssetsStore().allAssets.find((asset) => asset.mint === row.orderMint)?.name }}
                             </td>
                             <td>
-                                {{ Currencies.find((c) => c.mint === row.currencyMint)?.name }}
+                                {{ CURRENCIES.find((c) => c.mint === row.currencyMint)?.name }}
                             </td>
                             <td>
                                 {{ row.uiPrice }}
@@ -71,11 +71,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Currencies } from '../../typescript/constants/tokens'
+
 import { useAssetsStore } from '../../stores/AssetsStore'
 import AssetImageNameBadge from '../badges/AssetImageNameBadge.vue'
 import { createToast } from 'mosha-vue-toastify'
 import { TOAST_WARNING } from '../../typescript/constants/toast-config'
+import { CURRENCIES } from '../../typescript/constants/currencies'
 
 defineProps({
     orders: {

@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia'
 import { Connection, PerfSample } from '@solana/web3.js'
 import { ref } from 'vue'
-import { GENESYSGO } from '../typescript/constants/solananetwork'
+
 import { useGlobalStore } from './GlobalStore'
 
 export const useSolanaNetworkStore = defineStore('solanaNetwork', {

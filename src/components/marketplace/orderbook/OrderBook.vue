@@ -5,11 +5,7 @@
                 <div class="basis-1/2">
                     <order-book-header> </order-book-header>
                     <div v-for="orderBlock in orders_grouped_buy" :key="orderBlock">
-                        <order-book-row
-                            :order="orderBlock"
-                            side="buy"
-                            :max_size="max_size_buy"
-                        />
+                        <order-book-row :order="orderBlock" side="buy" :max_size="max_size_buy" />
                     </div>
                 </div>
                 <div class="basis-1/2">
@@ -25,8 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex items-center justify-center h-14">
-        </div>
+        <div class="flex items-center justify-center h-14"></div>
     </div>
 </template>
 
@@ -34,9 +29,10 @@
 import { ref, watchEffect } from 'vue'
 import OrderBookHeader from './components/OrderBookHeader.vue'
 import OrderBookRow from './components/OrderBookRow.vue'
-import { Currencies } from '../../../typescript/constants/tokens'
+
 import { useGlobalStore } from '../../../stores/GlobalStore'
 import { useStaratlasGmStore } from '../../../stores/StaratlasGmStore'
+import { CURRENCIES } from '../../../typescript/constants/currencies'
 
 const orders_grouped_buy = ref()
 const orders_grouped_sell = ref()
@@ -47,7 +43,7 @@ const selectedCurrency = ref()
 
 watchEffect(async () => {
     selectedCurrency.value =
-        Currencies.find((currency) => useGlobalStore().symbol.mint_pair.toString() === currency.mint)?.name ?? ''
+        CURRENCIES.find((currency) => useGlobalStore().symbol.mint_pair.toString() === currency.mint)?.name ?? ''
 
     if (selectedCurrency.value === 'ATLAS') {
         orders_grouped_buy.value = groupBy(useStaratlasGmStore().atlasOrders.buyOrders, 'uiPrice')
