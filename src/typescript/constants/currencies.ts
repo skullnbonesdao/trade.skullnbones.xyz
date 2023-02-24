@@ -9,10 +9,10 @@ export enum E_CURRENCIES {
 
 export interface I_CURRENCY {
     type: E_CURRENCIES
-    name: String
-    mint: String
-    char: String
-    image_path: String
+    name: string
+    mint: string
+    char: string
+    image_path: string
 }
 
 export const CURRENCIES: Array<I_CURRENCY> = [

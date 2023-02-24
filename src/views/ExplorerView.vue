@@ -52,7 +52,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="trade in api_trades" :key="trade">
+                    <tr v-for="(trade, idx) in api_trades" :key="idx">
                         <th>
                             <div class="w-12">
                                 <img

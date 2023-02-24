@@ -58,6 +58,7 @@ import { useSolanaNetworkStore } from '../../stores/SolanaNetworkStore'
 import { createToast } from 'mosha-vue-toastify'
 import { watch } from 'vue'
 import { CURRENCIES } from '../../typescript/constants/currencies'
+import { PublicKey } from '@solana/web3.js'
 
 const tab = ref(1)
 const input = ref({ price: 0, size: 0 })

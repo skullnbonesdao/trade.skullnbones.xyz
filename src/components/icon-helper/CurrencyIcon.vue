@@ -8,5 +8,5 @@ const props = defineProps({
 </script>
 
 <template>
-    <img class="rounded-md" :src="props.currency.image_path" alt="asset_image" />
+    <img class="rounded-md" :src="props.currency?.image_path" alt="asset_image" />
 </template>

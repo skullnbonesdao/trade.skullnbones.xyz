@@ -23,7 +23,7 @@
                 <h3>
                     {{
                         CURRENCIES.find((currency) => currency.mint === useGlobalStore().symbol.mint_pair.toString())
-                            .name
+                            ?.name
                     }}
                 </h3>
             </div>

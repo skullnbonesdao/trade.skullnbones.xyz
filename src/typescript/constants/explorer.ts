@@ -5,9 +5,9 @@ export enum E_EXPLORER {
 
 export interface I_EXPLORER {
     type: E_EXPLORER
-    name: String
-    url: String
-    image_path: String
+    name: string
+    url: string
+    image_path: string
 }
 
 export const EXPLORER: Array<I_EXPLORER> = [

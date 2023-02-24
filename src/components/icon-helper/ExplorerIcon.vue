@@ -8,5 +8,5 @@ const props = defineProps({
 </script>
 
 <template>
-    <img class="rounded-md" :src="props.explorer.image_path" alt="explorer_image" />
+    <img class="rounded-md" :src="props.explorer?.image_path" alt="explorer_image" />
 </template>
