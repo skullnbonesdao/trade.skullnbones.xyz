@@ -14,7 +14,7 @@ export const EXPLORER: Array<I_EXPLORER> = [
     {
         type: E_EXPLORER.SOLSCAN,
         name: 'Solscan.io',
-        url: 'https://solscan.io/',
+        url: 'https://solscan.io',
         image_path: 'other_images/solscan-icon.png',
     },
     {
