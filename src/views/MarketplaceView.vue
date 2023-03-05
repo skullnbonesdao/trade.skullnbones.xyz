@@ -4,7 +4,7 @@
             <info-feed class="bg-gray-100 dark:bg-gray-800 dark:text-gray-100 shadow-xl p2" />
             <asset-info class="elementcontainer" />
         </div>
-        <div class="flex flex-col md:flex-row space-x-2">
+        <div class="flex flex-col md:flex-row md:space-x-2">
             <div class="basis-2/3 space-y-2">
                 <trading-view-chart class="elementcontainer" />
                 <order-table :orders="orders" class="elementcontainer"></order-table>
