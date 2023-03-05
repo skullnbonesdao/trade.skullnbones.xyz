@@ -1,47 +1,21 @@
 <template>
     <div class="mx-5">
-        <div class="flex my-5 p-2 items-center border-2 rounded-2xl border-gray-700 space-x-2">
-            <ul>
-                <li class="w-full">
-                    <div
-                        id="s_element"
-                        class="rounded-l-lg"
-                        @click="selected_search_type = 'text'"
-                        :class="selected_search_type === 'text' ? ' active' : ''"
+        <div class="flex flex-col md:flex-row my-5 p-2 items-center border-2 rounded-2xl border-gray-700 space-x-2">
+            <div class="dark:text-gray-100 border-gray-700 rounded-xl">
+                <label class="input-group">
+                    <span class="dark:bg-gray-800 dark:text-gray-400">Search</span>
+                    <select
+                        class="select md:select-md select-xs dark:bg-gray-700 dark:text-gray-400"
+                        v-model="selected_search_type"
                     >
-                        Text
-                    </div>
-                </li>
-                <li class="w-full">
-                    <div
-                        id="s_element"
-                        @click="selected_search_type = 'mint'"
-                        :class="selected_search_type === 'mint' ? ' active' : ''"
-                    >
-                        Mint
-                    </div>
-                </li>
-                <li class="w-full">
-                    <div
-                        id="s_element"
-                        @click="selected_search_type = 'address'"
-                        :class="selected_search_type === 'address' ? ' active' : ''"
-                    >
-                        Address
-                    </div>
-                </li>
-                <li class="w-full">
-                    <div
-                        id="s_element"
-                        class="rounded-r-lg"
-                        @click="selected_search_type = 'signature'"
-                        :class="selected_search_type === 'signature' ? ' active' : ''"
-                    >
-                        Signature
-                    </div>
-                </li>
-            </ul>
-            <div class="flex flex-row w-full items-center dark:text-gray-100 border-2 border-gray-700 rounded-xl">
+                        <option v-bind:value="'text'">Text</option>
+                        <option v-bind:value="'mint'">Mint</option>
+                        <option v-bind:value="'address'">Address</option>
+                        <option v-bind:value="'signature'">Signature</option>
+                    </select></label
+                >
+            </div>
+            <div class="flex flex-row w-full items-center dark:text-gray-100">
                 <input class="flex w-full bg-transparent p-2" v-model="user_search_text" type="text" />
                 <div class="i-carbon:search m-2"></div>
             </div>
@@ -173,6 +147,7 @@ import ChartjsLineChart from '../components/charts/chartjs/ChartjsLineChart.vue'
 import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
 import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer.js'
 import { useAssetsStore } from '../stores/AssetsStore'
+import { Dropdown, ListGroup, ListGroupItem } from 'flowbite-vue'
 
 const selected_search_type = ref<'mint' | 'address' | 'signature' | 'text'>('text')
 const api_trades = ref<Array<SATrade>>()

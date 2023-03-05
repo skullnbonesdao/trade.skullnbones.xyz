@@ -98,7 +98,7 @@
 
                 <div id="navbar-sticky" class="hidden justify-between items-center w-full md:flex md:w-auto md:order-0">
                     <ul
-                        class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
+                        class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg items-center md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700"
                     >
                         <li>
                             <RouterLink
@@ -149,11 +149,14 @@
                                 >About
                             </RouterLink>
                         </li>
+                        <li>
+                            <wallet-multi-button dark />
+                        </li>
+                        <li>
+                            <toggle-mode></toggle-mode>
+                        </li>
                     </ul>
                 </div>
-
-                <wallet-multi-button dark />
-                <toggle-mode></toggle-mode>
             </div>
         </nav>
     </header>
@@ -163,6 +166,7 @@
 <script lang="ts">
 import { WalletMultiButton } from 'solana-wallets-vue'
 import ToggleMode from '../components/buttons/ToggleMode.vue'
+import { Navbar, NavbarLogo, NavbarCollapse, NavbarLink } from 'flowbite-vue'
 
 export default {
     components: { ToggleMode, WalletMultiButton },
