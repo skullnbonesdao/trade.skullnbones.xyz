@@ -1,7 +1,7 @@
 <template>
     <div class="space-y-2">
         <div class="flex flex-col space-y-2">
-            <info-feed class="bg-gray-100 dark:bg-gray-800 dark:text-gray-100 shadow-xl p2" />
+            <info-feed class="elementcontainer shadow-xl p2" />
             <asset-info class="elementcontainer" />
         </div>
         <div class="flex flex-col md:flex-row md:space-x-2">
@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import InfoFeed from '../components/feeds/InfoFeed.vue'
-import { onMounted, watchEffect } from 'vue'
+import { onMounted, watch, watchEffect } from 'vue'
 import { useTokenPriceStore } from '../stores/TokenPriceStore'
 import { useSolanaNetworkStore } from '../stores/SolanaNetworkStore'
 import { useStaratlasGmStore } from '../stores/StaratlasGmStore'

@@ -74,7 +74,7 @@ const user_search_text = ref()
                                     :key="idx"
                                 >
                                     <th>
-                                        <div class="w-24">
+                                        <div class="w-12 sm:w-24">
                                             <img
                                                 class="rounded-md"
                                                 :src="'/sa_images/webp/' + asset.mint + '.webp'"
@@ -85,14 +85,18 @@ const user_search_text = ref()
                                     <td class="font-bold">{{ asset.name }}</td>
                                     <td class="font-bold flex sm:flex-row flex-col space-y-1 justify-around">
                                         <Button
-                                            color="alternative"
+                                            class="flex justify-center shadow-md"
+                                            color="blue"
                                             @click="$emit('selectEvent', asset.symbol + 'ATLAS')"
                                             ><CurrencyIcon
-                                                class="w-12"
+                                                class="flex w-12"
                                                 :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)"
                                             ></CurrencyIcon
                                         ></Button>
-                                        <Button color="alternative" @click="$emit('selectEvent', asset.symbol + 'USDC')"
+                                        <Button
+                                            class="flex justify-center shadow-md"
+                                            color="blue"
+                                            @click="$emit('selectEvent', asset.symbol + 'USDC')"
                                             ><CurrencyIcon
                                                 class="w-12"
                                                 :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)"

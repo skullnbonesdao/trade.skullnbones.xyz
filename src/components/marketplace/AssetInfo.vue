@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="flex w-full"></div>
-        <Button color="alternative" size="md" @click="action_enable_modal"><div class="i-carbon:search" /> </Button>
+        <Button color="blue" size="xl" @click="action_enable_modal"><div class="i-carbon:search" /> </Button>
     </div>
 </template>
 
