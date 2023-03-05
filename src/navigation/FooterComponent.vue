@@ -1,6 +1,8 @@
 <template>
-    <footer class="bottom-0 z-50 m-3">
-        <div class="flex flex-row space-x-2">
+    <footer class="bottom-0 z-50">
+        <div
+            class="flex flex-row p-4 space-x-2 bg-white dark:bg-black dark:bg-gray-900 w-full border-t border-gray-200 dark:border-gray-600"
+        >
             <span class="flex w-full text-sm text-gray-500 sm:text-center dark:text-gray-400"
                 >© [2022 S&B + HEIM] All Rights Reserved.
             </span>
