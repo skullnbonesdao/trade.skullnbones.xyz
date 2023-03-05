@@ -3,32 +3,42 @@
         <div class="flex my-5 p-2 items-center border-2 rounded-2xl border-gray-700 space-x-2">
             <ul>
                 <li class="w-full">
-                    <a
+                    <div
+                        id="s_element"
                         class="rounded-l-lg"
                         @click="selected_search_type = 'text'"
-                        :class="selected_search_type === 'address' ? ' active' : ''"
-                        >Text</a
+                        :class="selected_search_type === 'text' ? ' active' : ''"
                     >
+                        Text
+                    </div>
                 </li>
                 <li class="w-full">
-                    <a @click="selected_search_type = 'mint'" :class="selected_search_type === 'mint' ? ' active' : ''"
-                        >Mint</a
+                    <div
+                        id="s_element"
+                        @click="selected_search_type = 'mint'"
+                        :class="selected_search_type === 'mint' ? ' active' : ''"
                     >
+                        Mint
+                    </div>
                 </li>
                 <li class="w-full">
-                    <a
+                    <div
+                        id="s_element"
                         @click="selected_search_type = 'address'"
                         :class="selected_search_type === 'address' ? ' active' : ''"
-                        >Address</a
                     >
+                        Address
+                    </div>
                 </li>
                 <li class="w-full">
-                    <a
+                    <div
+                        id="s_element"
                         class="rounded-r-lg"
                         @click="selected_search_type = 'signature'"
                         :class="selected_search_type === 'signature' ? ' active' : ''"
-                        >Signature</a
                     >
+                        Signature
+                    </div>
                 </li>
             </ul>
             <div class="flex flex-row w-full items-center dark:text-gray-100 border-2 border-gray-700 rounded-xl">
@@ -41,7 +51,10 @@
             <DotLoader class="flex w-full justify-center" :loading="is_loading" color="#ff150c" />
         </div>
         <div v-else class="relative overflow-x-auto">
-            <div class="flex h-56" v-if="chart.is_shown && selected_search_type === 'mint'">
+            <div
+                class="flex h-56"
+                v-if="chart.is_shown && (selected_search_type === 'mint' || selected_search_type === 'text')"
+            >
                 <chartjs-line-chart :data="chart.data" :labels="chart.lables"></chartjs-line-chart>
             </div>
 
@@ -50,8 +63,7 @@
                     <tr>
                         <th></th>
                         <th class="text-left">Pair</th>
-                        <th>Timestamp</th>
-                        <th>Signature</th>
+                        <th>Info</th>
                         <th>Mint</th>
                         <th>Wallets</th>
                         <th class="text-right">Size</th>
@@ -71,17 +83,22 @@
                                 />
                             </div>
                         </th>
-                        <td class="font-bold">{{ trade.pair }}</td>
-                        <td>{{ new Date(trade.timestamp).toUTCString() }}</td>
-                        <td>{{ trade.signature.slice(0, 3) }}[...]{{ trade.signature.slice(-3) }}</td>
+                        <td class="font-bold">{{ trade.symbol }}</td>
+
+                        <td>
+                            <div class="flex flex-col text-xs">
+                                <div>{{ trade.signature.slice(0, 3) }}[...]{{ trade.signature.slice(-3) }}</div>
+                                <div>{{ new Date(trade.timestamp).toDateString() }}</div>
+                            </div>
+                        </td>
 
                         <td>
                             <div class="flex flex-col">
-                                <div class="flex flex-row space-x-1">
+                                <div class="flex flex-row space-x-1 text-xs">
                                     <div>Token:</div>
                                     <div>{{ trade.currency_mint }}</div>
                                 </div>
-                                <div class="flex flex-row space-x-1">
+                                <div class="flex flex-row space-x-1 text-xs">
                                     <div>Asset:</div>
                                     <div>{{ trade.asset_mint }}</div>
                                 </div>
@@ -89,11 +106,11 @@
                         </td>
                         <td>
                             <div class="flex flex-col">
-                                <div class="flex flex-row space-x-1">
+                                <div class="flex flex-row space-x-1 text-xs">
                                     <div>Seller:</div>
                                     <div>{{ trade.order_initializer }}</div>
                                 </div>
-                                <div class="flex flex-row space-x-1">
+                                <div class="flex flex-row space-x-1 text-xs">
                                     <div>Buyer:</div>
                                     <div>{{ trade.order_taker }}</div>
                                 </div>
@@ -125,30 +142,16 @@
 
                         <td class="">
                             <div class="flex flex-row justify-end items-center space-x-2">
-                                <a
-                                    :href="
-                                        EXPLORER.find((e) => e.type === E_EXPLORER.SOLSCAN)?.url +
-                                        '/tx/' +
-                                        trade.signature
-                                    "
-                                >
-                                    <ExplorerIcon
-                                        class="w-5"
-                                        :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLSCAN)"
-                                    />
-                                </a>
-                                <a
-                                    :href="
-                                        EXPLORER.find((e) => e.type === E_EXPLORER.SOLANAFM)?.url +
-                                        '/tx/' +
-                                        trade.signature
-                                    "
-                                >
-                                    <ExplorerIcon
-                                        class="w-5"
-                                        :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLANAFM)"
-                                    />
-                                </a>
+                                <ExplorerIcon
+                                    class="w-5"
+                                    :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLSCAN)"
+                                    :signature="trade.signature"
+                                />
+                                <ExplorerIcon
+                                    class="w-5"
+                                    :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLANAFM)"
+                                    :signature="trade.signature"
+                                />
                             </div>
                         </td>
                     </tr>
@@ -178,6 +181,7 @@ const chart = reactive({
     data: [
         {
             label: 'Line One',
+            yAxisID: 'ATLAS',
             radius: 3,
             fill: false,
             borderColor: 'rgb(75, 192, 192)',
@@ -185,6 +189,7 @@ const chart = reactive({
         },
         {
             label: 'Line two',
+            yAxisID: 'USDC',
             radius: 3,
             fill: false,
             borderColor: '#c01ca3',
@@ -212,6 +217,9 @@ watch(selected_search_type, async () => {
 
 onMounted(async () => {
     is_loading.value = true
+    while (useAssetsStore().allAssets.length === 0) {
+        await delay(1000)
+    }
     await action_fetch_api()
     is_loading.value = false
 })
@@ -286,16 +294,24 @@ async function action_fetch_api() {
     //  chart.lables = data.flatMap((trade) => trade.timestamp) as never
     chart.is_shown = true
 }
+
+function delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+}
 </script>
 
 <style scoped>
 ul {
     @apply hidden text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400;
 }
-a {
+#s_element {
     @apply inline-block w-full p-4 bg-white  hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700;
 }
-a.active {
+#s_element.active {
     @apply dark:bg-gray-700 dark:text-gray-200;
+}
+
+a {
+    display: block;
 }
 </style>
