@@ -9,10 +9,23 @@
  * ---------------------------------------------------------------
  */
 
-export interface Exchange {
-    desc: string
-    name: string
-    value: string
+export interface SATrade {
+    /** @format float */
+    asset_change: number
+    asset_mint: string
+    /** @format int64 */
+    block: number
+    currency_mint: string
+    /** @format float */
+    market_fee: number
+    order_initializer: string
+    order_taker: string
+    signature: string
+    symbol: string
+    /** @format int64 */
+    timestamp: number
+    /** @format float */
+    total_cost: number
 }
 
 export interface SymbolsType {
@@ -20,25 +33,8 @@ export interface SymbolsType {
     value: string
 }
 
-export interface TradesResponse {
-    assetMint: string
-    /** @format float */
-    cost: number
-    currencyMint: string
-    orderInitializer: string
-    orderTaker: string
-    pair: string
-    /** @format float */
-    price: number
-    signature: string
-    /** @format int64 */
-    size: number
-    /** @format int64 */
-    timestamp: number
-}
-
 export interface UdfConfig {
-    exchanges: Exchange[]
+    exchanges: any[]
     supported_resolutions: string[]
     supports_group_request: boolean
     supports_marks: boolean
@@ -343,9 +339,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * @request GET:/stats/first_timestamp
          */
         getFirstTimestamp: (params: RequestParams = {}) =>
-            this.request<string[], any>({
+            this.request<SATrade[], any>({
                 path: `/stats/first_timestamp`,
                 method: 'GET',
+                format: 'json',
                 ...params,
             }),
 
@@ -358,9 +355,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * @request GET:/stats/last_timestamp
          */
         getLastTimestamp: (params: RequestParams = {}) =>
-            this.request<string[], any>({
+            this.request<SATrade[], any>({
                 path: `/stats/last_timestamp`,
                 method: 'GET',
+                format: 'json',
                 ...params,
             }),
     }
@@ -381,7 +379,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             },
             params: RequestParams = {}
         ) =>
-            this.request<TradesResponse[], any>({
+            this.request<SATrade[], any>({
                 path: `/trades/address`,
                 method: 'GET',
                 query: query,
@@ -406,7 +404,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             },
             params: RequestParams = {}
         ) =>
-            this.request<TradesResponse[], any>({
+            this.request<SATrade[], any>({
                 path: `/trades/last`,
                 method: 'GET',
                 query: query,
@@ -430,7 +428,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             },
             params: RequestParams = {}
         ) =>
-            this.request<TradesResponse[], any>({
+            this.request<SATrade[], any>({
                 path: `/trades/mint`,
                 method: 'GET',
                 query: query,
@@ -452,7 +450,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             },
             params: RequestParams = {}
         ) =>
-            this.request<TradesResponse[], any>({
+            this.request<SATrade[], any>({
                 path: `/trades/signature`,
                 method: 'GET',
                 query: query,
@@ -502,7 +500,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         getHistory: (
             query: {
-                /** @example "FOOD" */
+                /** @example "FOODATLAS" */
                 symbol: string
                 /** @format int64 */
                 from?: number
@@ -511,6 +509,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
                 resolution?: string
                 /** @format int64 */
                 countback?: number
+                currencyCode?: string
             },
             params: RequestParams = {}
         ) =>

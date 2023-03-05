@@ -25,26 +25,27 @@ const props = defineProps(['data', 'labels'])
 const chartData = computed(() => {
     return {
         labels: props.labels,
-        datasets: [
-            {
-                label: 'Data One',
-
-                radius: 4,
-                fill: true,
-
-                backgroundColor: (ctx) => {
-                    const canvas = ctx.chart.ctx
-                    const gradient = canvas.createLinearGradient(0, 0, 0, 160)
-
-                    gradient.addColorStop(1, 'rgba(80,18,128,0.46)')
-                    gradient.addColorStop(0.5, 'rgba(0,142,255,0.5)')
-
-                    return gradient
-                },
-
-                data: props.data,
-            },
-        ],
+        datasets: props.data,
+        //     [
+        //     {
+        //         label: 'Data One',
+        //
+        //         radius: 4,
+        //         fill: true,
+        //
+        //         backgroundColor: (ctx) => {
+        //             const canvas = ctx.chart.ctx
+        //             const gradient = canvas.createLinearGradient(0, 0, 0, 160)
+        //
+        //             gradient.addColorStop(1, 'rgba(80,18,128,0.46)')
+        //             gradient.addColorStop(0.5, 'rgba(0,142,255,0.5)')
+        //
+        //             return gradient
+        //         },
+        //
+        //         data: props.data,
+        //     },
+        // ],
     }
 })
 
