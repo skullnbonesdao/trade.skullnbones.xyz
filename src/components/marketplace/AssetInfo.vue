@@ -1,5 +1,8 @@
 <template>
     <div class="flex flex-row space-x-5 items-center">
+        <div v-if="show_search_modal">
+            <SearchAssetModal @select-event="(symbol) => action_update_symbol(symbol)" />
+        </div>
         <div class="flex flex-col">
             <div class="flex flex-row items-center gap-2">
                 <div class="relative">
@@ -8,7 +11,7 @@
                         :src="'/sa_images/webp/' + useGlobalStore().symbol.mint_asset + '.webp'"
                         alt="asset_image"
                     />
-                    <div class="absolute top-0 left-10">
+                    <div class="absolute top-0 left-10 -w-12">
                         <CurrencyIcon
                             class="rounded-md"
                             :currency="CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())"
@@ -27,7 +30,7 @@
             </div>
         </div>
         <div class="flex w-full"></div>
-        <Button color="default"><div class="i-carbon:search" /> </Button>
+        <Button color="alternative" size="md" @click="action_enable_modal"><div class="i-carbon:search" /> </Button>
     </div>
 </template>
 
@@ -35,10 +38,22 @@
 import { Button } from 'flowbite-vue'
 import { useGlobalStore } from '../../stores/GlobalStore'
 import { useAssetsStore } from '../../stores/AssetsStore'
-import AssetImageNameBadge from '../badges/AssetImageNameBadge.vue'
 import { CURRENCIES } from '../../typescript/constants/currencies'
 import CurrencyIcon from '../icon-helper/CurrencyIcon.vue'
-import { E_CURRENCIES } from '../../typescript/constants/currencies'
+import { ref } from 'vue'
+import SearchAssetModal from '../modals/SearchAssetModal.vue'
+
+const show_search_modal = ref(false)
+
+function action_enable_modal() {
+    show_search_modal.value = true
+}
+
+function action_update_symbol(symbol: string) {
+    show_search_modal.value = false
+    if (symbol.length > 0) useGlobalStore().updateSymbol(symbol)
+    console.log(symbol)
+}
 </script>
 
 <style scoped></style>

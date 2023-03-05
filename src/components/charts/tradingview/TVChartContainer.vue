@@ -5,7 +5,6 @@
 <script setup>
 import { onMounted, watch } from 'vue'
 import { UDFCompatibleDatafeed } from '../../../typescript/tradingview_adapter/udf/lib/udf-compatible-datafeed.js'
-/*import { widget } from '../../../../public/charting_library/charting_library.js'*/
 import { widget } from '../../../../public/charting_library'
 import { ref } from 'vue'
 import { useGlobalStore } from '../../../stores/GlobalStore'
@@ -20,7 +19,7 @@ onMounted(() => {
 
 watch(
     () => globalStore.is_dark,
-    async (is_dark) => {
+    async () => {
         createTVChart()
     }
 )
@@ -35,7 +34,7 @@ function createTVChart() {
     const container = chartContainer.value
     const chart_theme = globalStore.is_dark ? 'dark' : 'light'
     const widgetOptions = {
-        symbol: useGlobalStore().symbol.name, //assetSelected,
+        symbol: globalStore.symbol.name, //assetSelected,
         debug: false,
         // BEWARE: no trailing slash is expected in feed URL
         /*  default: 'http://localhost:3000',*/
