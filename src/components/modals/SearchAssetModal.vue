@@ -74,7 +74,7 @@ const user_search_text = ref()
                                     :key="idx"
                                 >
                                     <th>
-                                        <div class="w-12">
+                                        <div class="w-24">
                                             <img
                                                 class="rounded-md"
                                                 :src="'/sa_images/webp/' + asset.mint + '.webp'"
@@ -83,7 +83,7 @@ const user_search_text = ref()
                                         </div>
                                     </th>
                                     <td class="font-bold">{{ asset.name }}</td>
-                                    <td class="font-bold flex justify-around">
+                                    <td class="font-bold flex sm:flex-row flex-col space-y-1 justify-around">
                                         <Button
                                             color="alternative"
                                             @click="$emit('selectEvent', asset.symbol + 'ATLAS')"
