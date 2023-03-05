@@ -1,47 +1,21 @@
 <template>
     <div class="mx-5">
-        <div class="flex my-5 p-2 items-center border-2 rounded-2xl border-gray-700 space-x-2">
-            <ul>
-                <li class="w-full">
-                    <div
-                        id="s_element"
-                        class="rounded-l-lg"
-                        @click="selected_search_type = 'text'"
-                        :class="selected_search_type === 'text' ? ' active' : ''"
+        <div class="flex flex-col md:flex-row my-5 p-2 items-center border-2 rounded-2xl border-gray-700 space-x-2">
+            <div class="dark:text-gray-100 border-gray-700 rounded-xl">
+                <label class="input-group">
+                    <span class="dark:bg-gray-800 dark:text-gray-400">Search</span>
+                    <select
+                        class="select md:select-md select-xs dark:bg-gray-700 dark:text-gray-400"
+                        v-model="selected_search_type"
                     >
-                        Text
-                    </div>
-                </li>
-                <li class="w-full">
-                    <div
-                        id="s_element"
-                        @click="selected_search_type = 'mint'"
-                        :class="selected_search_type === 'mint' ? ' active' : ''"
-                    >
-                        Mint
-                    </div>
-                </li>
-                <li class="w-full">
-                    <div
-                        id="s_element"
-                        @click="selected_search_type = 'address'"
-                        :class="selected_search_type === 'address' ? ' active' : ''"
-                    >
-                        Address
-                    </div>
-                </li>
-                <li class="w-full">
-                    <div
-                        id="s_element"
-                        class="rounded-r-lg"
-                        @click="selected_search_type = 'signature'"
-                        :class="selected_search_type === 'signature' ? ' active' : ''"
-                    >
-                        Signature
-                    </div>
-                </li>
-            </ul>
-            <div class="flex flex-row w-full items-center dark:text-gray-100 border-2 border-gray-700 rounded-xl">
+                        <option v-bind:value="'text'">Text</option>
+                        <option v-bind:value="'mint'">Mint</option>
+                        <option v-bind:value="'address'">Address</option>
+                        <option v-bind:value="'signature'">Signature</option>
+                    </select></label
+                >
+            </div>
+            <div class="flex flex-row w-full items-center dark:text-gray-100">
                 <input class="flex w-full bg-transparent p-2" v-model="user_search_text" type="text" />
                 <div class="i-carbon:search m-2"></div>
             </div>
@@ -50,113 +24,114 @@
         <div v-if="is_loading">
             <DotLoader class="flex w-full justify-center" :loading="is_loading" color="#ff150c" />
         </div>
-        <div v-else class="relative overflow-x-auto">
+        <div v-else class="flex flex-col space-y-2">
             <div
-                class="flex h-56"
+                class="elementcontainer h-64"
                 v-if="chart.is_shown && (selected_search_type === 'mint' || selected_search_type === 'text')"
             >
                 <chartjs-line-chart :data="chart.data" :labels="chart.lables"></chartjs-line-chart>
             </div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th class="text-left">Pair</th>
-                        <th>Info</th>
-                        <th>Mint</th>
-                        <th>Wallets</th>
-                        <th class="text-right">Size</th>
-                        <th class="text-right">Cost</th>
-                        <th class="text-right">Price</th>
-                        <th class="text-right"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(trade, idx) in api_trades" :key="idx">
-                        <th>
-                            <div class="w-12">
-                                <img
-                                    class="rounded-md"
-                                    :src="'/sa_images/webp/' + trade.asset_mint + '.webp'"
-                                    alt="asset_image"
-                                />
-                            </div>
-                        </th>
-                        <td class="font-bold">{{ trade.symbol }}</td>
-
-                        <td>
-                            <div class="flex flex-col text-xs">
-                                <div>{{ trade.signature.slice(0, 3) }}[...]{{ trade.signature.slice(-3) }}</div>
-                                <div>{{ new Date(trade.timestamp).toDateString() }}</div>
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="flex flex-col">
-                                <div class="flex flex-row space-x-1 text-xs">
-                                    <div>Token:</div>
-                                    <div>{{ trade.currency_mint }}</div>
+            <div class="relative overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-left">Pair</th>
+                            <th>Info</th>
+                            <th>Mint</th>
+                            <th>Wallets</th>
+                            <th class="text-right">Size</th>
+                            <th class="text-right">Cost</th>
+                            <th class="text-right">Price</th>
+                            <th class="text-right"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(trade, idx) in api_trades" :key="idx">
+                            <th>
+                                <div class="w-12">
+                                    <img
+                                        class="rounded-md"
+                                        :src="'/sa_images/webp/' + trade.asset_mint + '.webp'"
+                                        alt="asset_image"
+                                    />
                                 </div>
-                                <div class="flex flex-row space-x-1 text-xs">
-                                    <div>Asset:</div>
-                                    <div>{{ trade.asset_mint }}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="flex flex-col">
-                                <div class="flex flex-row space-x-1 text-xs">
-                                    <div>Seller:</div>
-                                    <div>{{ trade.order_initializer }}</div>
-                                </div>
-                                <div class="flex flex-row space-x-1 text-xs">
-                                    <div>Buyer:</div>
-                                    <div>{{ trade.order_taker }}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-right">{{ trade.asset_change }}</td>
-                        <td class="">
-                            <div class="flex flex-row justify-end items-center space-x-2">
-                                <div class="text-right">{{ trade.total_cost.toFixed(2) }}</div>
+                            </th>
+                            <td class="font-bold">{{ trade.symbol }}</td>
 
-                                <CurrencyIcon
-                                    class="w-4 h-4"
-                                    :currency="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
-                                />
-                            </div>
-                        </td>
-                        <td class="">
-                            <div class="flex flex-row justify-end items-center space-x-2">
-                                <div class="text-right">
-                                    {{ (trade.total_cost / trade.asset_change).toFixed(5) }}
+                            <td>
+                                <div class="flex flex-col text-xs">
+                                    <div>{{ trade.signature.slice(0, 3) }}[...]{{ trade.signature.slice(-3) }}</div>
+                                    <div>{{ new Date(trade.timestamp).toDateString() }}</div>
                                 </div>
+                            </td>
 
-                                <CurrencyIcon
-                                    class="w-4 h-4"
-                                    :currency="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
-                                />
-                            </div>
-                        </td>
+                            <td>
+                                <div class="flex flex-col">
+                                    <div class="flex flex-row space-x-1 text-xs">
+                                        <div>Token:</div>
+                                        <div>{{ trade.currency_mint }}</div>
+                                    </div>
+                                    <div class="flex flex-row space-x-1 text-xs">
+                                        <div>Asset:</div>
+                                        <div>{{ trade.asset_mint }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex flex-col">
+                                    <div class="flex flex-row space-x-1 text-xs">
+                                        <div>Seller:</div>
+                                        <div>{{ trade.order_initializer }}</div>
+                                    </div>
+                                    <div class="flex flex-row space-x-1 text-xs">
+                                        <div>Buyer:</div>
+                                        <div>{{ trade.order_taker }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-right">{{ trade.asset_change }}</td>
+                            <td class="">
+                                <div class="flex flex-row justify-end items-center space-x-2">
+                                    <div class="text-right">{{ trade.total_cost.toFixed(2) }}</div>
 
-                        <td class="">
-                            <div class="flex flex-row justify-end items-center space-x-2">
-                                <ExplorerIcon
-                                    class="w-5"
-                                    :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLSCAN)"
-                                    :signature="trade.signature"
-                                />
-                                <ExplorerIcon
-                                    class="w-5"
-                                    :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLANAFM)"
-                                    :signature="trade.signature"
-                                />
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                                    <CurrencyIcon
+                                        class="w-4 h-4"
+                                        :currency="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
+                                    />
+                                </div>
+                            </td>
+                            <td class="">
+                                <div class="flex flex-row justify-end items-center space-x-2">
+                                    <div class="text-right">
+                                        {{ (trade.total_cost / trade.asset_change).toFixed(5) }}
+                                    </div>
+
+                                    <CurrencyIcon
+                                        class="w-4 h-4"
+                                        :currency="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
+                                    />
+                                </div>
+                            </td>
+
+                            <td class="">
+                                <div class="flex flex-row justify-end items-center space-x-2">
+                                    <ExplorerIcon
+                                        class="w-5"
+                                        :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLSCAN)"
+                                        :signature="trade.signature"
+                                    />
+                                    <ExplorerIcon
+                                        class="w-5"
+                                        :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLANAFM)"
+                                        :signature="trade.signature"
+                                    />
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>
@@ -172,6 +147,7 @@ import ChartjsLineChart from '../components/charts/chartjs/ChartjsLineChart.vue'
 import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
 import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer.js'
 import { useAssetsStore } from '../stores/AssetsStore'
+import { Dropdown, ListGroup, ListGroupItem } from 'flowbite-vue'
 
 const selected_search_type = ref<'mint' | 'address' | 'signature' | 'text'>('text')
 const api_trades = ref<Array<SATrade>>()
@@ -181,18 +157,18 @@ const chart = reactive({
     data: [
         {
             label: 'Line One',
-            yAxisID: 'ATLAS',
+            yAxisID: 'Left',
             radius: 3,
             fill: false,
-            borderColor: 'rgb(75, 192, 192)',
+            borderColor: '#0f86ff',
             data: [0, 0, 5],
         },
         {
             label: 'Line two',
-            yAxisID: 'USDC',
+            yAxisID: 'Right',
             radius: 3,
             fill: false,
-            borderColor: '#c01ca3',
+            borderColor: '#816223',
             data: [0, 0, 5],
         },
     ],

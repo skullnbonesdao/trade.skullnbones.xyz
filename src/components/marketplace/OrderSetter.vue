@@ -28,9 +28,9 @@
                 <p v-bind:class="tab === 2 ? 'block' : 'hidden'">
                     Sell price:{{ input.price }} Sell size:{{ input.size }}
                 </p>
-                <p>PublicKey: {{ publicKey }}</p>
-                <p>Asset Mint: {{ useGlobalStore().symbol.mint_asset }}</p>
-                <p>Pair Mint: {{ useGlobalStore().symbol.mint_pair }}</p>
+                <p class="text-xs">PublicKey: {{ publicKey }}</p>
+                <p class="text-xs">Asset Mint: {{ useGlobalStore().symbol.mint_asset }}</p>
+                <p class="text-xs">Pair Mint: {{ useGlobalStore().symbol.mint_pair }}</p>
                 <div>
                     <TradeInput ref="input" />
                 </div>

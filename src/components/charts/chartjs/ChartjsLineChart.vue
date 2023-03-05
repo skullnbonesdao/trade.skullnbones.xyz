@@ -54,13 +54,26 @@ const chartOptions = {
     maintainAspectRatio: false,
     plugins: {
         legend: {
-            display: false, // This hides all text in the legend and also the labels.
+            display: true, // This hides all text in the legend and also the labels.
         },
     },
     scales: {
+        Left: {
+            type: 'linear',
+            position: 'left',
+            ticks: { beginAtZero: true, color: '#0f86ff' },
+            // Hide grid lines, otherwise you have separate grid lines for the 2 y axes
+            grid: { display: false },
+        },
+        Right: {
+            type: 'linear',
+            position: 'right',
+            ticks: { beginAtZero: true, color: '#816223' },
+            grid: { display: false },
+        },
         x: {
             type: 'time',
-            display: false,
+            display: true,
         },
     },
 }

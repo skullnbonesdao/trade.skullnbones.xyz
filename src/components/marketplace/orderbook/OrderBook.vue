@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col text-sm lg:text-base">
         <div class="flex flex-col">
-            <div class="flex p2 flex-row space-x-1">
+            <div class="flex sm:flex-row flex-col space-x-1">
                 <div class="basis-1/2">
                     <order-book-header> </order-book-header>
                     <div v-for="orderBlock in orders_grouped_buy" :key="orderBlock">
