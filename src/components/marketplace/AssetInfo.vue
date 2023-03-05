@@ -24,7 +24,7 @@
                             (asset) => asset.mint.toString() === useGlobalStore().symbol.mint_asset.toString()
                         )?.name +
                         '/' +
-                        CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString()).name
+                        CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())?.name
                     }}
                 </h3>
             </div>
