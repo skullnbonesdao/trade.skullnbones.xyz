@@ -41,8 +41,10 @@ function createTVChart() {
         /*  default: 'http://localhost:3000',*/
         /* default: '/api',*/
         /* https://api2.skullnbones.xyz*/
-        datafeed: new UDFCompatibleDatafeed('https://api2.skullnbones.xyz/udf'),
-        interval: '60',
+
+        datafeed: new UDFCompatibleDatafeed('http://localhost:8080/udf'),
+        //datafeed: new UDFCompatibleDatafeed('https://api2.skullnbones.xyz/udf'),
+        interval: '1D',
         container: container,
         library_path: '/charting_library/',
         theme: chart_theme,
