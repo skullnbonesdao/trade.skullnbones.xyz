@@ -26,8 +26,8 @@
         />
 
         <div
+            class="flex flex-row space-x-1 items-center col-span-2 xl:col-span-1 justify-center"
             :class="solanaNetwork.transactions_per_second < 1000 ? 'text-red-400' : 'text-green-700'"
-            class="flex flex-row space-x-1 items-center"
         >
             <div class="i-carbon:ibm-cloud-pak-watson-aiops"></div>
             <div>

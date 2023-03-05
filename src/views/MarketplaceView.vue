@@ -1,17 +1,17 @@
 <template>
-    <div class="">
-        <div class="flex flex-col">
+    <div class="space-y-2">
+        <div class="flex flex-col space-y-2">
             <info-feed class="bg-gray-100 dark:bg-gray-800 dark:text-gray-100 shadow-xl p2" />
-            <asset-info class="content-box m-2" />
+            <asset-info class="elementcontainer" />
         </div>
-        <div class="flex flex-col md:flex-row space-x-1">
-            <div class="basis-2/3">
-                <trading-view-chart class="content-box m-2" />
-                <order-table :orders="orders" class="content-box m-2"></order-table>
+        <div class="flex flex-col md:flex-row space-x-2">
+            <div class="basis-2/3 space-y-2">
+                <trading-view-chart class="elementcontainer" />
+                <order-table :orders="orders" class="elementcontainer"></order-table>
             </div>
-            <div class="basis-1/3">
-                <order-setter class="content-box m-2" />
-                <order-book class="content-box m-2" />
+            <div class="basis-1/3 space-y-2">
+                <order-setter class="elementcontainer" />
+                <order-book class="elementcontainer" />
             </div>
         </div>
     </div>
