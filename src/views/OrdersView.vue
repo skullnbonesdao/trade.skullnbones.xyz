@@ -1,9 +1,11 @@
 <template>
-    <div class="p-2 flex flex-col space-y-2">
-        <div class="content-box">
-            <h2>Orders</h2>
+    <div class="flex flex-col space-y-2">
+        <div class="elementcontainer">
+            <div class="flex justify-center">
+                <h1 class="text-4xl">Orders</h1>
+            </div>
         </div>
-        <order-table :orders="orders" class="content-box" />
+        <order-table :orders="orders" class="elementcontainer" />
     </div>
 </template>
 

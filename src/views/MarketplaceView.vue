@@ -2,7 +2,6 @@
     <div class="space-y-2">
         <div class="flex flex-col space-y-2">
             <info-feed class=" " />
-
             <asset-info class="elementcontainer" />
         </div>
         <div class="flex flex-col md:flex-row md:space-x-2">

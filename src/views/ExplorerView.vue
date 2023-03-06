@@ -1,18 +1,21 @@
 <template>
-    <div class="mx-5">
+    <div class="">
         <div
-            class="elementcontainer flex flex-col md:flex-row my-5 p-2 items-center border-2 rounded-2xl border-gray-700 space-x-2"
+            class="elementcontainer flex flex-col md:flex-row my-2 p-2 items-center border-gray-700 md:space-x-2 space-y-1 md:space-y-0"
         >
-            <div class="i-carbon:search p-2"></div>
+            <div class="flex flex-row w-full items-center space-x-1">
+                <div class="i-carbon:search"></div>
 
-            <select class="dark:bg-gray-700 p-2 rounded-md" v-model="selected_search_type">
-                <option v-bind:value="'text'">Text</option>
-                <option v-bind:value="'mint'">Mint</option>
-                <option v-bind:value="'address'">Address</option>
-                <option v-bind:value="'signature'">Signature</option>
-            </select>
+                <select class="flex w-full dark:bg-gray-700 p-2" v-model="selected_search_type">
+                    <option v-bind:value="'text'">Text</option>
+                    <option v-bind:value="'mint'">Mint</option>
+                    <option v-bind:value="'address'">Address</option>
+                    <option v-bind:value="'signature'">Signature</option>
+                </select>
+            </div>
+
             <div class="flex flex-row w-full items-center dark:text-gray-100">
-                <input class="flex w-full dark:bg-gray-700 rounded-md p-2" v-model="user_search_text" type="text" />
+                <input class="flex w-full dark:bg-gray-700 p-2" v-model="user_search_text" type="text" />
             </div>
         </div>
 
@@ -44,20 +47,17 @@
                     <tbody>
                         <tr v-for="(trade, idx) in api_trades" :key="idx">
                             <th>
-                                <div class="w-12">
-                                    <img
-                                        class="rounded-md"
-                                        :src="'/sa_images/webp/' + trade.asset_mint + '.webp'"
-                                        alt="asset_image"
-                                    />
-                                </div>
+                                <AssetPairImage
+                                    :mint="trade.asset_mint"
+                                    :pair="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
+                                />
                             </th>
                             <td class="font-bold">{{ trade.symbol }}</td>
 
                             <td>
                                 <div class="flex flex-col text-xs">
                                     <div>{{ trade.signature.slice(0, 3) }}[...]{{ trade.signature.slice(-3) }}</div>
-                                    <div>{{ new Date(trade.timestamp).toDateString() }}</div>
+                                    <div>{{ new Date(trade.timestamp * 1000).toDateString() }}</div>
                                 </div>
                             </td>
 
@@ -132,7 +132,6 @@
 </template>
 
 <script setup lang="ts">
-import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
 import DotLoader from 'vue-spinner/src/DotLoader.vue'
 import { Api, SATrade } from '../typescript/skullnbones_api/skullnbones_api'
 import { onMounted, reactive, ref, watch } from 'vue'
@@ -142,7 +141,7 @@ import ChartjsLineChart from '../components/charts/chartjs/ChartjsLineChart.vue'
 import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
 import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer.js'
 import { useAssetsStore } from '../stores/AssetsStore'
-import { Dropdown, ListGroup, ListGroupItem } from 'flowbite-vue'
+import AssetPairImage from '../components/marketplace/AssetPairImage.vue'
 
 const selected_search_type = ref<'mint' | 'address' | 'signature' | 'text'>('text')
 const api_trades = ref<Array<SATrade>>()

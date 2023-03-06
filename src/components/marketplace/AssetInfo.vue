@@ -3,7 +3,7 @@
         <div v-if="show_search_modal">
             <SearchAssetModal @select-event="(symbol) => action_update_symbol(symbol).then(() => {})" />
         </div>
-        <div class="flex flex-row space-x-5 items-center">
+        <div @click="action_enable_modal" class="flex flex-row space-x-5 items-center">
             <div
                 class="flex flex-col"
                 @click="
@@ -13,34 +13,49 @@
                 "
             >
                 <div class="flex flex-row items-center gap-2">
-                    <div class="relative">
-                        <img
-                            class="rounded-md w-24"
-                            :src="'/sa_images/webp/' + useGlobalStore().symbol.mint_asset + '.webp'"
-                            alt="asset_image"
-                        />
-                        <div class="absolute top-0 left-10 -w-12">
-                            <CurrencyIcon
-                                class="rounded-md"
-                                :currency="
-                                    CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())
+                    <AssetPairImage
+                        :mint="useGlobalStore().symbol.mint_asset.toString()"
+                        :pair="CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())"
+                    />
+                    <div class="flex flex-col">
+                        <h3>
+                            {{
+                                useAssetsStore().allAssets.find(
+                                    (asset) => asset.mint.toString() === useGlobalStore().symbol.mint_asset.toString()
+                                )?.name +
+                                '/' +
+                                CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())?.name
+                            }}
+                        </h3>
+                        <div class="flex flex-row">
+                            <AssetRarityBadge
+                                :asset_class="
+                                    useAssetsStore().allAssets.find(
+                                        (a) => a.mint === useGlobalStore().symbol.mint_asset.toString()
+                                    )?.attributes?.rarity
+                                "
+                            />
+                            <AssetItemTypeBadge
+                                :asset_class="
+                                    useAssetsStore().allAssets.find(
+                                        (a) => a.mint === useGlobalStore().symbol.mint_asset.toString()
+                                    )?.attributes?.itemType
+                                "
+                            />
+                            <AssetTextBadge
+                                :text="
+                                    useAssetsStore().allAssets.find(
+                                        (a) => a.mint === useGlobalStore().symbol.mint_asset.toString()
+                                    )?.attributes?.spec
                                 "
                             />
                         </div>
                     </div>
-                    <h3>
-                        {{
-                            useAssetsStore().allAssets.find(
-                                (asset) => asset.mint.toString() === useGlobalStore().symbol.mint_asset.toString()
-                            )?.name +
-                            '/' +
-                            CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())?.name
-                        }}
-                    </h3>
                 </div>
             </div>
-            <div class="flex w-full"></div>
-            <Button color="blue" size="xl" @click="action_enable_modal"><div class="i-carbon:search" /> </Button>
+            <div class="flex w-full justify-end p-2">
+                <div class="i-carbon:search" />
+            </div>
         </div>
     </div>
 </template>
@@ -50,9 +65,12 @@ import { Button } from 'flowbite-vue'
 import { useGlobalStore } from '../../stores/GlobalStore'
 import { useAssetsStore } from '../../stores/AssetsStore'
 import { CURRENCIES } from '../../typescript/constants/currencies'
-import CurrencyIcon from '../icon-helper/CurrencyIcon.vue'
 import { ref } from 'vue'
 import SearchAssetModal from '../modals/SearchAssetModal.vue'
+import AssetPairImage from './AssetPairImage.vue'
+import AssetRarityBadge from '../badges/AssetRarityBadge.vue'
+import AssetItemTypeBadge from '../badges/AssetItemTypeBadge.vue'
+import AssetTextBadge from '../badges/AssetTextBadge.vue'
 
 const show_search_modal = ref(false)
 
