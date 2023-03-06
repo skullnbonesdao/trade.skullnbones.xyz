@@ -50,7 +50,7 @@ watch(
     <div class="flex flex-col items-stretch bg-gray-200 dark:bg-gray-900 min-h-screen">
         <NavBar class=""></NavBar>
         <RouterView class=""></RouterView>
-        <footer-component class="fixed inset-x-0 bottom-0"></footer-component>
+        <footer-component class="relative inset-x-0 bottom-0"></footer-component>
     </div>
 </template>
 
