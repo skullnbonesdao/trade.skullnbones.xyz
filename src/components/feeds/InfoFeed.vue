@@ -28,15 +28,20 @@
             :price="useTokenPriceStore().token_price.atlas"
             :change24h="useTokenPriceStore().change24h.atlas"
         />
-
-        <div
-            class="elementcontainer flex flex-row space-x-1 items-center col-span-2 xl:col-span-1 justify-center"
-            :class="solanaNetwork.transactions_per_second < 1000 ? 'text-red-400' : 'text-green-700'"
-        >
-            <div class="i-carbon:ibm-cloud-pak-watson-aiops"></div>
-            <div>
-                <p>{{ solanaNetwork.transactions_per_second.toFixed(0) }}</p>
-                <sup>TPS</sup>
+        <div class="elementcontainer flex w-full justify-center">
+            <div
+                class="flex flex-row space-x-1 items-center col-span-2 xl:col-span-1"
+                :class="
+                    solanaNetwork.transactions_per_second < 1000
+                        ? 'text-red dark:text-red'
+                        : 'text-green dark:text-green'
+                "
+            >
+                <div class="i-carbon:ibm-cloud-pak-watson-aiops"></div>
+                <div>
+                    <p>{{ solanaNetwork.transactions_per_second.toFixed(0) }}</p>
+                    <sup>TPS</sup>
+                </div>
             </div>
         </div>
     </div>
