@@ -57,7 +57,7 @@
                             <td>
                                 <div class="flex flex-col text-xs">
                                     <div>{{ trade.signature.slice(0, 3) }}[...]{{ trade.signature.slice(-3) }}</div>
-                                    <div>{{ new Date(trade.timestamp).toDateString() }}</div>
+                                    <div>{{ new Date(trade.timestamp * 1000).toDateString() }}</div>
                                 </div>
                             </td>
 

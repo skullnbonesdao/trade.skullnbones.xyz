@@ -1,15 +1,15 @@
 <template>
-    <div>
-        <div class="w-16 relative">
-            <img
-                class="object-cover aspect-square hexagon"
-                :src="'/sa_images/webp/' + props.mint + '.webp'"
-                alt="asset_image"
-            />
-
-            <div class="absolute -top-1 -left-1">
-                <CurrencyIcon class="rounded-md w-9" :currency="props.pair" />
+    <div class="flex flex-col static place-items-center">
+        <div class="avatar">
+            <div class="w-12 rounded">
+                <img class="rounded-md" :src="'/sa_images/webp/' + props.mint + '.webp'" alt="asset_image" />
             </div>
+        </div>
+        <div class="absolute pt-8">
+            <div class="bg-black text-xs p-1 rounded-md">{{ symbol }}</div>
+        </div>
+        <div class="absolute pt-0 pr-7">
+            <CurrencyIcon class="w-6" :currency="props.pair" />
         </div>
     </div>
 </template>
@@ -21,6 +21,7 @@ import { PropType } from 'vue'
 const props = defineProps({
     mint: String,
     pair: Object as PropType<I_CURRENCY>,
+    symbol: String,
 })
 </script>
 

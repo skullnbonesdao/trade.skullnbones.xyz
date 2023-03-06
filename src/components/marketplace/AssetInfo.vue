@@ -3,7 +3,7 @@
         <div v-if="show_search_modal">
             <SearchAssetModal @select-event="(symbol) => action_update_symbol(symbol).then(() => {})" />
         </div>
-        <div class="flex flex-row space-x-5 items-center">
+        <div @click="action_enable_modal" class="flex flex-row space-x-5 items-center">
             <div
                 class="flex flex-col"
                 @click="
@@ -17,39 +17,45 @@
                         :mint="useGlobalStore().symbol.mint_asset.toString()"
                         :pair="CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())"
                     />
-
-                    <h3>
-                        {{
-                            useAssetsStore().allAssets.find(
-                                (asset) => asset.mint.toString() === useGlobalStore().symbol.mint_asset.toString()
-                            )?.name +
-                            '/' +
-                            CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())?.name
-                        }}
-                    </h3>
+                    <div class="flex flex-col">
+                        <h3>
+                            {{
+                                useAssetsStore().allAssets.find(
+                                    (asset) => asset.mint.toString() === useGlobalStore().symbol.mint_asset.toString()
+                                )?.name +
+                                '/' +
+                                CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())?.name
+                            }}
+                        </h3>
+                        <div class="flex flex-row">
+                            <AssetRarityBadge
+                                :asset_class="
+                                    useAssetsStore().allAssets.find(
+                                        (a) => a.mint === useGlobalStore().symbol.mint_asset.toString()
+                                    )?.attributes?.rarity
+                                "
+                            />
+                            <AssetItemTypeBadge
+                                :asset_class="
+                                    useAssetsStore().allAssets.find(
+                                        (a) => a.mint === useGlobalStore().symbol.mint_asset.toString()
+                                    )?.attributes?.itemType
+                                "
+                            />
+                            <AssetTextBadge
+                                :text="
+                                    useAssetsStore().allAssets.find(
+                                        (a) => a.mint === useGlobalStore().symbol.mint_asset.toString()
+                                    )?.attributes?.spec
+                                "
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <AssetRarityBadge
-                :asset_class="
-                    useAssetsStore().allAssets.find((a) => a.mint === useGlobalStore().symbol.mint_asset.toString())
-                        ?.attributes?.rarity
-                "
-            />
-            <AssetItemTypeBadge
-                :asset_class="
-                    useAssetsStore().allAssets.find((a) => a.mint === useGlobalStore().symbol.mint_asset.toString())
-                        ?.attributes?.itemType
-                "
-            />
-            <AssetTextBadge
-                :text="
-                    useAssetsStore().allAssets.find((a) => a.mint === useGlobalStore().symbol.mint_asset.toString())
-                        ?.attributes?.spec
-                "
-            />
-            <div class="flex w-full"></div>
-            <Button color="blue" size="xl" @click="action_enable_modal"><div class="i-carbon:search" /> </Button>
+            <div class="flex w-full justify-end p-2">
+                <div class="i-carbon:search" />
+            </div>
         </div>
     </div>
 </template>
