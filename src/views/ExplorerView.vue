@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-5">
+    <div class="">
         <div
             class="elementcontainer flex flex-col md:flex-row my-2 p-2 items-center border-gray-700 md:space-x-2 space-y-1 md:space-y-0"
         >
@@ -47,13 +47,10 @@
                     <tbody>
                         <tr v-for="(trade, idx) in api_trades" :key="idx">
                             <th>
-                                <div class="w-12">
-                                    <img
-                                        class="rounded-md"
-                                        :src="'/sa_images/webp/' + trade.asset_mint + '.webp'"
-                                        alt="asset_image"
-                                    />
-                                </div>
+                                <AssetPairImage
+                                    :mint="trade.asset_mint"
+                                    :pair="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
+                                />
                             </th>
                             <td class="font-bold">{{ trade.symbol }}</td>
 
@@ -146,6 +143,7 @@ import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
 import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer.js'
 import { useAssetsStore } from '../stores/AssetsStore'
 import { Dropdown, ListGroup, ListGroupItem } from 'flowbite-vue'
+import AssetPairImage from '../components/marketplace/AssetPairImage.vue'
 
 const selected_search_type = ref<'mint' | 'address' | 'signature' | 'text'>('text')
 const api_trades = ref<Array<SATrade>>()

@@ -1,7 +1,7 @@
 <template>
-    <header class="sticky top-0 z-50 bg-base-300 shadow-xl">
+    <header class="sticky top-0 z-50 shadow-xl">
         <nav
-            class="bg-white p-3 space-y-3 dark:text-gray-200 dark:bg-black dark:bg-gray-900 w-full z-20 border-b border-gray-200 dark:border-gray-600"
+            class="bg-white p-3 space-y-3 dark:text-gray-200 dark:bg-gray-900 w-full z-20 border-b border-gray-200 dark:border-gray-600"
         >
             <div class="flex flex-wrap justify-between items-center mx-auto">
                 <div>

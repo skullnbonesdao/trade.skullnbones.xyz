@@ -1,5 +1,7 @@
 <template>
-    <footer class="bottom-0 z-50">
+    <footer
+        class="mt-3 bottom-0 z-50 dark:text-gray-200 dark:bg-gray-900 w-full z-20 border-t border-gray-200 dark:border-gray-600"
+    >
         <div class="flex flex-col p-2 space-y-3">
             <div class="flex w-full items-center space-x-2">
                 <a class="hover:text-blue-600" href="https://github.com/skullnbonesdao">

@@ -13,23 +13,10 @@
                 "
             >
                 <div class="flex flex-row items-center gap-2">
-                    <div class="w-12">
-                        <div class="relative">
-                            <img
-                                class="rounded-md w-24"
-                                :src="'/sa_images/webp/' + useGlobalStore().symbol.mint_asset + '.webp'"
-                                alt="asset_image"
-                            />
-                            <div class="absolute top-0 w-5 right-0">
-                                <CurrencyIcon
-                                    class="rounded-md"
-                                    :currency="
-                                        CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())
-                                    "
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    <AssetPairImage
+                        :mint="useGlobalStore().symbol.mint_asset.toString()"
+                        :pair="CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())"
+                    />
                     <h3>
                         {{
                             useAssetsStore().allAssets.find(
@@ -52,9 +39,9 @@ import { Button } from 'flowbite-vue'
 import { useGlobalStore } from '../../stores/GlobalStore'
 import { useAssetsStore } from '../../stores/AssetsStore'
 import { CURRENCIES } from '../../typescript/constants/currencies'
-import CurrencyIcon from '../icon-helper/CurrencyIcon.vue'
 import { ref } from 'vue'
 import SearchAssetModal from '../modals/SearchAssetModal.vue'
+import AssetPairImage from './AssetPairImage.vue'
 
 const show_search_modal = ref(false)
 
