@@ -1,18 +1,21 @@
 <template>
     <div class="mx-5">
         <div
-            class="elementcontainer flex flex-col md:flex-row my-5 p-2 items-center border-2 rounded-2xl border-gray-700 space-x-2"
+            class="elementcontainer flex flex-col md:flex-row my-2 p-2 items-center border-gray-700 md:space-x-2 space-y-1 md:space-y-0"
         >
-            <div class="i-carbon:search p-2"></div>
+            <div class="flex flex-row w-full items-center space-x-1">
+                <div class="i-carbon:search"></div>
 
-            <select class="dark:bg-gray-700 p-2 rounded-md" v-model="selected_search_type">
-                <option v-bind:value="'text'">Text</option>
-                <option v-bind:value="'mint'">Mint</option>
-                <option v-bind:value="'address'">Address</option>
-                <option v-bind:value="'signature'">Signature</option>
-            </select>
+                <select class="flex w-full dark:bg-gray-700 p-2" v-model="selected_search_type">
+                    <option v-bind:value="'text'">Text</option>
+                    <option v-bind:value="'mint'">Mint</option>
+                    <option v-bind:value="'address'">Address</option>
+                    <option v-bind:value="'signature'">Signature</option>
+                </select>
+            </div>
+
             <div class="flex flex-row w-full items-center dark:text-gray-100">
-                <input class="flex w-full dark:bg-gray-700 rounded-md p-2" v-model="user_search_text" type="text" />
+                <input class="flex w-full dark:bg-gray-700 p-2" v-model="user_search_text" type="text" />
             </div>
         </div>
 
