@@ -78,6 +78,7 @@
                 </div>
 
                 <div
+                    class="md:hidden"
                     @click="
                         () => {
                             mobile_menue_shown = !mobile_menue_shown
@@ -89,7 +90,7 @@
             </div>
             <div
                 v-if="mobile_menue_shown"
-                class="flex flex-row border-2 border-gray-200 dark:border-gray-600 p-2 justify-between items-center"
+                class="md:hidden flex flex-row border-2 border-gray-200 dark:border-gray-600 p-2 justify-between items-center"
             >
                 <RouterLink
                     class="i-carbon:home block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"

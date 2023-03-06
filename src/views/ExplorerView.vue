@@ -1,23 +1,18 @@
 <template>
     <div class="mx-5">
-        <div class="flex flex-col md:flex-row my-5 p-2 items-center border-2 rounded-2xl border-gray-700 space-x-2">
-            <div class="dark:text-gray-100 border-gray-700 rounded-xl">
-                <label class="input-group">
-                    <span class="dark:bg-gray-800 dark:text-gray-400">Search</span>
-                    <select
-                        class="select md:select-md select-xs dark:bg-gray-700 dark:text-gray-400"
-                        v-model="selected_search_type"
-                    >
-                        <option v-bind:value="'text'">Text</option>
-                        <option v-bind:value="'mint'">Mint</option>
-                        <option v-bind:value="'address'">Address</option>
-                        <option v-bind:value="'signature'">Signature</option>
-                    </select></label
-                >
-            </div>
+        <div
+            class="elementcontainer flex flex-col md:flex-row my-5 p-2 items-center border-2 rounded-2xl border-gray-700 space-x-2"
+        >
+            <div class="i-carbon:search p-2"></div>
+
+            <select class="dark:bg-gray-700 p-2 rounded-md" v-model="selected_search_type">
+                <option v-bind:value="'text'">Text</option>
+                <option v-bind:value="'mint'">Mint</option>
+                <option v-bind:value="'address'">Address</option>
+                <option v-bind:value="'signature'">Signature</option>
+            </select>
             <div class="flex flex-row w-full items-center dark:text-gray-100">
-                <input class="flex w-full bg-transparent p-2" v-model="user_search_text" type="text" />
-                <div class="i-carbon:search m-2"></div>
+                <input class="flex w-full dark:bg-gray-700 rounded-md p-2" v-model="user_search_text" type="text" />
             </div>
         </div>
 

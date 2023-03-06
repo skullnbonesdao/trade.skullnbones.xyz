@@ -1,11 +1,11 @@
 <template>
-    <div class="">
-        <div class="content-box">
+    <div class="flex flex-col space-y-2">
+        <div class="elementcontainer">
             <div class="flex justify-center">
                 <h1 class="text-4xl">Stats</h1>
             </div>
         </div>
-        <div class="grid grid-cols-2 gap-2 content-box">
+        <div class="elementcontainer grid grid-cols-2 gap-2">
             <div v-if="api_atlas">
                 <h2>ATLAS</h2>
                 <donut-chart
