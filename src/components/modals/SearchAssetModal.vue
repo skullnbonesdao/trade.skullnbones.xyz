@@ -66,11 +66,14 @@ const user_search_text = ref()
                             </thead>
                             <tbody>
                                 <tr
-                                    v-for="(asset, idx) in useAssetsStore().allAssets.filter(
-                                        (a) =>
+                                    v-for="(asset, idx) in useAssetsStore().allAssets.filter((a) => {
+                                        useGlobalStore().draw_tv = false
+
+                                        return (
                                             a.name.toLowerCase().includes(user_search_text.toString().toLowerCase()) ||
                                             a.symbol.toLowerCase().includes(user_search_text.toString().toLowerCase())
-                                    )"
+                                        )
+                                    })"
                                     :key="idx"
                                 >
                                     <th>
@@ -83,13 +86,13 @@ const user_search_text = ref()
                                         </div>
                                     </th>
                                     <td class="font-bold">{{ asset.name }}</td>
-                                    <td class="font-bold flex sm:flex-row flex-col space-y-1 justify-around">
+                                    <td class="font-bold flex sm:flex-row flex-col md:space-y-1 justify-around">
                                         <Button
                                             class="flex justify-center shadow-md"
                                             color="blue"
                                             @click="$emit('selectEvent', asset.symbol + 'ATLAS')"
                                             ><CurrencyIcon
-                                                class="flex w-12"
+                                                class="w-12"
                                                 :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)"
                                             ></CurrencyIcon
                                         ></Button>

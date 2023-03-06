@@ -16,6 +16,7 @@ export const endpoints_list: RPCEndpoint[] = [
 ]
 
 export interface TradeAsset {
+    redraw_chart: boolean
     name: string
     mint_asset: PublicKey
     mint_pair: PublicKey
@@ -36,6 +37,7 @@ export const useGlobalStore = defineStore('globalStore', {
         return {
             is_dark: useDark(),
             rpc: useLocalStorage('rpc_local_store', endpoints_list[0]),
+            draw_tv: true,
             symbol: {
                 name: 'FOODATLAS',
                 mint_asset: new PublicKey('foodQJAztMzX1DKpLaiounNe2BDMds5RNuPC6jsNrDG'),
