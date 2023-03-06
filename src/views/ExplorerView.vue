@@ -132,7 +132,6 @@
 </template>
 
 <script setup lang="ts">
-import BounceLoader from 'vue-spinner/src/BounceLoader.vue'
 import DotLoader from 'vue-spinner/src/DotLoader.vue'
 import { Api, SATrade } from '../typescript/skullnbones_api/skullnbones_api'
 import { onMounted, reactive, ref, watch } from 'vue'
@@ -142,7 +141,6 @@ import ChartjsLineChart from '../components/charts/chartjs/ChartjsLineChart.vue'
 import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
 import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer.js'
 import { useAssetsStore } from '../stores/AssetsStore'
-import { Dropdown, ListGroup, ListGroupItem } from 'flowbite-vue'
 import AssetPairImage from '../components/marketplace/AssetPairImage.vue'
 
 const selected_search_type = ref<'mint' | 'address' | 'signature' | 'text'>('text')

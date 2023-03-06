@@ -1,91 +1,169 @@
 import { defineStore } from 'pinia'
 import { NFTS_URL } from '../typescript/constants/staratlas'
 
-type AssetSlot = {
+export interface StarAtlasNFT {
+    _id: string
+    deactivated: boolean
+    name: string
+    description: string
+    image: string
+    media: Media
+    attributes: Attributes
+    symbol: string
+    markets: Market[]
+    totalSupply?: number
+    mint: string
+    network?: Network
+    tradeSettings: TradeSettings
+    airdrops: Airdrop[]
+    primarySales: PrimarySale[]
+    updatedAt: Date
+    collection?: Collection
+    slots?: Slots
+    id: string
+    createdAt?: Date
+    __v?: number
+}
+
+export interface Airdrop {
+    _id: string
+    supply: number
+    id: number
+}
+
+export interface Attributes {
+    itemType: ItemType
+    tier?: number
+    class: string
+    category?: string
+    score?: number
+    rarity: Rarity
+    musician?: string
+    spec?: string
+    make?: string
+    model?: string
+    unitLength?: number
+    unitWidth?: number
+    unitHeight?: number
+    seriesName?: string
+    episode?: number
+    edition?: string
+}
+
+export enum ItemType {
+    Access = 'access',
+    Collectible = 'collectible',
+    Resource = 'resource',
+    Ship = 'ship',
+    Story = 'story',
+    Structure = 'structure',
+}
+
+export enum Rarity {
+    Anomaly = 'anomaly',
+    Common = 'common',
+    Epic = 'epic',
+    Legendary = 'legendary',
+    Rare = 'rare',
+    Uncommon = 'uncommon',
+}
+
+export interface Collection {
+    name: string
+    family: Family
+}
+
+export enum Family {
+    StarAtlas = 'Star Atlas',
+}
+
+export interface Market {
+    _id?: string
+    id: string
+    quotePair: QuotePair
+    serumProgramId?: String
+}
+
+export enum QuotePair {
+    Atlas = 'ATLAS',
+    Sol = 'SOL',
+    Usdc = 'USDC',
+}
+
+export interface Media {
+    qrInstagram?: string
+    qrFacebook?: string
+    sketchfab?: string
+    audio?: string
+    thumbnailUrl: string
+    gallery?: string[] | null
+}
+
+export enum Network {
+    MainnetBeta = 'mainnet-beta',
+}
+
+export interface PrimarySale {
+    listTimestamp: number
+    id: null | string
+    _id?: string
+    supply?: number
+    price?: number
+    isMinted?: boolean
+    isListed?: boolean
+    mintTimestamp?: number | null
+    orderId?: null
+    expireTimestamp?: number
+    targetPair?: QuotePair
+    quotePrice?: number
+}
+
+export interface Slots {
+    crewSlots: Slot[] | null
+    componentSlots: Slot[] | null
+    moduleSlots: Slot[] | null
+}
+
+export interface Slot {
     type: string
-    size: string
+    size: Size
     quantity: number
 }
 
-type AssetSlots = {
-    crewSlots: AssetSlot[]
-    componentSlots: AssetSlot[]
-    moduleSlots: AssetSlot[]
+export enum Size {
+    Capital = 'capital',
+    Commander = 'commander',
+    Crew = 'crew',
+    Large = 'large',
+    Medium = 'medium',
+    SizeLarge = 'Large',
+    Small = 'small',
+    Titan = 'titan',
+    XSmall = 'x-small',
+    XXSmall = 'XX-Small',
+    XxSmall = 'xx-small',
+    XxxSmall = 'xxx-small',
 }
 
-type AssetMedia = {
-    qrInstagram: string
-    qrFacebook: string
-    sketchfab: string
-    audio: string
-    thumbnailUrl: string
-    gallery: string[]
-}
-
-type AssetMsrp = {
-    value: number
-    currencySymbol: string
-}
-
-type TradeSettings = {
-    saleTime: number
-    msrp: AssetMsrp
+export interface TradeSettings {
+    expireTime?: number | string
+    saleTime?: number | string
     vwap: number
+    msrp?: Msrp
+    saleType?: string
+    limited?: string
 }
 
-type AssetMarket = {
-    _id: string
-    id: string
-    quotePair: string
-    serumProgramI: string
-}
-
-type AssetAirdrops = {
-    _id: string
-    id: string
-    supply: number
-}
-
-type AssetPrimarySales = {
-    _id: string
-    listTimestamp: number
-    supply: number
-    price: number
-    isMinted: boolean
-    isListed: boolean
-    mintTimestamp: number
-    id: string
-}
-
-type AssetCollection = {
-    name: string
-    family: string
-}
-
-type Asset = {
-    _id: string
-    deactivated: boolean
-    description: string
-    image: string
-    attributes: any
-    slots: AssetSlots
-    symbol: string
-    media: AssetMedia
-    name: string
-    createdAt: string
-    updatedAt: string
-    mint: string
-    markets: AssetMarket[]
-    airdrops: AssetAirdrops[]
-    primarySales: AssetPrimarySales[]
-    collection: AssetCollection
+export interface Msrp {
+    value: number
+    currencySymbol: QuotePair
 }
 
 export const useAssetsStore = defineStore({
     id: 'assetsStore',
     state: () => {
         return {
-            allAssets: [] as Asset[],
+            allAssets: [] as StarAtlasNFT[],
         }
     },
 

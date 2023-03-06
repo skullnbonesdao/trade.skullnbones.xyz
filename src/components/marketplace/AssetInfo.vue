@@ -17,6 +17,7 @@
                         :mint="useGlobalStore().symbol.mint_asset.toString()"
                         :pair="CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())"
                     />
+
                     <h3>
                         {{
                             useAssetsStore().allAssets.find(
@@ -28,6 +29,25 @@
                     </h3>
                 </div>
             </div>
+
+            <AssetRarityBadge
+                :asset_class="
+                    useAssetsStore().allAssets.find((a) => a.mint === useGlobalStore().symbol.mint_asset.toString())
+                        ?.attributes?.rarity
+                "
+            />
+            <AssetItemTypeBadge
+                :asset_class="
+                    useAssetsStore().allAssets.find((a) => a.mint === useGlobalStore().symbol.mint_asset.toString())
+                        ?.attributes?.itemType
+                "
+            />
+            <AssetTextBadge
+                :text="
+                    useAssetsStore().allAssets.find((a) => a.mint === useGlobalStore().symbol.mint_asset.toString())
+                        ?.attributes?.spec
+                "
+            />
             <div class="flex w-full"></div>
             <Button color="blue" size="xl" @click="action_enable_modal"><div class="i-carbon:search" /> </Button>
         </div>
@@ -42,6 +62,9 @@ import { CURRENCIES } from '../../typescript/constants/currencies'
 import { ref } from 'vue'
 import SearchAssetModal from '../modals/SearchAssetModal.vue'
 import AssetPairImage from './AssetPairImage.vue'
+import AssetRarityBadge from '../badges/AssetRarityBadge.vue'
+import AssetItemTypeBadge from '../badges/AssetItemTypeBadge.vue'
+import AssetTextBadge from '../badges/AssetTextBadge.vue'
 
 const show_search_modal = ref(false)
 

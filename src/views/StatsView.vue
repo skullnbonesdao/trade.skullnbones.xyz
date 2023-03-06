@@ -5,6 +5,9 @@
                 <h1 class="text-4xl">Stats</h1>
             </div>
         </div>
+        <div v-if="is_loading">
+            <DotLoader class="flex p-3 w-full justify-center" :loading="is_loading" color="#ff150c" />
+        </div>
         <div class="elementcontainer grid grid-cols-2 gap-2">
             <div v-if="api_atlas">
                 <h2>ATLAS</h2>
@@ -84,6 +87,9 @@ import { onMounted, ref } from 'vue'
 import DonutChart from '../components/charts/apexcharts/DonutChart.vue'
 import { StaratlasToken } from '../typescript/interfaces/StarAtlasTokenAPI'
 import TreeMap from '../components/charts/apexcharts/TreeMap.vue'
+import DotLoader from 'vue-spinner/src/DotLoader.vue'
+
+const is_loading = ref(true)
 
 const api_atlas = ref<StaratlasToken>()
 const api_polis = ref<StaratlasToken>()
@@ -96,5 +102,6 @@ onMounted(() => {
     fetch('https://galaxy.staratlas.com/tokens/polis')
         .then((res) => res.json())
         .then((json) => (api_polis.value = json))
+    is_loading.value = false
 })
 </script>
