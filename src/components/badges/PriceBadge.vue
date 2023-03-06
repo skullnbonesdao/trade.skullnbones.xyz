@@ -9,17 +9,21 @@
                 <div class="text-right uppercase">{{ props.imageName }}</div>
             </div>
             <div class="flex items-center">
-                <div class="text-right">{{ props.price.toString().substring(0, 5) }}</div>
+                <div class="text-right">{{ props.price?.toString().substring(0, 5) }}</div>
                 <div class="i-carbon-currency-dollar"></div>
             </div>
 
-            <div class="flex items-center">
+            <div class="flex items-center" v-if="props.change24h">
                 <div
                     class="text-sm"
-                    :class="change24h > 0 ? 'i-carbon-arrow-up-right text-green' : 'i-carbon-arrow-down-right text-red'"
+                    :class="
+                        props.change24h > 0 && true
+                            ? 'i-carbon-arrow-up-right text-green'
+                            : 'i-carbon-arrow-down-right text-red'
+                    "
                 ></div>
-                <div class="text-right" :class="change24h > 0 ? 'text-green' : 'text-red'">
-                    {{ props.change24h.toFixed(2) }}%
+                <div class="text-right" :class="props.change24h > 0 ? 'text-green' : 'text-red'">
+                    {{ props.change24h?.toFixed(2) }}%
                 </div>
             </div>
         </div>
