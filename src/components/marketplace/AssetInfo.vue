@@ -13,19 +13,21 @@
                 "
             >
                 <div class="flex flex-row items-center gap-2">
-                    <div class="relative">
-                        <img
-                            class="rounded-md w-24"
-                            :src="'/sa_images/webp/' + useGlobalStore().symbol.mint_asset + '.webp'"
-                            alt="asset_image"
-                        />
-                        <div class="absolute top-0 left-10 -w-12">
-                            <CurrencyIcon
-                                class="rounded-md"
-                                :currency="
-                                    CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())
-                                "
+                    <div class="w-12">
+                        <div class="relative">
+                            <img
+                                class="rounded-md w-24"
+                                :src="'/sa_images/webp/' + useGlobalStore().symbol.mint_asset + '.webp'"
+                                alt="asset_image"
                             />
+                            <div class="absolute top-0 w-5 right-0">
+                                <CurrencyIcon
+                                    class="rounded-md"
+                                    :currency="
+                                        CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())
+                                    "
+                                />
+                            </div>
                         </div>
                     </div>
                     <h3>
