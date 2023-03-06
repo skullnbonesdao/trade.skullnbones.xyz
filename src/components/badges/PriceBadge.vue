@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-row space-x-2">
         <div class="w-9 pt-3">
-            <img class="" :src="'/tokens/' + props.imageName + '.png'" :alt="props.imageName" />
+            <CurrencyIcon :currency="props.currency" />
         </div>
 
         <div>
@@ -9,7 +9,7 @@
                 <div class="text-right uppercase">{{ props.imageName }}</div>
             </div>
             <div class="flex items-center">
-                <div class="text-right">{{ props.price }}</div>
+                <div class="text-right">{{ props.price.toString().substring(0, 5) }}</div>
                 <div class="i-carbon-currency-dollar"></div>
             </div>
 
@@ -26,23 +26,16 @@
     </div>
 </template>
 
-<script setup>
-import { defineProps } from 'vue'
+<script setup lang="ts">
+import { defineProps, PropType } from 'vue'
+import CurrencyIcon from '../icon-helper/CurrencyIcon.vue'
+import { I_CURRENCY } from '../../typescript/constants/currencies'
 
 const props = defineProps({
-    imageName: {
-        type: String,
-        default: 'bitcoin',
-    },
-
-    price: {
-        type: String,
-        default: '100',
-    },
-    change24h: {
-        type: Number,
-        default: 0.053433443,
-    },
+    imageName: String,
+    price: String,
+    change24h: Number,
+    currency: Object as PropType<I_CURRENCY>,
 })
 </script>
 
