@@ -28,9 +28,9 @@
             :price="useTokenPriceStore().token_price.atlas"
             :change24h="useTokenPriceStore().change24h.atlas"
         />
-        <div class="elementcontainer flex w-full justify-center">
+        <div class="elementcontainer flex w-full justify-center col-span-2 xl:col-span-1">
             <div
-                class="flex flex-row space-x-1 items-center col-span-2 xl:col-span-1"
+                class="flex flex-row space-x-1 items-center"
                 :class="
                     solanaNetwork.transactions_per_second < 1000
                         ? 'text-red dark:text-red'
