@@ -53,7 +53,7 @@
                     class="md:hidden"
                     @click="
                         () => {
-                            mobile_menue_shown = !mobile_menue_shown
+                            mobile_menu_shown = !mobile_menu_shown
                         }
                     "
                 >
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div
-                v-if="mobile_menue_shown"
+                v-if="mobile_menu_shown"
                 class="md:hidden flex flex-row border-2 border-gray-200 dark:border-gray-600 p-2 justify-between items-center"
             >
                 <RouterLink class="i-carbon:home" to="/"> </RouterLink>
@@ -88,10 +88,9 @@
 <script setup lang="ts">
 import { WalletMultiButton } from 'solana-wallets-vue'
 import ToggleMode from '../components/buttons/ToggleMode.vue'
-import { Navbar, NavbarLogo, NavbarCollapse, NavbarLink } from 'flowbite-vue'
 import { ref } from 'vue'
 
-const mobile_menue_shown = ref(false)
+const mobile_menu_shown = ref(false)
 </script>
 
 <style scoped>
