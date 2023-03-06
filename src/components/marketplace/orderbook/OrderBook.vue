@@ -10,7 +10,7 @@
                 </div>
                 <div class="basis-1/2">
                     <order-book-header :reverse_order="true"> </order-book-header>
-                    <div v-for="orderBlock in orders_grouped_sell" :key="orderBlock">
+                    <div v-for="(orderBlock, idx) in orders_grouped_sell" :key="idx">
                         <order-book-row
                             :order="orderBlock"
                             side="sell"
@@ -34,8 +34,8 @@ import { useGlobalStore } from '../../../stores/GlobalStore'
 import { useStaratlasGmStore } from '../../../stores/StaratlasGmStore'
 import { CURRENCIES } from '../../../typescript/constants/currencies'
 
-const orders_grouped_buy = ref()
-const orders_grouped_sell = ref()
+const orders_grouped_buy = ref([])
+const orders_grouped_sell = ref([])
 const max_size_buy = ref(0)
 const max_size_sell = ref(0)
 
@@ -46,11 +46,23 @@ watchEffect(async () => {
         CURRENCIES.find((currency) => useGlobalStore().symbol.mint_pair.toString() === currency.mint)?.name ?? ''
 
     if (selectedCurrency.value === 'ATLAS') {
-        orders_grouped_buy.value = groupBy(useStaratlasGmStore().atlasOrders.buyOrders, 'uiPrice')
-        orders_grouped_sell.value = groupBy(useStaratlasGmStore().atlasOrders.sellOrders, 'uiPrice')
+        orders_grouped_buy.value = groupBy(
+            useStaratlasGmStore().atlasOrders.buyOrders.sort((a, b) => a.uiPrice - b.uiPrice),
+            'uiPrice'
+        )
+        orders_grouped_sell.value = groupBy(
+            useStaratlasGmStore().atlasOrders.sellOrders.sort((a, b) => a.uiPrice - b.uiPrice),
+            'uiPrice'
+        )
     } else {
-        orders_grouped_buy.value = groupBy(useStaratlasGmStore().usdcOrders.buyOrders, 'uiPrice')
-        orders_grouped_sell.value = groupBy(useStaratlasGmStore().usdcOrders.sellOrders, 'uiPrice')
+        orders_grouped_buy.value = groupBy(
+            useStaratlasGmStore().usdcOrders.buyOrders.sort((a, b) => a.uiPrice - b.uiPrice),
+            'uiPrice'
+        )
+        orders_grouped_sell.value = groupBy(
+            useStaratlasGmStore().usdcOrders.sellOrders.sort((a, b) => a.uiPrice - b.uiPrice),
+            'uiPrice'
+        )
     }
 
     max_size_buy.value = find_max(orders_grouped_buy)

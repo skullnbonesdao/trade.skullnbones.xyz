@@ -6,7 +6,7 @@
                 {{ orderQty }}
             </p>
             <p class="basis-1/3 bg-text" :class="reverse_order ? 'text-left' : 'text-right'">
-                {{ order[0].uiPrice.toFixed(8) }}
+                {{ order[0].uiPrice.toFixed(8).substring(0, 10) }}
             </p>
         </div>
     </div>
@@ -17,7 +17,7 @@ import { defineProps, PropType } from 'vue'
 import { useWallet } from 'solana-wallets-vue'
 import { ref, watchEffect, unref } from 'vue'
 
-const is_user_order = ref(false);
+const is_user_order = ref(false)
 const props = defineProps(['order', 'side', 'max_size', 'reverse_order'])
 const orderQty = props.order
     .flatMap((order: any) => {
