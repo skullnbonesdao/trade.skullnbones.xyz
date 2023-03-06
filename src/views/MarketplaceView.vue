@@ -7,7 +7,7 @@
         </div>
         <div class="flex flex-col md:flex-row md:space-x-2">
             <div class="basis-2/3 space-y-2">
-                <trading-view-chart class="elementcontainer" />
+                <trading-view-chart v-if="useGlobalStore().draw_tv" class="elementcontainer" />
                 <order-table :orders="orders" class="elementcontainer"></order-table>
             </div>
             <div class="basis-1/3 space-y-2">
@@ -33,6 +33,7 @@ import { useWallet } from 'solana-wallets-vue'
 import OrderTable from '../components/tables/OrderTable.vue'
 import OrderBook from '../components/marketplace/orderbook/OrderBook.vue'
 import AssetInfo from '../components/marketplace/AssetInfo.vue'
+import { storeToRefs } from 'pinia'
 
 const orders = ref()
 onMounted(async () => {

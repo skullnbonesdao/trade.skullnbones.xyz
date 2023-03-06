@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="show_search_modal">
-            <SearchAssetModal @select-event="(symbol) => action_update_symbol(symbol)" />
+            <SearchAssetModal @select-event="(symbol) => action_update_symbol(symbol).then(() => {})" />
         </div>
         <div class="flex flex-row space-x-5 items-center">
             <div
@@ -60,9 +60,12 @@ function action_enable_modal() {
     show_search_modal.value = true
 }
 
-function action_update_symbol(symbol: string) {
+async function action_update_symbol(symbol: string) {
     show_search_modal.value = false
-    if (symbol.length > 0) useGlobalStore().updateSymbol(symbol)
+    if (symbol.length > 0) {
+        useGlobalStore().draw_tv = true
+        useGlobalStore().updateSymbol(symbol)
+    }
     console.log(symbol)
 }
 </script>

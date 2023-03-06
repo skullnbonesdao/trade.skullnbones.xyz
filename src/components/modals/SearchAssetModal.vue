@@ -66,11 +66,14 @@ const user_search_text = ref()
                             </thead>
                             <tbody>
                                 <tr
-                                    v-for="(asset, idx) in useAssetsStore().allAssets.filter(
-                                        (a) =>
+                                    v-for="(asset, idx) in useAssetsStore().allAssets.filter((a) => {
+                                        useGlobalStore().draw_tv = false
+
+                                        return (
                                             a.name.toLowerCase().includes(user_search_text.toString().toLowerCase()) ||
                                             a.symbol.toLowerCase().includes(user_search_text.toString().toLowerCase())
-                                    )"
+                                        )
+                                    })"
                                     :key="idx"
                                 >
                                     <th>
