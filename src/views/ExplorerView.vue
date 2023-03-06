@@ -258,7 +258,7 @@ async function action_fetch_api() {
                 chart.data[1].data.push(trade.total_cost / trade.asset_change)
                 break
         }
-        chart.lables.push(trade.timestamp)
+        chart.lables.push(trade.timestamp * 1000)
     })
 
     //  chart.data = data.flatMap((trade) => trade.price) as never
