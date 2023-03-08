@@ -50,8 +50,7 @@ export const useStaratlasGmStore = defineStore({
                                 order.currencyMint ===
                                     CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)?.mint.toString()
                         )
-                        .sort((a, b) => a.uiPrice - b.uiPrice)
-
+                        ?.sort(sort_prices)
                     this.atlasOrders.sellOrders = this.orders
                         .filter(
                             (order) =>
@@ -59,8 +58,7 @@ export const useStaratlasGmStore = defineStore({
                                 order.currencyMint ===
                                     CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)?.mint.toString()
                         )
-                        .sort((a, b) => a.uiPrice - b.uiPrice)
-
+                        ?.sort(sort_prices)
                     this.usdcOrders.buyOrders = this.orders
                         .filter(
                             (order) =>
@@ -68,8 +66,7 @@ export const useStaratlasGmStore = defineStore({
                                 order.currencyMint ===
                                     CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)?.mint.toString()
                         )
-                        .sort((a, b) => a.uiPrice - b.uiPrice)
-
+                        ?.sort(sort_prices)
                     this.usdcOrders.sellOrders = this.orders
                         .filter(
                             (order) =>
@@ -77,7 +74,7 @@ export const useStaratlasGmStore = defineStore({
                                 order.currencyMint ===
                                     CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)?.mint.toString()
                         )
-                        .sort((a, b) => a.uiPrice - b.uiPrice)
+                        ?.sort(sort_prices)
                 })
                 .catch((err: any) => console.log('{getOpenOrdersForAssetError}: ' + err))
         },
@@ -112,3 +109,7 @@ export const useStaratlasGmStore = defineStore({
         },
     },
 })
+
+function sort_prices(a: any, b: any): number {
+    return a.uiPrice > b.uiPrice ? -1 : 1
+}
