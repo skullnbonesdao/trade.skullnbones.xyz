@@ -1,12 +1,12 @@
 <template>
     <div :class="is_user_order && (reverse_order ? 'border-r-4 border-sky-500' : 'border-l-4 border-sky-500')">
         <div class="flex flex-row bg-bar" :class="reverse_order ? 'flex-row-reverse' : ''">
-            <p class="basis-1/3" :class="reverse_order ? 'text-right' : 'text-left'">{{ order.length }}</p>
+            <p class="basis-1/3" :class="reverse_order ? 'text-right' : 'text-left'">{{ order.owners.length }}</p>
             <p class="basis-1/3" :class="reverse_order ? 'text-right' : 'text-left'">
-                {{ orderQty }}
+                {{ order.size }}
             </p>
             <p class="basis-1/3 bg-text" :class="reverse_order ? 'text-left' : 'text-right'">
-                {{ order[0].uiPrice.toFixed(8).substring(0, 10) }}
+                {{ order.price.toFixed(8).substring(0, 10) }}
             </p>
         </div>
     </div>
@@ -16,17 +16,25 @@
 import { defineProps, PropType } from 'vue'
 import { useWallet } from 'solana-wallets-vue'
 import { ref, watchEffect, unref } from 'vue'
+import { OrderBookOrderMap } from '../../../../stores/StaratlasGmStore'
 
 const is_user_order = ref(false)
-const props = defineProps(['order', 'side', 'max_size', 'reverse_order'])
-const orderQty = props.order
-    .flatMap((order: any) => {
-        return order.orderQtyRemaining
-    })
-    .reduce((a: any, b: any) => a + b, 0)
 
-const percentage_fill = props.reverse_order ? (orderQty / props.max_size) * 90 : (orderQty / props.max_size) * 90
-const percentage_unfill = props.reverse_order ? (orderQty / props.max_size) * 90 : (orderQty / props.max_size) * 90
+const props = defineProps({
+    order: { type: Object as PropType<OrderBookOrderMap> },
+  side: String,
+  max_size: {type: Number, default: 100},
+  reverse_order : Boolean
+})
+
+// const orderQty = props.order
+//     .flatMap((order: any) => {
+//         return order.size
+//     })
+//     .reduce((a: any, b: any) => a + b, 0)
+
+const percentage_fill = props.reverse_order ? (props.order!.size  / props.max_size ) * 90 : (props.order!.size  / props.max_size) * 90
+const percentage_unfill = props.reverse_order ? (props.order!.size  / props.max_size) * 90 : (props.order!.size  / props.max_size) * 90
 
 const bg_color = props.side == 'buy' ? '#0d7e04' : '#5e0b27'
 const text_color = props.side == 'buy' ? '#24de18' : '#ee0000'
@@ -54,6 +62,7 @@ watchEffect(async () => {
         #03102f v-bind(percentage_unfill + '%')
     );
 }
+
 .bg-text {
     color: v-bind(text_color);
 }
