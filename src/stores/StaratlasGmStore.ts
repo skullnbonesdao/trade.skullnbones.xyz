@@ -4,6 +4,12 @@ import { Connection, Keypair, PublicKey, Transaction } from '@solana/web3.js'
 import { TRADE_PROGRAM } from '../typescript/constants/staratlas'
 import { CURRENCIES, E_CURRENCIES } from '../typescript/constants/currencies'
 
+export interface OrderBookOrderMap {
+    size: number
+    price: number
+    owners: string[]
+}
+
 import { useGlobalStore } from './GlobalStore'
 
 type getInitializeOrderTransactionResponse = {
@@ -20,12 +26,12 @@ export const useStaratlasGmStore = defineStore({
         orders: [] as Order[],
         playerOrders: [] as Order[],
         atlasOrders: {
-            buyOrders: [] as Order[],
-            sellOrders: [] as Order[],
+            buyOrders: [] as OrderBookOrderMap[],
+            sellOrders: [] as OrderBookOrderMap[],
         },
         usdcOrders: {
-            buyOrders: [] as Order[],
-            sellOrders: [] as Order[],
+            buyOrders: [] as OrderBookOrderMap[],
+            sellOrders: [] as OrderBookOrderMap[],
         },
     }),
 
@@ -42,42 +48,101 @@ export const useStaratlasGmStore = defineStore({
                 .getOpenOrdersForAsset(this.connection, new PublicKey(assetMint), TRADE_PROGRAM)
                 .then((response: any) => {
                     this.orders = response
-
-                    this.atlasOrders.buyOrders = this.orders
+                    this.atlasOrders.sellOrders = []
+                    this.atlasOrders.buyOrders = []
+                    this.usdcOrders.sellOrders = []
+                    this.usdcOrders.buyOrders = []
+                    this.orders
                         .filter(
                             (order) =>
                                 order.orderType === 'buy' &&
                                 order.currencyMint ===
                                     CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)?.mint.toString()
                         )
-                        .sort((a, b) => a.uiPrice - b.uiPrice)
+                        ?.sort(sort_prices)
+                        .forEach((order) => {
+                            if (this.atlasOrders.buyOrders.some((stored) => stored.price === order.uiPrice)) {
+                                this.atlasOrders.buyOrders
+                                    .find((stored) => stored.price === order.uiPrice)
+                                    ?.owners.push(order.owner)
+                                this.atlasOrders.buyOrders.find((stored) => stored.price === order.uiPrice)!.size +=
+                                    order.orderQtyRemaining
+                            } else
+                                this.atlasOrders.buyOrders.push({
+                                    owners: [order.owner],
+                                    price: order.uiPrice,
+                                    size: order.orderQtyRemaining,
+                                })
+                        })
 
-                    this.atlasOrders.sellOrders = this.orders
+                    this.orders
                         .filter(
                             (order) =>
                                 order.orderType === 'sell' &&
                                 order.currencyMint ===
                                     CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)?.mint.toString()
                         )
-                        .sort((a, b) => a.uiPrice - b.uiPrice)
+                        ?.sort(sort_prices)
+                        .forEach((order) => {
+                            if (this.atlasOrders.sellOrders.some((stored) => stored.price === order.uiPrice)) {
+                                this.atlasOrders.sellOrders
+                                    .find((stored) => stored.price === order.uiPrice)
+                                    ?.owners.push(order.owner)
+                                this.atlasOrders.sellOrders.find((stored) => stored.price === order.uiPrice)!.size +=
+                                    order.orderQtyRemaining
+                            } else
+                                this.atlasOrders.sellOrders.push({
+                                    owners: [order.owner],
+                                    price: order.uiPrice,
+                                    size: order.orderQtyRemaining,
+                                })
+                        })
 
-                    this.usdcOrders.buyOrders = this.orders
+                    this.orders
                         .filter(
                             (order) =>
                                 order.orderType === 'buy' &&
                                 order.currencyMint ===
                                     CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)?.mint.toString()
                         )
-                        .sort((a, b) => a.uiPrice - b.uiPrice)
+                        ?.sort(sort_prices)
+                        .forEach((order) => {
+                            if (this.usdcOrders.buyOrders.some((stored) => stored.price === order.uiPrice)) {
+                                this.usdcOrders.buyOrders
+                                    .find((stored) => stored.price === order.uiPrice)
+                                    ?.owners.push(order.owner)
+                                this.usdcOrders.buyOrders.find((stored) => stored.price === order.uiPrice)!.size +=
+                                    order.orderQtyRemaining
+                            } else
+                                this.usdcOrders.buyOrders.push({
+                                    owners: [order.owner],
+                                    price: order.uiPrice,
+                                    size: order.orderQtyRemaining,
+                                })
+                        })
 
-                    this.usdcOrders.sellOrders = this.orders
+                    this.orders
                         .filter(
                             (order) =>
                                 order.orderType === 'sell' &&
                                 order.currencyMint ===
                                     CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)?.mint.toString()
                         )
-                        .sort((a, b) => a.uiPrice - b.uiPrice)
+                        ?.sort(sort_prices)
+                        .forEach((order) => {
+                            if (this.usdcOrders.sellOrders.some((stored) => stored.price === order.uiPrice)) {
+                                this.usdcOrders.sellOrders
+                                    .find((stored) => stored.price === order.uiPrice)
+                                    ?.owners.push(order.owner)
+                                this.usdcOrders.sellOrders.find((stored) => stored.price === order.uiPrice)!.size +=
+                                    order.orderQtyRemaining
+                            } else
+                                this.usdcOrders.sellOrders.push({
+                                    owners: [order.owner],
+                                    price: order.uiPrice,
+                                    size: order.orderQtyRemaining,
+                                })
+                        })
                 })
                 .catch((err: any) => console.log('{getOpenOrdersForAssetError}: ' + err))
         },
@@ -112,3 +177,7 @@ export const useStaratlasGmStore = defineStore({
         },
     },
 })
+
+function sort_prices(a: any, b: any): number {
+    return a.uiPrice > b.uiPrice ? -1 : 1
+}
