@@ -1,12 +1,12 @@
 <template>
     <div :class="is_user_order && (reverse_order ? 'border-r-4 border-sky-500' : 'border-l-4 border-sky-500')">
         <div class="flex flex-row bg-bar" :class="reverse_order ? 'flex-row-reverse' : ''">
-            <p class="basis-1/3" :class="reverse_order ? 'text-right' : 'text-left'">{{ order.owners.length }}</p>
+            <p class="basis-1/3" :class="reverse_order ? 'text-right' : 'text-left'">{{ order?.owners.length }}</p>
             <p class="basis-1/3" :class="reverse_order ? 'text-right' : 'text-left'">
-                {{ order.size }}
+                {{ order?.size }}
             </p>
             <p class="basis-1/3 bg-text" :class="reverse_order ? 'text-left' : 'text-right'">
-                {{ order.price.toFixed(8).substring(0, 10) }}
+                {{ order?.price.toFixed(8).substring(0, 10) }}
             </p>
         </div>
     </div>
