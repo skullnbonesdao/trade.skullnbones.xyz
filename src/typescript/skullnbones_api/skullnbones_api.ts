@@ -447,6 +447,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         getSignature: (
             query: {
                 signature: string
+                /** @format int64 */
+                limit?: number
             },
             params: RequestParams = {}
         ) =>
@@ -502,9 +504,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             query: {
                 /** @example "FOODATLAS" */
                 symbol: string
-                /** @format int64 */
+                /**
+                 * @format int64
+                 * @example "1677799981"
+                 */
                 from?: number
-                /** @format int64 */
+                /**
+                 * @format int64
+                 * @example "1678663981"
+                 */
                 to?: number
                 resolution?: string
                 /** @format int64 */
@@ -531,7 +539,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         getSearch: (
             query: {
-                /** @example "FOOD" */
+                /** @example "SymbolsParams" */
                 query: string
                 shipType?: string
                 exchange?: string
@@ -581,7 +589,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         getSymbols: (
             query: {
-                /** @example "FOOD" */
+                /** @example "FOODATLAS" */
                 symbol: string
             },
             params: RequestParams = {}
