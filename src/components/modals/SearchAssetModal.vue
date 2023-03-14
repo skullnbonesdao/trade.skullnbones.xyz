@@ -68,7 +68,6 @@ const user_search_text = ref()
                                 <tr
                                     v-for="(asset, idx) in useAssetsStore().allAssets.filter((a) => {
                                         useGlobalStore().draw_tv = false
-
                                         return (
                                             a.name.toLowerCase().includes(user_search_text.toString().toLowerCase()) ||
                                             a.symbol.toLowerCase().includes(user_search_text.toString().toLowerCase())
@@ -86,25 +85,20 @@ const user_search_text = ref()
                                         </div>
                                     </th>
                                     <td class="font-bold">{{ asset.name }}</td>
-                                    <td class="font-bold flex sm:flex-row flex-col md:space-y-1 justify-around">
-                                        <Button
-                                            class="flex justify-center shadow-md"
-                                            color="blue"
-                                            @click="$emit('selectEvent', asset.symbol + 'ATLAS')"
-                                            ><CurrencyIcon
-                                                class="w-12"
+                                    <td class="">
+                                        <div class="flex flex-row justify-around space-x-2">
+                                            <CurrencyIcon
+                                                @click="$emit('selectEvent', asset.symbol + 'ATLAS')"
+                                                class="w-12 h-12"
                                                 :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)"
-                                            ></CurrencyIcon
-                                        ></Button>
-                                        <Button
-                                            class="flex justify-center shadow-md"
-                                            color="blue"
-                                            @click="$emit('selectEvent', asset.symbol + 'USDC')"
-                                            ><CurrencyIcon
-                                                class="w-12"
+                                            ></CurrencyIcon>
+
+                                            <CurrencyIcon
+                                                @click="$emit('selectEvent', asset.symbol + 'USDC')"
+                                                class="w-12 h-12"
                                                 :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)"
-                                            ></CurrencyIcon
-                                        ></Button>
+                                            ></CurrencyIcon>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>

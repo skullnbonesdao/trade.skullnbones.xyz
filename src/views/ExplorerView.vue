@@ -205,7 +205,7 @@ async function action_fetch_api() {
             await api.trades
                 .getMint({ mint: user_search_text.value, limit: 100 })
                 .then((resp) => {
-                    data = resp.data
+                    data = resp.data.sort((a, b) => a.timestamp - b.timestamp)
                 })
                 .catch((err) => console.error(err))
             break
@@ -213,7 +213,7 @@ async function action_fetch_api() {
             await api.trades
                 .getAddress({ address: user_search_text.value, limit: 100 })
                 .then((resp) => {
-                    data = resp.data
+                    data = resp.data.sort((a, b) => a.timestamp - b.timestamp)
                 })
                 .catch((err) => console.error(err))
             break
@@ -221,7 +221,7 @@ async function action_fetch_api() {
             await api.trades
                 .getSignature({ signature: user_search_text.value })
                 .then((resp) => {
-                    data = resp.data
+                    data = resp.data.sort((a, b) => a.timestamp - b.timestamp)
                 })
                 .catch((err) => console.error(err))
             break
