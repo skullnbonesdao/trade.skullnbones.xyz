@@ -86,7 +86,7 @@ const user_search_text = ref()
                                     </th>
                                     <td class="font-bold">{{ asset.name }}</td>
                                     <td class="">
-                                        <div class="flex flex-row justify-around">
+                                        <div class="flex flex-row justify-around space-x-2">
                                             <CurrencyIcon
                                                 @click="$emit('selectEvent', asset.symbol + 'ATLAS')"
                                                 class="w-12 h-12"
