@@ -3,22 +3,36 @@
         <div
             class="elementcontainer flex flex-col md:flex-row my-2 p-2 items-center border-gray-700 md:space-x-2 space-y-1 md:space-y-0"
         >
-            <div class="flex flex-row w-full items-center space-x-1">
-                <div class="i-carbon:search"></div>
+            <div
+                class="flex md:flex-row md:space-x-2 flex-col w-full items-center bg-gray-300 dark:bg-gray-600 p-1 shadow-lg"
+            >
+                <div class="w-16 i-carbon:search"></div>
 
-                <select class="flex w-full dark:bg-gray-700 p-2" v-model="selected_search_type">
-                    <option v-bind:value="'text'">Text</option>
-                    <option v-bind:value="'mint'">Mint</option>
-                    <option v-bind:value="'address'">Address</option>
-                    <option v-bind:value="'signature'">Signature</option>
-                </select>
-            </div>
+                <div class="flex flex-row w-full items-center">
+                    <div class="basis-1/5 text-right">By:</div>
+                    <select class="flex w-full dark:bg-gray-700 p-2" v-model="selected_search_type">
+                        <option v-bind:value="'text'">Text</option>
+                        <option v-bind:value="'mint'">Mint</option>
+                        <option v-bind:value="'address'">Address</option>
+                        <option v-bind:value="'signature'">Signature</option>
+                    </select>
+                </div>
 
-            <div class="flex flex-row w-full items-center dark:text-gray-100">
-                <input class="flex w-full dark:bg-gray-700 p-2" v-model="user_search_text" type="text" />
+                <div class="flex flex-row w-full items-center dark:text-gray-100">
+                    <div class="basis-1/5"></div>
+
+                    <input class="flex w-full dark:bg-gray-700 p-2" v-model="user_search_text" type="text" />
+                </div>
+                <div class="flex flex-row w-full items-center">
+                    <div class="basis-1/5 text-right">Limit:</div>
+                    <select class="flex w-full dark:bg-gray-700 p-2" v-model="selected_search_limit">
+                        <option v-bind:value="10">10</option>
+                        <option v-bind:value="100">100</option>
+                        <option v-bind:value="500">500</option>
+                    </select>
+                </div>
             </div>
         </div>
-
         <div v-if="is_loading">
             <DotLoader class="flex w-full justify-center" :loading="is_loading" color="#ff150c" />
         </div>
@@ -46,60 +60,61 @@
                     </thead>
                     <tbody>
                         <tr v-for="(trade, idx) in api_trades" :key="idx">
-                            <th>
+                            <th id="">
                                 <AssetPairImage
                                     :mint="trade.asset_mint"
                                     :pair="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
                                 />
                             </th>
-                            <td class="font-bold">{{ trade.symbol }}</td>
-
-                            <td>
-                                <div class="flex flex-col text-xs">
-                                    <div>{{ trade.signature.slice(0, 3) }}[...]{{ trade.signature.slice(-3) }}</div>
-                                    <div>{{ new Date(trade.timestamp * 1000).toDateString() }}</div>
+                            <td id="pair" class="font-bold">{{ trade.symbol }}</td>
+                            <td id="info">
+                                <div class="flex flex-col text-sm">
+                                    <div class="flex justify-end text-md">
+                                        {{ new Date(trade.timestamp * 1000).toUTCString() }}
+                                    </div>
+                                    <div class="flex justify-end text-2xs">
+                                        <p>{{ trade.signature.slice(0, 5) }}[...]{{ trade.signature.slice(-5) }}</p>
+                                    </div>
                                 </div>
                             </td>
-
-                            <td>
+                            <td id="mint">
                                 <div class="flex flex-col">
-                                    <div class="flex flex-row space-x-1 text-xs">
+                                    <div class="flex flex-row space-x-1 text-xs justify-around">
                                         <div>Token:</div>
                                         <div>{{ trade.currency_mint }}</div>
                                     </div>
-                                    <div class="flex flex-row space-x-1 text-xs">
+                                    <div class="flex flex-row space-x-1 text-xs justify-around">
                                         <div>Asset:</div>
                                         <div>{{ trade.asset_mint }}</div>
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td id="wallet">
                                 <div class="flex flex-col">
-                                    <div class="flex flex-row space-x-1 text-xs">
+                                    <div class="flex flex-row space-x-1 text-xs justify-around">
                                         <div>Seller:</div>
                                         <div>{{ trade.order_initializer }}</div>
                                     </div>
-                                    <div class="flex flex-row space-x-1 text-xs">
+                                    <div class="flex flex-row space-x-1 text-xs justify-around">
                                         <div>Buyer:</div>
                                         <div>{{ trade.order_taker }}</div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-right">{{ trade.asset_change }}</td>
-                            <td class="">
+                            <td id="size" class="text-right">{{ trade.asset_change }}</td>
+                            <td id="cost" class="">
                                 <div class="flex flex-row justify-end items-center space-x-2">
-                                    <div class="text-right">{{ trade.total_cost.toFixed(2) }}</div>
-
+                                    <div class="text-right">{{ (trade.asset_change * trade.price).toFixed(2) }}</div>
                                     <CurrencyIcon
                                         class="w-4 h-4"
                                         :currency="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
                                     />
                                 </div>
                             </td>
-                            <td class="">
+                            <td id="price" class="">
                                 <div class="flex flex-row justify-end items-center space-x-2">
                                     <div class="text-right">
-                                        {{ (trade.total_cost / trade.asset_change).toFixed(5) }}
+                                        {{ trade.price }}
                                     </div>
 
                                     <CurrencyIcon
@@ -108,8 +123,7 @@
                                     />
                                 </div>
                             </td>
-
-                            <td class="">
+                            <td id="" class="">
                                 <div class="flex flex-row justify-end items-center space-x-2">
                                     <ExplorerIcon
                                         class="w-5"
@@ -133,7 +147,7 @@
 
 <script setup lang="ts">
 import DotLoader from 'vue-spinner/src/DotLoader.vue'
-import { Api, SATrade } from '../typescript/skullnbones_api/skullnbones_api'
+import { Api, Trade } from '../typescript/skullnbones_api/skullnbones_api'
 import { onMounted, reactive, ref, watch } from 'vue'
 import CurrencyIcon from '../components/icon-helper/CurrencyIcon.vue'
 import { CURRENCIES, E_CURRENCIES } from '../typescript/constants/currencies'
@@ -144,7 +158,10 @@ import { useAssetsStore } from '../stores/AssetsStore'
 import AssetPairImage from '../components/marketplace/AssetPairImage.vue'
 
 const selected_search_type = ref<'mint' | 'address' | 'signature' | 'text'>('text')
-const api_trades = ref<Array<SATrade>>()
+
+const selected_search_limit = ref<10 | 100 | 500>(100)
+
+const api_trades = ref<Array<Trade>>()
 const user_search_text = ref('ammo')
 const chart = reactive({
     is_shown: false,
@@ -198,50 +215,53 @@ async function action_fetch_api() {
     chart.is_shown = false
 
     const api = new Api({ baseUrl: 'https://api2.skullnbones.xyz' })
-    let data: SATrade[] = []
+    let data: Trade[] = []
 
     switch (selected_search_type.value) {
         case 'mint':
             await api.trades
-                .getMint({ mint: user_search_text.value, limit: 100 })
+                .getMint({ asset_mint: user_search_text.value, limit: selected_search_limit.value })
                 .then((resp) => {
-                    data = resp.data.sort((a, b) => a.timestamp - b.timestamp)
+                    data = resp.data
                 })
                 .catch((err) => console.error(err))
             break
         case 'address':
             await api.trades
-                .getAddress({ address: user_search_text.value, limit: 100 })
+                .getAddress({ address: user_search_text.value, limit: selected_search_limit.value })
                 .then((resp) => {
-                    data = resp.data.sort((a, b) => a.timestamp - b.timestamp)
+                    data = resp.data
                 })
                 .catch((err) => console.error(err))
             break
         case 'signature':
             await api.trades
-                .getSignature({ signature: user_search_text.value })
+                .getSignature({ signature: user_search_text.value, limit: selected_search_limit.value })
                 .then((resp) => {
-                    data = resp.data.sort((a, b) => a.timestamp - b.timestamp)
+                    data = resp.data
                 })
                 .catch((err) => console.error(err))
             break
         case 'text':
             await api.trades
                 .getMint({
-                    mint:
+                    asset_mint:
                         useAssetsStore().allAssets.find(
                             (asset) =>
                                 asset.symbol.toUpperCase().includes(user_search_text.value.toUpperCase()) ||
                                 asset.name.toUpperCase().includes(user_search_text.value.toUpperCase())
                         )?.mint ?? 'fuel',
-                    limit: 100,
+                    currency_mint: CURRENCIES.find((c) =>
+                        user_search_text.value.toUpperCase().includes(c.name.toUpperCase())
+                    )?.mint,
+                    limit: selected_search_limit.value,
                 })
                 .then((resp) => (data = resp.data))
                 .catch((err) => console.error(err))
             break
     }
     api_trades.value = []
-    api_trades.value = data
+    api_trades.value = data.sort((a, b) => b.timestamp - a.timestamp)
 
     chart.lables = []
     chart.data.forEach((d) => (d.data = []))
