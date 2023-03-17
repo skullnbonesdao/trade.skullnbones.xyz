@@ -9,7 +9,12 @@
  * ---------------------------------------------------------------
  */
 
-export interface SATrade {
+export interface SymbolsType {
+    name: string
+    value: string
+}
+
+export interface Trade {
     /** @format float */
     asset_change: number
     asset_mint: string
@@ -20,17 +25,14 @@ export interface SATrade {
     market_fee: number
     order_initializer: string
     order_taker: string
+    /** @format float */
+    price: number
     signature: string
     symbol: string
     /** @format int64 */
     timestamp: number
     /** @format float */
     total_cost: number
-}
-
-export interface SymbolsType {
-    name: string
-    value: string
 }
 
 export interface UdfConfig {
@@ -339,7 +341,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * @request GET:/stats/first_timestamp
          */
         getFirstTimestamp: (params: RequestParams = {}) =>
-            this.request<SATrade[], any>({
+            this.request<Trade[], any>({
                 path: `/stats/first_timestamp`,
                 method: 'GET',
                 format: 'json',
@@ -355,7 +357,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * @request GET:/stats/last_timestamp
          */
         getLastTimestamp: (params: RequestParams = {}) =>
-            this.request<SATrade[], any>({
+            this.request<Trade[], any>({
                 path: `/stats/last_timestamp`,
                 method: 'GET',
                 format: 'json',
@@ -379,7 +381,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             },
             params: RequestParams = {}
         ) =>
-            this.request<SATrade[], any>({
+            this.request<Trade[], any>({
                 path: `/trades/address`,
                 method: 'GET',
                 query: query,
@@ -404,7 +406,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             },
             params: RequestParams = {}
         ) =>
-            this.request<SATrade[], any>({
+            this.request<Trade[], any>({
                 path: `/trades/last`,
                 method: 'GET',
                 query: query,
@@ -422,13 +424,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          */
         getMint: (
             query: {
-                mint: string
+                asset_mint: string
+                currency_mint?: string
                 /** @format int64 */
                 limit?: number
             },
             params: RequestParams = {}
         ) =>
-            this.request<SATrade[], any>({
+            this.request<Trade[], any>({
                 path: `/trades/mint`,
                 method: 'GET',
                 query: query,
@@ -452,7 +455,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
             },
             params: RequestParams = {}
         ) =>
-            this.request<SATrade[], any>({
+            this.request<Trade[], any>({
                 path: `/trades/signature`,
                 method: 'GET',
                 query: query,
