@@ -5,20 +5,26 @@
                 <h1 class="text-4xl">Stats</h1>
             </div>
         </div>
-        <div class="elementcontainer" @click="show_volume_element = !show_volume_element">
-            <div class="flex flex-row items-center">
+        <div>
+            <div
+                class="flex flex-row items-center elementcontainer hover:bg-gray-400 dark:hover:bg-gray-700 border-b-2 border-gray-500"
+                @click="show_volume_element = !show_volume_element"
+            >
                 <h2 class="flex flex-row w-full">Galactic Marketplace Volume</h2>
                 <div class="flex w-full justify-end">
                     <i class="w-12 h-12 i-carbon:text-indent-more" :class="show_volume_element ? 'rotate-90' : ''"></i>
                 </div>
             </div>
             <Transition>
-                <GalacticMarketplaceTradingVolumeElement v-if="show_volume_element" />
+                <GalacticMarketplaceTradingVolumeElement class="elementcontainer" v-if="show_volume_element" />
             </Transition>
         </div>
 
-        <div class="elementcontainer" @click="show_distribution_element = !show_distribution_element">
-            <div class="flex flex-row items-center">
+        <div>
+            <div
+                class="flex flex-row items-center elementcontainer hover:bg-gray-400 dark:hover:bg-gray-700 border-b-2 border-gray-500"
+                @click="show_distribution_element = !show_distribution_element"
+            >
                 <h2 class="flex flex-row w-full">Polis/Atlas Distribution</h2>
                 <div class="flex w-full justify-end">
                     <i
@@ -28,7 +34,7 @@
                 </div>
             </div>
             <Transition>
-                <PolisAtlasDistributionElement v-if="show_distribution_element" />
+                <PolisAtlasDistributionElement class="elementcontainer" v-if="show_distribution_element" />
             </Transition>
         </div>
     </div>
