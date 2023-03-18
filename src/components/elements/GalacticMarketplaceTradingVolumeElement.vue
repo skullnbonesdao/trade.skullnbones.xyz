@@ -22,7 +22,9 @@ export default {
                         show: false,
                     },
                 },
-
+                tooltip: {
+                    theme: useGlobalStore().is_dark ? 'dark' : 'false',
+                },
                 stroke: {
                     curve: 'smooth',
                     width: 2,
