@@ -186,12 +186,20 @@ export default {
 </script>
 <template>
     <div class="flex flex-col w-full">
-        <BeatLoader class="flex w-full justify-center" :loading="!show_chart" color="#ff150c" />
+        <BeatLoader class="elementcontainer flex w-full justify-center" :loading="!show_chart" color="#ff150c" />
 
-        <apexchart v-if="show_chart" height="350" type="line" :options="chartOptions" :series="series"></apexchart>
+        <apexchart
+            class="elementcontainer"
+            v-if="show_chart"
+            height="350"
+            type="line"
+            :options="chartOptions"
+            :series="series"
+        ></apexchart>
 
         <SelectBox
-            class="flex w-full justify-end"
+            class="elementcontainer flex w-full justify-end"
+            v-if="show_chart"
             @selected="
                 (value) => {
                     selected_timeframe = value

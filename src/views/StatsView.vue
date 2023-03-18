@@ -2,7 +2,7 @@
     <div class="flex flex-col space-y-2">
         <div>
             <div
-                class="flex flex-row items-center elementcontainer hover:bg-gray-400 dark:hover:bg-gray-700 border-b-2 border-gray-500"
+                class="flex flex-row items-center elementcontainer hover:bg-gray-400 dark:hover:bg-gray-700 border-b-2 border-gray-300"
                 @click="show_volume_element = !show_volume_element"
             >
                 <h2 class="flex flex-row w-full">Galactic Marketplace Volume</h2>
@@ -12,17 +12,13 @@
             </div>
 
             <Transition>
-                <GalacticMarketplaceTradingVolumeElement
-                    class="elementcontainer"
-                    :timeframe="selected_timeframe"
-                    v-if="show_volume_element"
-                />
+                <GalacticMarketplaceTradingVolumeElement :timeframe="selected_timeframe" v-if="show_volume_element" />
             </Transition>
         </div>
 
         <div>
             <div
-                class="flex flex-row items-center elementcontainer hover:bg-gray-400 dark:hover:bg-gray-700 border-b-2 border-gray-500"
+                class="flex flex-row items-center elementcontainer hover:bg-gray-400 dark:hover:bg-gray-700 border-b-2 border-gray-300"
                 @click="show_distribution_element = !show_distribution_element"
             >
                 <h2 class="flex flex-row w-full">Polis/Atlas Distribution</h2>
@@ -34,7 +30,7 @@
                 </div>
             </div>
             <Transition>
-                <PolisAtlasDistributionElement class="elementcontainer" v-if="show_distribution_element" />
+                <PolisAtlasDistributionElement v-if="show_distribution_element" />
             </Transition>
         </div>
     </div>

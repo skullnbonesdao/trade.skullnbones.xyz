@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { StaratlasToken } from '../../typescript/interfaces/StarAtlasTokenAPI'
 import DonutChart from '../../components/charts/apexcharts/DonutChart.vue'
-import DotLoader from 'vue-spinner/src/DotLoader.vue'
+import BeatLoader from 'vue-spinner/src/BeatLoader.vue'
 import TreeMap from '../../components/charts/apexcharts/TreeMap.vue'
 const is_loading = ref(true)
 
@@ -21,9 +21,10 @@ onMounted(() => {
 })
 </script>
 <template>
-    <DotLoader class="flex p-3 w-full justify-center" :loading="!api_atlas" color="#ff150c" />
-    <div v-if="api_atlas" class="elementcontainer grid grid-cols-2 gap-2">
-        <div>
+    <BeatLoader class="elementcontainer flex w-full justify-center" :loading="!api_atlas" color="#ff150c" />
+
+    <div v-if="api_atlas" class="grid grid-cols-2 gap-2">
+        <div class="elementcontainer">
             <h2>ATLAS</h2>
             <donut-chart
                 :series="[
@@ -35,7 +36,7 @@ onMounted(() => {
                 :lables="['circulating', 'locked', 'remaining']"
             />
         </div>
-        <div>
+        <div class="elementcontainer">
             <h2>POLIS</h2>
             <donut-chart
                 :series="[
@@ -46,7 +47,7 @@ onMounted(() => {
                 :lables="['circulating', 'locked', 'remaining']"
             />
         </div>
-        <div>
+        <div class="elementcontainer">
             <tree-map
                 :series="[
                     {
@@ -69,7 +70,7 @@ onMounted(() => {
                 ]"
             />
         </div>
-        <div>
+        <div class="elementcontainer">
             <tree-map
                 :series="[
                     {
