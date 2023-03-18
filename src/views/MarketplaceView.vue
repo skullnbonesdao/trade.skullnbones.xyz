@@ -2,9 +2,9 @@
     <div class="space-y-2">
         <div class="flex flex-col space-y-2">
             <info-feed class=" " />
-            <asset-info class="elementcontainer" />
+            <asset-info class="elementcontainer hoverable" />
         </div>
-        <div class="flex flex-col space-y-2  md:flex-row md:space-x-2 md:space-y-0">
+        <div class="flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
             <div class="basis-2/3 space-y-2">
                 <trading-view-chart v-if="useGlobalStore().draw_tv" class="elementcontainer" />
                 <order-table :orders="orders" class="elementcontainer"></order-table>
