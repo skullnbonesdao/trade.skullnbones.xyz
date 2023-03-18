@@ -11,7 +11,7 @@
                 <div class="flex flex-row w-full items-center">
                     <div class="basis-1/5 text-right">By:</div>
                     <select class="flex w-full dark:bg-gray-700 p-2" v-model="selected_search_type">
-                        <option v-bind:value="'text'">Text</option>
+                        <option v-bind:value="'symbol'">Symbol</option>
                         <option v-bind:value="'mint'">Mint</option>
                         <option v-bind:value="'address'">Address</option>
                         <option v-bind:value="'signature'">Signature</option>
@@ -157,7 +157,7 @@ import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer.js'
 import { useAssetsStore } from '../stores/AssetsStore'
 import AssetPairImage from '../components/marketplace/AssetPairImage.vue'
 
-const selected_search_type = ref<'mint' | 'address' | 'signature' | 'text'>('text')
+const selected_search_type = ref<'mint' | 'address' | 'signature' | 'symbol'>('symbol')
 
 const selected_search_limit = ref<10 | 100 | 500>(100)
 
@@ -242,22 +242,22 @@ async function action_fetch_api() {
                 })
                 .catch((err) => console.error(err))
             break
-        case 'text':
-            await api.trades
-                .getMint({
-                    asset_mint:
-                        useAssetsStore().allAssets.find(
-                            (asset) =>
-                                asset.symbol.toUpperCase().includes(user_search_text.value.toUpperCase()) ||
-                                asset.name.toUpperCase().includes(user_search_text.value.toUpperCase())
-                        )?.mint ?? 'fuel',
-                    currency_mint: CURRENCIES.find((c) =>
-                        user_search_text.value.toUpperCase().includes(c.name.toUpperCase())
-                    )?.mint,
-                    limit: selected_search_limit.value,
-                })
-                .then((resp) => (data = resp.data))
-                .catch((err) => console.error(err))
+        case 'symbol':
+            // await api.trades
+            //     .getLast({
+            //         asset_mint:
+            //             useAssetsStore().allAssets.find(
+            //                 (asset) =>
+            //                     asset.symbol.toUpperCase().includes(user_search_text.value.toUpperCase()) ||
+            //                     asset.name.toUpperCase().includes(user_search_text.value.toUpperCase())
+            //             )?.mint ?? 'fuel',
+            //         currency_mint: CURRENCIES.find((c) =>
+            //             user_search_text.value.toUpperCase().includes(c.name.toUpperCase())
+            //         )?.mint,
+            //         limit: selected_search_limit.value,
+            //     })
+            //     .then((resp) => (data = resp.data))
+            //     .catch((err) => console.error(err))
             break
     }
     api_trades.value = []
