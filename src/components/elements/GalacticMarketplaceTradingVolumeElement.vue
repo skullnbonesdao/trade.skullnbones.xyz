@@ -4,15 +4,30 @@ import BeatLoader from 'vue-spinner/src/BeatLoader.vue'
 import SelectBox from '../buttons/SelectBox.vue'
 import { Api } from '../../typescript/skullnbones_api/skullnbones_api'
 import { CURRENCIES, E_CURRENCIES } from '../../typescript/constants/currencies'
+import { useGlobalStore } from '../../stores/GlobalStore'
 
 export default {
     name: 'LineExample',
     components: { SelectBox, BeatLoader },
     data: function () {
         return {
-            selected_timeframe: '1Y',
+            selected_timeframe: '1M',
             show_chart: false,
             chartOptions: {
+                chart: {
+                    background: useGlobalStore().is_dark ? '' : '',
+                    foreColor: useGlobalStore().is_dark ? 'Grey' : '',
+                    type: 'area',
+                    toolbar: {
+                        show: false,
+                    },
+                },
+
+                stroke: {
+                    curve: 'smooth',
+                    width: 2,
+                },
+
                 xaxis: {
                     type: 'text',
                     categories: [
@@ -28,29 +43,31 @@ export default {
                 },
                 yaxis: [
                     {
-                        opposite: true,
-                        seriesName: 'ATLAS',
-                        min: 0,
-                        // labels: {
-                        //     formatter: this.label_formatter,
-                        // },
-                    },
-                    {
                         seriesName: 'USDC',
                         min: 0,
-                        // labels: {
-                        //     formatter: this.label_formatter,
-                        // },
+                        labels: {
+                            formatter: this.label_formatter,
+                        },
+                    },
+                    {
+                        seriesName: 'ATLAS',
+                        opposite: true,
+                        min: 0,
+                        labels: {
+                            formatter: this.label_formatter,
+                        },
                     },
                 ],
             },
             series: [
                 {
-                    name: 'ATLAS',
+                    type: 'line',
+                    name: 'USDC',
                     data: [],
                 },
                 {
-                    name: 'USDC',
+                    type: 'line',
+                    name: 'ATLAS',
                     data: [],
                 },
             ],
@@ -66,7 +83,7 @@ export default {
             let array_1 = []
             let array_2 = []
 
-            let from_param = Date.now() / 1000
+            let from_param = (Date.now() / 1000).toFixed(0)
             switch (this.selected_timeframe) {
                 case '1W':
                     from_param -= 60 * 60 * 24 * 7
@@ -81,30 +98,27 @@ export default {
 
             await api.trades
                 .getVolume({
+                    currency_mint: CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC).mint,
                     from: from_param,
-                    currency_mint: CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS).mint,
                 })
                 .then((resp) => resp.data)
                 .then((data) => {
-                    console.log('ATLAS')
-                    console.log(data)
-                    //this.series[0].data = data.flatMap((d) => d.volume)
                     array_1 = data
                 })
 
             await api.trades
                 .getVolume({
-                    form: from_param,
-                    currency_mint: CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC).mint,
+                    currency_mint: CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS).mint,
+                    from: from_param,
                 })
                 .then((resp) => resp.data)
                 .then((data) => {
                     array_2 = data
                 })
             let array_combined = this.mergeArrays(array_1, array_2)
-
             this.series[0].data = array_combined.map((el) => el.volume_1)
             this.series[1].data = array_combined.map((el) => el.volume_2)
+
             this.chartOptions.xaxis.categories = array_combined.map((el) => el.time)
             console.log(array_combined)
             this.show_chart = true
