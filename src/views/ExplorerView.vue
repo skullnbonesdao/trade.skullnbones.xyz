@@ -4,49 +4,59 @@
             class="elementcontainer flex flex-col md:flex-row my-2 p-2 items-center border-gray-700 md:space-x-2 space-y-1 md:space-y-0"
         >
             <div
-                class="flex md:flex-row md:space-x-2 flex-col w-full items-center bg-gray-300 dark:bg-gray-600 p-1 shadow-lg"
+                class="flex md:flex-row md:space-x-2 md:space-y-0 space-y-2 flex-col w-full items-center bg-gray-300 dark:bg-gray-600 p-1 shadow-lg"
             >
-                <div class="w-16 i-carbon:search"></div>
-
-                <SelectBox
-                    class="flex"
-                    text="By"
-                    :selected_in="selected_search_type"
-                    :options="['symbol', 'mint', 'address', 'signature']"
-                    @selected="
-                        (value) => {
-                            selected_search_type = value
-                        }
-                    "
-                ></SelectBox>
-
-                <div class="flex flex-row w-full items-center dark:text-gray-100">
-                    <input class="flex w-full dark:bg-gray-700 p-1" v-model="user_search_text" type="text" />
+                <div class="flex flex-auto bg-gray-200 dark:bg-gray-800">
+                    <div class="flex-grow my-3 w-16 i-carbon:search"></div>
                 </div>
 
-                <SelectBox
-                    class="flex"
-                    text="Limit"
-                    :selected_in="selected_search_limit.toString()"
-                    :options="[10, 100, 500]"
+                <div class="flex flex-col sm:flex-row space-x-2 sm:space-y-0 space-y-2 items-center flex-grow">
+                    <SelectBox
+                        class="flex"
+                        text="By"
+                        :selected_in="selected_search_type"
+                        :options="['symbol', 'mint', 'address', 'signature']"
+                        @selected="
+                            (value) => {
+                                selected_search_type = value
+                            }
+                        "
+                    ></SelectBox>
+                    <SelectBox
+                        class="flex"
+                        text="Limit"
+                        :selected_in="selected_search_limit.toString()"
+                        :options="[10, 100, 500]"
+                        @selected="
+                            (value) => {
+                                selected_search_limit = value
+                            }
+                        "
+                    ></SelectBox>
+                </div>
+
+                <TextBox
+                    class="flex w-full"
+                    text="Search"
+                    type="text"
+                    ref="tb_value"
+                    default="AMMOUSDC"
                     @selected="
-                        (value) => {
-                            selected_search_limit = value
+                        () => {
+                            action_fetch_api().then(() => {})
                         }
                     "
-                ></SelectBox>
+                />
             </div>
         </div>
         <div v-if="is_loading">
             <DotLoader class="flex w-full justify-center" :loading="is_loading" color="#ff150c" />
         </div>
         <div v-else class="flex flex-col space-y-2">
-            <div
-                class="elementcontainer h-64"
-                v-if="chart.is_shown && (selected_search_type === 'mint' || selected_search_type === 'symbol')"
-            >
-                <chartjs-line-chart :data="chart.data" :labels="chart.lables"></chartjs-line-chart>
+            <div class="elementcontainer" v-if="selected_search_type === 'mint' || selected_search_type === 'symbol'">
+                <ExplorerChartElement v-if="!is_loading" :x_values="chart.data" :y_values="chart.lables" />
             </div>
+
             <div class="relative overflow-x-auto">
                 <table>
                     <thead>
@@ -146,6 +156,7 @@
                 </table>
             </div>
         </div>
+        <div v-if="no_data">No Data Found!</div>
     </div>
 </template>
 
@@ -157,55 +168,36 @@ import CurrencyIcon from '../components/icon-helper/CurrencyIcon.vue'
 import { CURRENCIES, E_CURRENCIES } from '../typescript/constants/currencies'
 import ChartjsLineChart from '../components/charts/chartjs/ChartjsLineChart.vue'
 import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
-import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer.js'
+import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer'
 import { useAssetsStore } from '../stores/AssetsStore'
 import AssetPairImage from '../components/marketplace/AssetPairImage.vue'
 import SelectBox from '../components/buttons/SelectBox.vue'
+import ExplorerChartElement from '../components/elements/ExplorerChartElement.vue'
+import TextBox from '../components/buttons/TextBox.vue'
 
+const no_data = ref(false)
 const selected_search_type = ref<'mint' | 'address' | 'signature' | 'symbol'>('symbol')
-
 const selected_search_limit = ref<10 | 100 | 500>(100)
 
 const api_trades = ref<Array<Trade>>()
-const user_search_text = ref('AMMOUSDC')
+const tb_value = ref({ text_box_value: 'AMMOUSDC' })
 const chart = reactive({
-    is_shown: false,
     data: [
-        {
-            label: 'Line One',
-            yAxisID: 'Left',
-            radius: 3,
-            fill: false,
-            borderColor: '#0f86ff',
-            data: [0, 0, 5],
-        },
-        {
-            label: 'Line two',
-            yAxisID: 'Right',
-            radius: 3,
-            fill: false,
-            borderColor: '#816223',
-            data: [0, 0, 5],
-        },
+        [0, 0, 5],
+        [0, 0, 5],
     ],
     lables: [0, 1, 2],
 })
 
 const is_loading = ref(true)
 
-watch(user_search_text, () => {
-    is_loading.value = true
-    console.log(user_search_text)
-    action_fetch_api()
-    is_loading.value = false
-})
-
-watch(selected_search_type, async () => {
-    is_loading.value = true
-    api_trades.value = []
-    await action_fetch_api()
-    is_loading.value = false
-})
+watch(
+    () => tb_value.value.text_box_value,
+    (new_value) => {
+        is_loading.value = true
+        action_fetch_api()
+    }
+)
 
 onMounted(async () => {
     is_loading.value = true
@@ -213,19 +205,17 @@ onMounted(async () => {
         await delay(1000)
     }
     await action_fetch_api()
-    is_loading.value = false
 })
 
 async function action_fetch_api() {
-    chart.is_shown = false
-
+    is_loading.value = true
     const api = new Api({ baseUrl: 'https://api2.skullnbones.xyz' })
     let data: Trade[] = []
 
     switch (selected_search_type.value) {
         case 'mint':
             await api.trades
-                .getMint({ asset_mint: user_search_text.value, limit: selected_search_limit.value })
+                .getMint({ asset_mint: tb_value.value.text_box_value, limit: selected_search_limit.value })
                 .then((resp) => {
                     data = resp.data
                 })
@@ -233,7 +223,7 @@ async function action_fetch_api() {
             break
         case 'address':
             await api.trades
-                .getAddress({ address: user_search_text.value, limit: selected_search_limit.value })
+                .getAddress({ address: tb_value.value.text_box_value, limit: selected_search_limit.value })
                 .then((resp) => {
                     data = resp.data
                 })
@@ -241,7 +231,7 @@ async function action_fetch_api() {
             break
         case 'signature':
             await api.trades
-                .getSignature({ signature: user_search_text.value, limit: selected_search_limit.value })
+                .getSignature({ signature: tb_value.value.text_box_value, limit: selected_search_limit.value })
                 .then((resp) => {
                     data = resp.data
                 })
@@ -249,36 +239,33 @@ async function action_fetch_api() {
             break
         case 'symbol':
             await api.trades
-                .getSymbol({ symbol: user_search_text.value, limit: selected_search_limit.value })
+                .getSymbol({ symbol: tb_value.value.text_box_value, limit: selected_search_limit.value })
                 .then((resp) => {
                     data = resp.data
                 })
                 .catch((err) => console.error(err))
             break
     }
+
     api_trades.value = []
     api_trades.value = data.sort((a, b) => b.timestamp - a.timestamp)
 
     chart.lables = []
-    chart.data.forEach((d) => (d.data = []))
+    chart.data = [[], []]
 
     data.forEach((trade) => {
         switch (trade.currency_mint) {
             case CURRENCIES.find((c) => c.type == E_CURRENCIES.ATLAS)?.mint:
-                chart.data[0].label = 'ATLAS'
-                chart.data[0].data.push(trade.total_cost / trade.asset_change)
+                chart.data[0].push(trade.total_cost / trade.asset_change)
                 break
             case CURRENCIES.find((c) => c.type == E_CURRENCIES.USDC)?.mint:
-                chart.data[1].label = 'USDC'
-                chart.data[1].data.push(trade.total_cost / trade.asset_change)
+                chart.data[1].push(trade.total_cost / trade.asset_change)
                 break
         }
         chart.lables.push(trade.timestamp * 1000)
     })
-
-    //  chart.data = data.flatMap((trade) => trade.price) as never
-    //  chart.lables = data.flatMap((trade) => trade.timestamp) as never
-    chart.is_shown = true
+    is_loading.value = false
+    no_data.value = false
 }
 
 function delay(ms: number) {

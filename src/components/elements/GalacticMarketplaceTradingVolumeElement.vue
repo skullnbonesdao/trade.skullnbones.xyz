@@ -16,17 +16,19 @@ export default {
             chartOptions: {
                 chart: {
                     background: useGlobalStore().is_dark ? '' : '',
-                    foreColor: useGlobalStore().is_dark ? 'Grey' : '',
+                    foreColor: useGlobalStore().is_dark ? 'Gray' : '',
                     type: 'area',
                     toolbar: {
                         show: false,
                     },
                 },
-
-                stroke: {
-                    curve: 'smooth',
-                    width: 2,
+                tooltip: {
+                    theme: useGlobalStore().is_dark ? 'dark' : 'false',
                 },
+                stroke: {
+                    curve: 'stepline',
+                },
+                colors: ['#1F6EFFFF', '#9e5315'],
 
                 xaxis: {
                     type: 'text',
