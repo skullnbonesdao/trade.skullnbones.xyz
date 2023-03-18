@@ -19,6 +19,7 @@
                     </select></label
                 >
             </div>
+            <div class="flex w-full justify-center">{{ version }}</div>
             <div class="flex w-full justify-center">© [2022 S&B + HEIM] All Rights Reserved.</div>
         </div>
     </footer>
@@ -26,6 +27,7 @@
 
 <script setup lang="ts">
 import { useGlobalStore, endpoints_list } from '../stores/GlobalStore'
+const version = __APP_VERSION__
 </script>
 
 <style scoped></style>
