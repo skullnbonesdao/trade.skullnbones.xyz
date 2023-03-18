@@ -39,7 +39,7 @@
         <div v-else class="flex flex-col space-y-2">
             <div
                 class="elementcontainer h-64"
-                v-if="chart.is_shown && (selected_search_type === 'mint' || selected_search_type === 'text')"
+                v-if="chart.is_shown && (selected_search_type === 'mint' || selected_search_type === 'symbol')"
             >
                 <chartjs-line-chart :data="chart.data" :labels="chart.lables"></chartjs-line-chart>
             </div>
@@ -162,7 +162,7 @@ const selected_search_type = ref<'mint' | 'address' | 'signature' | 'symbol'>('s
 const selected_search_limit = ref<10 | 100 | 500>(100)
 
 const api_trades = ref<Array<Trade>>()
-const user_search_text = ref('ammo')
+const user_search_text = ref('AMMOUSDC')
 const chart = reactive({
     is_shown: false,
     data: [
@@ -243,21 +243,12 @@ async function action_fetch_api() {
                 .catch((err) => console.error(err))
             break
         case 'symbol':
-            // await api.trades
-            //     .getLast({
-            //         asset_mint:
-            //             useAssetsStore().allAssets.find(
-            //                 (asset) =>
-            //                     asset.symbol.toUpperCase().includes(user_search_text.value.toUpperCase()) ||
-            //                     asset.name.toUpperCase().includes(user_search_text.value.toUpperCase())
-            //             )?.mint ?? 'fuel',
-            //         currency_mint: CURRENCIES.find((c) =>
-            //             user_search_text.value.toUpperCase().includes(c.name.toUpperCase())
-            //         )?.mint,
-            //         limit: selected_search_limit.value,
-            //     })
-            //     .then((resp) => (data = resp.data))
-            //     .catch((err) => console.error(err))
+            await api.trades
+                .getSymbol({ symbol: user_search_text.value, limit: selected_search_limit.value })
+                .then((resp) => {
+                    data = resp.data
+                })
+                .catch((err) => console.error(err))
             break
     }
     api_trades.value = []
