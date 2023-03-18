@@ -4,37 +4,40 @@
             class="elementcontainer flex flex-col md:flex-row my-2 p-2 items-center border-gray-700 md:space-x-2 space-y-1 md:space-y-0"
         >
             <div
-                class="flex md:flex-row md:space-x-2 flex-col w-full items-center bg-gray-300 dark:bg-gray-600 p-1 shadow-lg"
+                class="flex md:flex-row md:space-x-2 md:space-y-0 space-y-2 flex-col w-full items-center bg-gray-300 dark:bg-gray-600 p-1 shadow-lg"
             >
-                <div class="w-16 i-carbon:search"></div>
+                <div class="flex flex-grow p-1 bg-gray-200 dark:bg-gray-800">
+                    <div class="flex-grow w-16 i-carbon:search"></div>
+                </div>
 
-                <SelectBox
-                    class="flex"
-                    text="By"
-                    :selected_in="selected_search_type"
-                    :options="['symbol', 'mint', 'address', 'signature']"
-                    @selected="
-                        (value) => {
-                            selected_search_type = value
-                        }
-                    "
-                ></SelectBox>
+                <div class="flex space-x-2 items-center flex-grow">
+                    <SelectBox
+                        class="flex"
+                        text="By"
+                        :selected_in="selected_search_type"
+                        :options="['symbol', 'mint', 'address', 'signature']"
+                        @selected="
+                            (value) => {
+                                selected_search_type = value
+                            }
+                        "
+                    ></SelectBox>
+                    <SelectBox
+                        class="flex"
+                        text="Limit"
+                        :selected_in="selected_search_limit.toString()"
+                        :options="[10, 100, 500]"
+                        @selected="
+                            (value) => {
+                                selected_search_limit = value
+                            }
+                        "
+                    ></SelectBox>
+                </div>
 
                 <div class="flex flex-row w-full items-center dark:text-gray-100">
                     <input class="flex w-full dark:bg-gray-700 p-1" v-model="user_search_text" type="text" />
                 </div>
-
-                <SelectBox
-                    class="flex"
-                    text="Limit"
-                    :selected_in="selected_search_limit.toString()"
-                    :options="[10, 100, 500]"
-                    @selected="
-                        (value) => {
-                            selected_search_limit = value
-                        }
-                    "
-                ></SelectBox>
             </div>
         </div>
         <div v-if="is_loading">

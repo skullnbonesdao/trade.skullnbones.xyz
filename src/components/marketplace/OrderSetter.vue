@@ -1,47 +1,36 @@
 <template>
     <div>
         <div class="container mx-auto">
-            <ul class="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4">
-                <li class="nav-item flex-auto text-center">
-                    <button
-                        @click="currentTab(1)"
-                        v-bind:class="tab === 1 ? 'active' : ''"
-                        class="nav-link w-full block font-medium text-xs leading-tight uppercase px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent green"
-                    >
-                        Buy
-                    </button>
-                </li>
-                <li class="nav-item flex-auto text-center">
-                    <button
-                        @click="currentTab(2)"
-                        v-bind:class="tab === 2 ? 'active' : ''"
-                        class="nav-link w-full block font-medium text-xs leading-tight uppercase px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent red"
-                    >
-                        Sell
-                    </button>
-                </li>
-            </ul>
-            <div class="p-3 mt-6 text-center">
-                <p v-bind:class="tab === 1 ? 'block' : 'hidden'">
-                    Buy price:{{ input.price }} Buy size:{{ input.size }}
-                </p>
-                <p v-bind:class="tab === 2 ? 'block' : 'hidden'">
-                    Sell price:{{ input.price }} Sell size:{{ input.size }}
-                </p>
-                <p class="text-xs">PublicKey: {{ publicKey }}</p>
-                <p class="text-xs">Asset Mint: {{ useGlobalStore().symbol.mint_asset }}</p>
-                <p class="text-xs">Pair Mint: {{ useGlobalStore().symbol.mint_pair }}</p>
-                <div>
-                    <TradeInput ref="input" />
-                </div>
+            <div class="flex flex-row space-x-2">
                 <button
-                    @click.prevent="submitOrder().then(() => {})"
-                    id="order-submit-btn"
-                    class="border hover:bg-gray-100 hover:border-transparent focus:border-transparent"
+                    @click="currentTab(1)"
+                    v-bind:class="tab === 1 ? 'bg-green-500' : 'border-2'"
+                    class="w-full block font-medium leading-tight uppercase px-6 py-3 my-2 hoverable"
                 >
-                    {{ tab === 1 ? 'Buy' : 'Sell' }}
+                    Buy
+                </button>
+
+                <button
+                    @click="currentTab(2)"
+                    v-bind:class="tab === 2 ? 'bg-red-500' : 'border-2'"
+                    class="w-full block font-medium leading-tight uppercase px-6 py-3 my-2 hoverable"
+                >
+                    Sell
                 </button>
             </div>
+            <div class="p-3 text-center">
+                <div class="flex flex-col space-y-2">
+                    <TradeInput ref="input" />
+                </div>
+            </div>
+            <button
+                @click.prevent="submitOrder().then(() => {})"
+                id="order-submit-btn"
+                :class="tab === 1 ? 'bg-red-500' : 'bg-green-500'"
+                class="nav-link w-full block font-medium leading-tight uppercase px-6 py-3 my-2 hoverable"
+            >
+                {{ tab === 1 ? 'Buy' : 'Sell' }}
+            </button>
         </div>
     </div>
 </template>
@@ -59,6 +48,7 @@ import { createToast } from 'mosha-vue-toastify'
 import { watch } from 'vue'
 import { CURRENCIES } from '../../typescript/constants/currencies'
 import { PublicKey } from '@solana/web3.js'
+import TextBox from '../buttons/TextBox.vue'
 
 const tab = ref(1)
 const input = ref({ price: 0, size: 0 })
