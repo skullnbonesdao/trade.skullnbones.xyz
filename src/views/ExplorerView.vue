@@ -8,29 +8,33 @@
             >
                 <div class="w-16 i-carbon:search"></div>
 
-                <div class="flex flex-row w-full items-center">
-                    <div class="basis-1/5 text-right">By:</div>
-                    <select class="flex w-full dark:bg-gray-700 p-2" v-model="selected_search_type">
-                        <option v-bind:value="'text'">Text</option>
-                        <option v-bind:value="'mint'">Mint</option>
-                        <option v-bind:value="'address'">Address</option>
-                        <option v-bind:value="'signature'">Signature</option>
-                    </select>
-                </div>
+                <SelectBox
+                    class="flex"
+                    text="By"
+                    :selected_in="selected_search_type"
+                    :options="['symbol', 'mint', 'address', 'signature']"
+                    @selected="
+                        (value) => {
+                            selected_search_type = value
+                        }
+                    "
+                ></SelectBox>
 
                 <div class="flex flex-row w-full items-center dark:text-gray-100">
-                    <div class="basis-1/5"></div>
+                    <input class="flex w-full dark:bg-gray-700 p-1" v-model="user_search_text" type="text" />
+                </div>
 
-                    <input class="flex w-full dark:bg-gray-700 p-2" v-model="user_search_text" type="text" />
-                </div>
-                <div class="flex flex-row w-full items-center">
-                    <div class="basis-1/5 text-right">Limit:</div>
-                    <select class="flex w-full dark:bg-gray-700 p-2" v-model="selected_search_limit">
-                        <option v-bind:value="10">10</option>
-                        <option v-bind:value="100">100</option>
-                        <option v-bind:value="500">500</option>
-                    </select>
-                </div>
+                <SelectBox
+                    class="flex"
+                    text="Limit"
+                    :selected_in="selected_search_limit.toString()"
+                    :options="[10, 100, 500]"
+                    @selected="
+                        (value) => {
+                            selected_search_limit = value
+                        }
+                    "
+                ></SelectBox>
             </div>
         </div>
         <div v-if="is_loading">
@@ -39,7 +43,7 @@
         <div v-else class="flex flex-col space-y-2">
             <div
                 class="elementcontainer h-64"
-                v-if="chart.is_shown && (selected_search_type === 'mint' || selected_search_type === 'text')"
+                v-if="chart.is_shown && (selected_search_type === 'mint' || selected_search_type === 'symbol')"
             >
                 <chartjs-line-chart :data="chart.data" :labels="chart.lables"></chartjs-line-chart>
             </div>
@@ -156,13 +160,14 @@ import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
 import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer.js'
 import { useAssetsStore } from '../stores/AssetsStore'
 import AssetPairImage from '../components/marketplace/AssetPairImage.vue'
+import SelectBox from '../components/buttons/SelectBox.vue'
 
-const selected_search_type = ref<'mint' | 'address' | 'signature' | 'text'>('text')
+const selected_search_type = ref<'mint' | 'address' | 'signature' | 'symbol'>('symbol')
 
 const selected_search_limit = ref<10 | 100 | 500>(100)
 
 const api_trades = ref<Array<Trade>>()
-const user_search_text = ref('ammo')
+const user_search_text = ref('AMMOUSDC')
 const chart = reactive({
     is_shown: false,
     data: [
@@ -242,21 +247,12 @@ async function action_fetch_api() {
                 })
                 .catch((err) => console.error(err))
             break
-        case 'text':
+        case 'symbol':
             await api.trades
-                .getMint({
-                    asset_mint:
-                        useAssetsStore().allAssets.find(
-                            (asset) =>
-                                asset.symbol.toUpperCase().includes(user_search_text.value.toUpperCase()) ||
-                                asset.name.toUpperCase().includes(user_search_text.value.toUpperCase())
-                        )?.mint ?? 'fuel',
-                    currency_mint: CURRENCIES.find((c) =>
-                        user_search_text.value.toUpperCase().includes(c.name.toUpperCase())
-                    )?.mint,
-                    limit: selected_search_limit.value,
+                .getSymbol({ symbol: user_search_text.value, limit: selected_search_limit.value })
+                .then((resp) => {
+                    data = resp.data
                 })
-                .then((resp) => (data = resp.data))
                 .catch((err) => console.error(err))
             break
     }

@@ -10,15 +10,19 @@
                 <a class="hover:text-blue-600" href="https://discord.gg/eQZQaF5Qk6">
                     <div class="i-carbon:logo-discord"></div>
                 </a>
-                <label class="flex justify-end input-group">
-                    <span class="dark:bg-gray-800 dark:text-gray-400">RPC</span>
-                    <select class="select select-xs dark:bg-gray-700 dark:text-gray-400" v-model="useGlobalStore().rpc">
-                        <option v-bind:value="{ name: rpc.name, url: rpc.url }" v-for="rpc in endpoints_list">
-                            {{ rpc.name }}
-                        </option>
-                    </select></label
-                >
+                <SelectBox
+                    class="flex w-full justify-end pr-2"
+                    text="RPC"
+                    :selected_in="useGlobalStore().rpc.name"
+                    :options="endpoints_list.flatMap((e) => e.name)"
+                    @selected="
+                        (value) =>
+                            (useGlobalStore().rpc =
+                                endpoints_list.find((e) => e.name === value) ?? useGlobalStore().rpc)
+                    "
+                ></SelectBox>
             </div>
+            <div class="flex w-full justify-center">{{ version }}</div>
             <div class="flex w-full justify-center">© [2022 S&B + HEIM] All Rights Reserved.</div>
         </div>
     </footer>
@@ -26,6 +30,8 @@
 
 <script setup lang="ts">
 import { useGlobalStore, endpoints_list } from '../stores/GlobalStore'
+import SelectBox from '../components/buttons/SelectBox.vue'
+const version = __APP_VERSION__
 </script>
 
 <style scoped></style>
