@@ -8,29 +8,33 @@
             >
                 <div class="w-16 i-carbon:search"></div>
 
-                <div class="flex flex-row w-full items-center">
-                    <div class="basis-1/5 text-right">By:</div>
-                    <select class="flex w-full dark:bg-gray-700 p-2" v-model="selected_search_type">
-                        <option v-bind:value="'symbol'">Symbol</option>
-                        <option v-bind:value="'mint'">Mint</option>
-                        <option v-bind:value="'address'">Address</option>
-                        <option v-bind:value="'signature'">Signature</option>
-                    </select>
-                </div>
+                <SelectBox
+                    class="flex"
+                    text="By"
+                    :selected_in="selected_search_type"
+                    :options="['symbol', 'mint', 'address', 'signature']"
+                    @selected="
+                        (value) => {
+                            selected_search_type = value
+                        }
+                    "
+                ></SelectBox>
 
                 <div class="flex flex-row w-full items-center dark:text-gray-100">
-                    <div class="basis-1/5"></div>
+                    <input class="flex w-full dark:bg-gray-700 p-1" v-model="user_search_text" type="text" />
+                </div>
 
-                    <input class="flex w-full dark:bg-gray-700 p-2" v-model="user_search_text" type="text" />
-                </div>
-                <div class="flex flex-row w-full items-center">
-                    <div class="basis-1/5 text-right">Limit:</div>
-                    <select class="flex w-full dark:bg-gray-700 p-2" v-model="selected_search_limit">
-                        <option v-bind:value="10">10</option>
-                        <option v-bind:value="100">100</option>
-                        <option v-bind:value="500">500</option>
-                    </select>
-                </div>
+                <SelectBox
+                    class="flex"
+                    text="Limit"
+                    :selected_in="selected_search_limit.toString()"
+                    :options="[10, 100, 500]"
+                    @selected="
+                        (value) => {
+                            selected_search_limit = value
+                        }
+                    "
+                ></SelectBox>
             </div>
         </div>
         <div v-if="is_loading">
@@ -156,6 +160,7 @@ import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
 import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer.js'
 import { useAssetsStore } from '../stores/AssetsStore'
 import AssetPairImage from '../components/marketplace/AssetPairImage.vue'
+import SelectBox from '../components/buttons/SelectBox.vue'
 
 const selected_search_type = ref<'mint' | 'address' | 'signature' | 'symbol'>('symbol')
 
