@@ -30,7 +30,6 @@ onMounted(() => {
                 :series="[
                     api_atlas?.circulating,
                     api_atlas?.lockedSupply,
-
                     api_atlas?.totalSupply - api_atlas?.circulating - api_atlas?.lockedSupply,
                 ]"
                 :lables="['circulating', 'locked', 'remaining']"
@@ -40,9 +39,9 @@ onMounted(() => {
             <h2>POLIS</h2>
             <donut-chart
                 :series="[
-                    api_polis?.circulating,
-                    api_polis?.lockedSupply,
-                    api_polis?.totalSupply - api_polis?.circulating - api_polis?.lockedSupply,
+                    api_polis?.circulating ?? 0,
+                    api_polis?.lockedSupply ?? 0,
+                    (api_polis?.totalSupply ?? 0) - (api_polis?.circulating ?? 0) - (api_polis?.lockedSupply ?? 0),
                 ]"
                 :lables="['circulating', 'locked', 'remaining']"
             />
@@ -86,7 +85,10 @@ onMounted(() => {
                             },
                             {
                                 x: 'remaining',
-                                y: api_polis?.totalSupply - api_polis?.circulating - api_polis?.lockedSupply,
+                                y:
+                                    (api_polis?.totalSupply ?? 0) -
+                                    (api_polis?.circulating ?? 0) -
+                                    (api_polis?.lockedSupply ?? 0),
                             },
                         ],
                     },

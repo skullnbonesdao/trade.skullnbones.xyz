@@ -15,7 +15,11 @@
                     text="RPC"
                     :selected_in="useGlobalStore().rpc.name"
                     :options="endpoints_list.flatMap((e) => e.name)"
-                    @selected="(value) => (useGlobalStore().rpc = endpoints_list.find((e) => e.name === value))"
+                    @selected="
+                        (value) =>
+                            (useGlobalStore().rpc =
+                                endpoints_list.find((e) => e.name === value) ?? useGlobalStore().rpc)
+                    "
                 ></SelectBox>
             </div>
             <div class="flex w-full justify-center">{{ version }}</div>
