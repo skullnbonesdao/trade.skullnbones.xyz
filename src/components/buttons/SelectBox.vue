@@ -1,12 +1,11 @@
 <template>
     <div class="text-md">
-        <span
-            class="border py-1 px-2 uppercase bg-gray-300 dark:bg-gray-800 dark:text-gray-400 border-r border-black"
-            >{{ props.text }}</span
-        >
+        <span class="border p-2 w-24 uppercase bg-gray-300 dark:bg-gray-800 dark:text-gray-400 border-r border-black">{{
+            props.text
+        }}</span>
         <select
             @click="$emit('selected', selected)"
-            class="border px-2 dark:bg-gray-700 dark:text-gray-400"
+            class="border p-2 dark:bg-gray-700 dark:text-gray-400"
             v-model="selected"
         >
             <option v-for="(option, idx) in props.options" :key="idx" :value="option">
