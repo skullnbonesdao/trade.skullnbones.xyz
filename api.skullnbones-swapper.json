@@ -329,6 +329,17 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "style": "form",
+            "example": "1659164001"
           }
         ],
         "responses": {

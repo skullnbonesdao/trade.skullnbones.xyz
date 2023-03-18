@@ -66,8 +66,24 @@ export default {
             let array_1 = []
             let array_2 = []
 
+            let from_param = Date.now() / 1000
+            switch (this.selected_timeframe) {
+                case '1W':
+                    from_param -= 60 * 60 * 24 * 7
+                    break
+                case '1M':
+                    from_param -= 60 * 60 * 24 * 30
+                    break
+                case '1Y':
+                    from_param -= 60 * 60 * 24 * 356
+                    break
+            }
+
             await api.trades
-                .getVolume({ currency_mint: CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS).mint })
+                .getVolume({
+                    from: from_param,
+                    currency_mint: CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS).mint,
+                })
                 .then((resp) => resp.data)
                 .then((data) => {
                     console.log('ATLAS')
@@ -77,7 +93,10 @@ export default {
                 })
 
             await api.trades
-                .getVolume({ currency_mint: CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC).mint })
+                .getVolume({
+                    form: from_param,
+                    currency_mint: CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC).mint,
+                })
                 .then((resp) => resp.data)
                 .then((data) => {
                     array_2 = data
