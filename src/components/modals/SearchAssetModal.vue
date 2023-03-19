@@ -89,13 +89,13 @@ const user_search_text = ref()
                                         <div class="flex flex-row justify-around space-x-2">
                                             <CurrencyIcon
                                                 @click="$emit('selectEvent', asset.symbol + 'ATLAS')"
-                                                class="w-12 h-12"
+                                                class="w-12 h-12 hoverable"
                                                 :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)"
                                             ></CurrencyIcon>
 
                                             <CurrencyIcon
                                                 @click="$emit('selectEvent', asset.symbol + 'USDC')"
-                                                class="w-12 h-12"
+                                                class="w-12 h-12 hoverable"
                                                 :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)"
                                             ></CurrencyIcon>
                                         </div>
