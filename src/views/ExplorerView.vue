@@ -45,7 +45,7 @@
         <div v-if="is_loading">
             <DotLoader class="flex w-full justify-center" :loading="is_loading" color="#ff150c" />
         </div>
-        <div v-if="!no_data" class="flex flex-col space-y-2">
+        <div v-if="!no_data && !is_loading" class="flex flex-col space-y-2">
             <div class="elementcontainer" v-if="selected_search_type === 'mint' || selected_search_type === 'symbol'">
                 <ExplorerChartElement v-if="!is_loading" :x_values="chart.data" :y_values="chart.lables" />
             </div>
