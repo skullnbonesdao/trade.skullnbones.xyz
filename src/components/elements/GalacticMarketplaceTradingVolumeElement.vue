@@ -181,6 +181,12 @@ export default {
             return mergedArr
         },
     },
+    watch: {
+        selected_timeframe(old_value, new_value) {
+            this.fetchAPItoChart()
+        },
+    },
+
     mounted() {
         this.fetchAPItoChart().then(() => {})
     },
@@ -205,7 +211,6 @@ export default {
             @selected="
                 (value) => {
                     selected_timeframe = value
-                    fetchAPItoChart().then(() => {})
                 }
             "
             text="timeframe"
