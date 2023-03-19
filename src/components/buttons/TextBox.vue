@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center">
-        <span class="border p-2 uppercase bg-gray-300 dark:bg-gray-800 dark:text-gray-400 border-r border-black">{{
+        <span class="border w-32 p-2 uppercase bg-gray-300 dark:bg-gray-800 dark:text-gray-400 border-r border-black">{{
             props.text
         }}</span>
         <input

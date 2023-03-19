@@ -6,53 +6,46 @@
             <div
                 class="flex md:flex-row md:space-x-2 md:space-y-0 space-y-2 flex-col w-full items-center bg-gray-300 dark:bg-gray-600 p-1 shadow-lg"
             >
-                <div class="flex flex-auto bg-gray-200 dark:bg-gray-800">
-                    <div class="flex-grow my-3 w-16 i-carbon:search"></div>
-                </div>
-
-                <div class="flex flex-col sm:flex-row space-x-2 sm:space-y-0 space-y-2 items-center flex-grow">
-                    <SelectBox
-                        class="flex"
-                        text="By"
-                        :selected_in="selected_search_type"
-                        :options="['symbol', 'mint', 'address', 'signature']"
-                        @selected="
-                            (value) => {
-                                selected_search_type = value
-                            }
-                        "
-                    ></SelectBox>
-                    <SelectBox
-                        class="flex"
-                        text="Limit"
-                        :selected_in="selected_search_limit.toString()"
-                        :options="[10, 100, 500]"
-                        @selected="
-                            (value) => {
-                                selected_search_limit = value
-                            }
-                        "
-                    ></SelectBox>
-                </div>
-
-                <TextBox
+                <SelectBox
                     class="flex w-full"
-                    text="Search"
-                    type="text"
-                    ref="tb_value"
-                    default="AMMOUSDC"
+                    text="Category"
+                    :selected_in="selected_search_type"
+                    :options="['symbol', 'mint', 'address', 'signature']"
                     @selected="
+                        (value) => {
+                            selected_search_type = value
+                        }
+                    "
+                ></SelectBox>
+                <SelectBox
+                    class="flex"
+                    text="Limit"
+                    :selected_in="selected_search_limit.toString()"
+                    :options="[10, 100, 500]"
+                    @selected="
+                        (value) => {
+                            selected_search_limit = value
+                        }
+                    "
+                ></SelectBox>
+
+                <TextBox class="flex w-full" text="Search" type="text" ref="tb_value" default="AMMOUSDC" />
+                <div
+                    @click="
                         () => {
                             action_fetch_api().then(() => {})
                         }
                     "
-                />
+                    class="hoverable w-full flex flex-auto bg-gray-200 dark:bg-gray-800"
+                >
+                    <div class="flex-grow my-3 w-16 i-carbon:search"></div>
+                </div>
             </div>
         </div>
         <div v-if="is_loading">
             <DotLoader class="flex w-full justify-center" :loading="is_loading" color="#ff150c" />
         </div>
-        <div v-else class="flex flex-col space-y-2">
+        <div v-if="!no_data && !is_loading" class="flex flex-col space-y-2">
             <div class="elementcontainer" v-if="selected_search_type === 'mint' || selected_search_type === 'symbol'">
                 <ExplorerChartElement v-if="!is_loading" :x_values="chart.data" :y_values="chart.lables" />
             </div>
@@ -156,7 +149,7 @@
                 </table>
             </div>
         </div>
-        <div v-if="no_data">No Data Found!</div>
+        <div class="elementcontainer text-center text-xl" v-if="no_data && !is_loading">No Data Found!</div>
     </div>
 </template>
 
@@ -180,6 +173,7 @@ const selected_search_type = ref<'mint' | 'address' | 'signature' | 'symbol'>('s
 const selected_search_limit = ref<10 | 100 | 500>(100)
 
 const api_trades = ref<Array<Trade>>()
+
 const tb_value = ref({ text_box_value: 'AMMOUSDC' })
 const chart = reactive({
     data: [
@@ -191,13 +185,13 @@ const chart = reactive({
 
 const is_loading = ref(true)
 
-watch(
-    () => tb_value.value.text_box_value,
-    (new_value) => {
-        is_loading.value = true
-        action_fetch_api()
-    }
-)
+// watch(
+//     () => tb_value.value.text_box_value,
+//     (new_value) => {
+//         is_loading.value = true
+//         action_fetch_api()
+//     }
+// )
 
 onMounted(async () => {
     is_loading.value = true
@@ -247,25 +241,31 @@ async function action_fetch_api() {
             break
     }
 
-    api_trades.value = []
-    api_trades.value = data.sort((a, b) => b.timestamp - a.timestamp)
-
     chart.lables = []
     chart.data = [[], []]
+    api_trades.value = []
 
-    data.forEach((trade) => {
-        switch (trade.currency_mint) {
-            case CURRENCIES.find((c) => c.type == E_CURRENCIES.ATLAS)?.mint:
-                chart.data[0].push(trade.total_cost / trade.asset_change)
-                break
-            case CURRENCIES.find((c) => c.type == E_CURRENCIES.USDC)?.mint:
-                chart.data[1].push(trade.total_cost / trade.asset_change)
-                break
-        }
-        chart.lables.push(trade.timestamp * 1000)
-    })
-    is_loading.value = false
-    no_data.value = false
+    console.log(data.length)
+    if (data.length != undefined) {
+        api_trades.value = data.sort((a, b) => b.timestamp - a.timestamp)
+
+        data.forEach((trade) => {
+            switch (trade.currency_mint) {
+                case CURRENCIES.find((c) => c.type == E_CURRENCIES.ATLAS)?.mint:
+                    chart.data[0].push(trade.total_cost / trade.asset_change)
+                    break
+                case CURRENCIES.find((c) => c.type == E_CURRENCIES.USDC)?.mint:
+                    chart.data[1].push(trade.total_cost / trade.asset_change)
+                    break
+            }
+            chart.lables.push(trade.timestamp * 1000)
+        })
+        is_loading.value = false
+        no_data.value = false
+    } else {
+        is_loading.value = false
+        no_data.value = true
+    }
 }
 
 function delay(ms: number) {

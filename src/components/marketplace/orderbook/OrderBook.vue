@@ -1,5 +1,6 @@
 <template>
     <div class="flex flex-col text-sm lg:text-base">
+        <h3 class="text-center pb-2">OrderBook</h3>
         <DotLoader v-if="is_loading" class="flex w-full justify-center" :loading="is_loading" color="#ff150c" />
         <div v-else class="flex flex-col">
             <div class="flex sm:flex-row flex-col sm:space-x-1">
