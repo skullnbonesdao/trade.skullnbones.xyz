@@ -76,11 +76,12 @@
                             <td id="pair" class="font-bold">{{ trade.symbol }}</td>
                             <td id="info">
                                 <div class="flex flex-col text-sm">
-                                    <div class="flex justify-end text-md">
-                                        {{ new Date(trade.timestamp * 1000).toUTCString() }}
+                                    <div class="flex">UTC: {{ new Date(trade.timestamp * 1000).toUTCString() }}</div>
+                                    <div class="flex text-purple">
+                                        <p>Before: {{ calc_passed_time(trade.timestamp) }}</p>
                                     </div>
-                                    <div class="flex justify-end text-2xs">
-                                        <p>{{ trade.signature.slice(0, 5) }}[...]{{ trade.signature.slice(-5) }}</p>
+                                    <div class="flex text-2xs">
+                                        <p>{{ trade.signature.slice(0, 10) }}[...]{{ trade.signature.slice(-10) }}</p>
                                     </div>
                                 </div>
                             </td>
@@ -266,6 +267,16 @@ async function action_fetch_api() {
         is_loading.value = false
         no_data.value = true
     }
+}
+
+function calc_passed_time(timestamp_to_get_since: number): String {
+    let now = Date.now()
+    let old: any = new Date(timestamp_to_get_since * 1000)
+    let diffMs = now - old
+    let diffDays = Math.floor(diffMs / 86400000) // days
+    let diffHrs = Math.floor((diffMs % 86400000) / 3600000) // hours
+    let diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000) // minutes
+    return diffDays + ' days, ' + diffHrs + ' hours, ' + diffMins + ' minutes'
 }
 
 function delay(ms: number) {

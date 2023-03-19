@@ -129,7 +129,6 @@ function fetch_wallet_trades() {
             is_loading.value = false
         })
 }
-
 function calc_passed_time(timestamp_to_get_since: number): String {
     let now = Date.now()
     let old: any = new Date(timestamp_to_get_since * 1000)
