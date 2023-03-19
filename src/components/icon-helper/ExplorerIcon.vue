@@ -10,7 +10,11 @@ const props = defineProps({
 </script>
 
 <template>
-    <a :href="EXPLORER.find((e) => e.type === explorer?.type)?.url + '/tx/' + props.signature">
+    <a
+        target="_blank"
+        rel="noopener noreferrer"
+        :href="EXPLORER.find((e) => e.type === explorer?.type)?.url + '/tx/' + props.signature"
+    >
         <img class="rounded-md" :src="props.explorer?.image_path" alt="explorer_image" />
     </a>
 </template>
