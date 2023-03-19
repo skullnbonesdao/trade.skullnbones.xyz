@@ -47,17 +47,19 @@ const bg_color = props.side == 'buy' ? '#0d7e04' : '#5e0b27'
 const text_color = props.side == 'buy' ? '#24de18' : '#ee0000'
 const direction = props.reverse_order ? 'right' : 'left'
 
-function isUserOrderBlock(order: any, publicKey: string | undefined) {
-    const userOrderBlock = order.find((block: any) => {
-        return block.owner === publicKey
-    })
-    return userOrderBlock !== undefined
-}
+//TODO: Add back marking user orders
+//
+// function isUserOrderBlock(order: any, publicKey: string | undefined) {
+//     const userOrderBlock = order.find((block: any) => {
+//         return block.owner === publicKey
+//     })
+//     return userOrderBlock !== undefined
+// }
 
-watchEffect(async () => {
-    const publicKey = useWallet().publicKey?.value?.toString()
-    is_user_order.value = isUserOrderBlock(props.order, publicKey)
-})
+// watchEffect(async () => {
+//     const publicKey = useWallet().publicKey?.value?.toString()
+//     is_user_order.value = isUserOrderBlock(props.order, publicKey)
+// })
 </script>
 
 <style scoped>
