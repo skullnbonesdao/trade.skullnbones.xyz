@@ -51,7 +51,14 @@ import { PublicKey } from '@solana/web3.js'
 import TextBox from '../buttons/TextBox.vue'
 
 const tab = ref(1)
-const input = ref({ price: 0, size: 0 })
+const input = ref({
+    price: {
+        text_box_value: 0,
+    },
+    size: {
+        text_box_value: 0,
+    },
+})
 const currentTab = (tabNumber: number) => (tab.value = tabNumber)
 
 const { publicKey, sendTransaction } = useWallet()
@@ -65,7 +72,7 @@ async function submitOrder() {
     const availableTokenData = globalStore.userTokens.find(
         (userToken) => userToken.mint === useGlobalStore().symbol.mint_pair.toString()
     )
-    if (input.value.size === 0 || input.value.price === 0)
+    if (input.value.size.text_box_value === 0 || input.value.price.text_box_value === 0)
         return createToast('Incorrect price or size', { type: 'danger' })
     // when wallet has no specific tokens `account` is an empty object
     if (availableTokenData === undefined)
@@ -74,7 +81,9 @@ async function submitOrder() {
 
     if (availableTokens === undefined) return createToast('Empty token data', { type: 'danger' })
 
-    const neededTokens = input.value.size * input.value.price
+    console.log(input.value.size.toString())
+
+    const neededTokens = input.value.size.text_box_value * input.value.price.text_box_value
     const orderSide = tab.value === 1 ? OrderSide.Buy : OrderSide.Sell
 
     if (orderSide === OrderSide.Buy && neededTokens > availableTokens)
@@ -91,12 +100,13 @@ async function submitOrder() {
         if (selectedUserAssetAmount < input.value.size)
             return createToast(`Not enough ${globalStore.symbol.name}`, { type: 'danger' })
     }
+
     const { transaction, signers } = await staratlasGmStore.getInitializeOrderTransaction(
         publicKey.value,
         globalStore.symbol.mint_asset.toString(),
         new PublicKey(availableTokenData.data.account.data?.parsed?.info?.mint),
-        input.value.size,
-        input.value.price,
+        input.value.size.text_box_value,
+        input.value.price.text_box_value,
         orderSide
     )
     const signature = await sendTransaction(transaction, solanaNetworkStore.connection, {

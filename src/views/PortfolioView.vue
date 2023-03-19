@@ -1,12 +1,10 @@
 <template>
     <div class="flex flex-col space-y-2">
         <div class="elementcontainer">
-            <div class="flex justify-center">
-                <h1 class="text-4xl">Portfolio</h1>
-            </div>
+            <h1 class="text-4xl">Wallet History</h1>
         </div>
 
-        <div v-if="!is_loading" class="relative overflow-x-auto">
+        <div v-if="!is_loading && api_trades" class="relative overflow-x-auto">
             <table>
                 <thead>
                     <tr>
@@ -41,8 +39,10 @@
                             </div>
                         </td>
                         <td id="buy-sell" class="text-left">
-                            <div class="text-blue" v-if="trade.order_taker === publicKey.toString()">Taker</div>
-                            <div class="text-orange" v-if="trade.order_initializer === publicKey.toString()">Maker</div>
+                            <div class="text-blue" v-if="trade.order_taker === publicKey?.toString()">Taker</div>
+                            <div class="text-orange" v-if="trade.order_initializer === publicKey?.toString()">
+                                Maker
+                            </div>
                         </td>
 
                         <td id="size" class="text-right">{{ trade.asset_change }}</td>
@@ -85,6 +85,7 @@
                 </tbody>
             </table>
         </div>
+        <div v-if="!publicKey" class="elementcontainer text-center"><h3>Wallet not connected!</h3></div>
         <BeatLoader class="elementcontainer flex w-full justify-center" :loading="is_loading" color="#ff150c" />
     </div>
 </template>
@@ -111,21 +112,22 @@ watch(
     (new_value) => {
         is_loading.value = true
         fetch_wallet_trades()
-        is_loading.value = false
     }
 )
 
 onMounted(() => {
     is_loading.value = true
-    if (publicKey) fetch_wallet_trades()
-    is_loading.value = false
+    if (publicKey.value) fetch_wallet_trades()
 })
 
 function fetch_wallet_trades() {
     api.trades
         .getAddress({ address: publicKey.value?.toString() ?? '' })
         .then((resp) => resp.data)
-        .then((data) => (api_trades.value = data))
+        .then((data) => {
+            api_trades.value = data
+            is_loading.value = false
+        })
 }
 
 function calc_passed_time(timestamp_to_get_since: number): String {
