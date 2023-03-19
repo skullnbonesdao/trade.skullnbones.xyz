@@ -1,7 +1,10 @@
 <template>
     <div
         class="text-gray-500"
-        :class="is_user_order && (reverse_order ? 'border-r-4 border-sky-500' : 'border-l-4 border-sky-500')"
+        :class="
+            isUserOrderBlock(props.order, publicKey) &&
+            (reverse_order ? 'border-r-4 border-sky-500 ' : 'border-l-4 border-sky-500')
+        "
     >
         <div class="flex flex-row bg-bar" :class="reverse_order ? 'flex-row-reverse' : ''">
             <!--            <p class="basis-1/3" :class="reverse_order ? 'text-right' : 'text-left'">{{ order?.owners.length }}</p>-->
@@ -20,8 +23,10 @@ import { defineProps, PropType } from 'vue'
 import { useWallet } from 'solana-wallets-vue'
 import { ref, watchEffect, unref } from 'vue'
 import { OrderBookOrderMap } from '../../../../stores/StaratlasGmStore'
+import { PublicKey } from '@solana/web3.js'
 
 const is_user_order = ref(false)
+const { publicKey } = useWallet()
 
 const props = defineProps({
     order: { type: Object as PropType<OrderBookOrderMap> },
@@ -47,19 +52,16 @@ const bg_color = props.side == 'buy' ? '#0d7e04' : '#5e0b27'
 const text_color = props.side == 'buy' ? '#24de18' : '#ee0000'
 const direction = props.reverse_order ? 'right' : 'left'
 
-//TODO: Add back marking user orders
-//
-// function isUserOrderBlock(order: any, publicKey: string | undefined) {
-//     const userOrderBlock = order.find((block: any) => {
-//         return block.owner === publicKey
-//     })
-//     return userOrderBlock !== undefined
-// }
+function isUserOrderBlock(order: OrderBookOrderMap | undefined, publicKey: PublicKey | null): Boolean {
+    if (order === undefined) return false
 
-// watchEffect(async () => {
-//     const publicKey = useWallet().publicKey?.value?.toString()
-//     is_user_order.value = isUserOrderBlock(props.order, publicKey)
-// })
+    let userOrderBlock
+    if (publicKey) {
+        userOrderBlock = order.owners.some((owner) => owner.includes(publicKey.toString()))
+    }
+
+    return !!userOrderBlock
+}
 </script>
 
 <style scoped>

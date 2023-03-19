@@ -22,7 +22,8 @@
                     "
                 ></SelectBox>
             </div>
-            <div class="flex w-full justify-center">Buy us a Coffee: FULRbdyHJ7AzRCNVjA6NZoUD19EQ5a9swWdyaN4d9d7P</div>
+            <div class="flex w-full justify-center">Support us:</div>
+            <div class="flex w-full text-sm justify-center">FULRbdyHJ7AzRCNVjA6NZoUD19EQ5a9swWdyaN4d9d7P</div>
 
             <div class="flex w-full justify-center">© [2022 S&B + HEIM] All Rights Reserved.</div>
             <div class="flex w-full justify-center">{{ version }}</div>
