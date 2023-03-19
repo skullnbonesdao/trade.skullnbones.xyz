@@ -70,13 +70,21 @@
                         <div
                             class="text-sm"
                             :class="
-                                price_24_change >= 1
+                                price_24_change === 0
+                                    ? 'i-carbon-arrow-right text-gray'
+                                    : price_24_change >= 1
                                     ? 'i-carbon-arrow-up-right text-green'
                                     : 'i-carbon-arrow-down-right text-red'
                             "
                         ></div>
-                        <div class="text-right" :class="price_24_change >= 1 ? 'text-green' : 'text-red'">
-                            {{ price_24_h >= 1 ? price_24_change.toFixed(2) : (1 - price_24_change).toFixed(2) }}%
+
+                        <div
+                            class="text-right"
+                            :class="
+                                price_24_change === 0 ? 'text-gray' : price_24_change > 1 ? 'text-green' : 'text-red'
+                            "
+                        >
+                            {{ price_24_change >= 1 ? (price_24_change - 1).toFixed(2) : price_24_change.toFixed(2) }}%
                         </div>
                     </div>
                 </div>
