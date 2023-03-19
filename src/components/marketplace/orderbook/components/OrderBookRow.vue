@@ -23,6 +23,7 @@ import { defineProps, PropType } from 'vue'
 import { useWallet } from 'solana-wallets-vue'
 import { ref, watchEffect, unref } from 'vue'
 import { OrderBookOrderMap } from '../../../../stores/StaratlasGmStore'
+import { PublicKey } from '@solana/web3.js'
 
 const is_user_order = ref(false)
 const { publicKey } = useWallet()
@@ -51,10 +52,12 @@ const bg_color = props.side == 'buy' ? '#0d7e04' : '#5e0b27'
 const text_color = props.side == 'buy' ? '#24de18' : '#ee0000'
 const direction = props.reverse_order ? 'right' : 'left'
 
-function isUserOrderBlock(order: OrderBookOrderMap, publicKey: string | null): Boolean {
+function isUserOrderBlock(order: OrderBookOrderMap | undefined, publicKey: PublicKey | null): Boolean {
+    if (order === undefined) return false
+
     let userOrderBlock
     if (publicKey) {
-        userOrderBlock = order.owners.some((owner) => owner.includes(publicKey))
+        userOrderBlock = order.owners.some((owner) => owner.includes(publicKey.toString()))
     }
 
     return !!userOrderBlock

@@ -4,7 +4,7 @@
             <wallet-multi-button dark />
         </div>
         <div v-else>
-            <h3 v-if="!orders.length" class="text-center">No orders found!</h3>
+            <h3 v-if="!orders?.length" class="text-center">No orders found!</h3>
 
             <div v-else class="flex justify-center">
                 <div v-if="orders" class="overflow-x-auto w-full">
