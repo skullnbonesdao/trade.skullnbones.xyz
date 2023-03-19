@@ -186,13 +186,13 @@ const chart = reactive({
 
 const is_loading = ref(true)
 
-watch(
-    () => tb_value.value.text_box_value,
-    (new_value) => {
-        is_loading.value = true
-        action_fetch_api()
-    }
-)
+// watch(
+//     () => tb_value.value.text_box_value,
+//     (new_value) => {
+//         is_loading.value = true
+//         action_fetch_api()
+//     }
+// )
 
 onMounted(async () => {
     is_loading.value = true
