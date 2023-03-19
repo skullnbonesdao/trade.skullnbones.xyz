@@ -60,9 +60,14 @@
                                         >
                                             Edit
                                         </button>
+
                                         <button
                                             class="btn text-red"
-                                            @click="createToast(`NOT-Implemented`, TOAST_WARNING)"
+                                            @click="
+                                                () => {
+                                                    action_order_close(row.id).then(() => {})
+                                                }
+                                            "
                                         >
                                             Close
                                         </button>
@@ -83,15 +88,28 @@ import { ref } from 'vue'
 import { useAssetsStore } from '../../stores/AssetsStore'
 import AssetImageNameBadge from '../badges/AssetImageNameBadge.vue'
 import { createToast } from 'mosha-vue-toastify'
-import { TOAST_WARNING } from '../../typescript/constants/toast-config'
+import { TOAST_SUCCESS, TOAST_WARNING } from '../../typescript/constants/toast-config'
 import { CURRENCIES } from '../../typescript/constants/currencies'
 import { useWallet, WalletConnectButton, WalletMultiButton } from 'solana-wallets-vue'
-
+import { useGlobalStore } from '../../stores/GlobalStore'
+import { useStaratlasGmStore } from '../../stores/StaratlasGmStore'
+import { PublicKey } from '@solana/web3.js'
+import { sendAndConfirmTransaction } from '@staratlas/factory'
+const staratlasGmStore = useStaratlasGmStore()
 defineProps({
     orders: {
         type: Array,
     },
 })
+
+async function action_order_close(order_account: String) {
+    let order_account_PK = new PublicKey(order_account)
+    let { publicKey, sendTransaction } = useWallet()
+    const d = await staratlasGmStore.getCloseOrderForPlayer(publicKey.value, order_account_PK)
+    console.log(d)
+    if (d?.transaction && d?.signers != undefined)
+        await sendTransaction(d.transaction, staratlasGmStore.connection, { signers: d.signers })
+}
 </script>
 
 <style scoped></style>

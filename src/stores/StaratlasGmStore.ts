@@ -175,6 +175,15 @@ export const useStaratlasGmStore = defineStore({
             if (!player_PK) return
             return await this.client.getOpenOrdersForPlayer(this.connection, player_PK, TRADE_PROGRAM)
         },
+        async getCloseOrderForPlayer(player_PK: PublicKey | null, account_to_close: PublicKey) {
+            if (!player_PK) return
+            return await this.client.getCancelOrderTransaction(
+                this.connection,
+                account_to_close,
+                player_PK,
+                TRADE_PROGRAM
+            )
+        },
     },
 })
 
