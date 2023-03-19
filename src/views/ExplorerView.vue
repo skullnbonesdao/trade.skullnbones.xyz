@@ -47,7 +47,7 @@
         <div v-if="is_loading">
             <DotLoader class="flex w-full justify-center" :loading="is_loading" color="#ff150c" />
         </div>
-        <div v-else class="flex flex-col space-y-2">
+        <div v-if="!no_data" class="flex flex-col space-y-2">
             <div class="elementcontainer" v-if="selected_search_type === 'mint' || selected_search_type === 'symbol'">
                 <ExplorerChartElement v-if="!is_loading" :x_values="chart.data" :y_values="chart.lables" />
             </div>
@@ -151,7 +151,7 @@
                 </table>
             </div>
         </div>
-        <div v-if="no_data">No Data Found!</div>
+        <div class="elementcontainer text-center text-xl" v-if="no_data && !is_loading">No Data Found!</div>
     </div>
 </template>
 
@@ -175,6 +175,7 @@ const selected_search_type = ref<'mint' | 'address' | 'signature' | 'symbol'>('s
 const selected_search_limit = ref<10 | 100 | 500>(100)
 
 const api_trades = ref<Array<Trade>>()
+
 const tb_value = ref({ text_box_value: 'AMMOUSDC' })
 const chart = reactive({
     data: [
@@ -242,25 +243,31 @@ async function action_fetch_api() {
             break
     }
 
-    api_trades.value = []
-    api_trades.value = data.sort((a, b) => b.timestamp - a.timestamp)
-
     chart.lables = []
     chart.data = [[], []]
+    api_trades.value = []
 
-    data.forEach((trade) => {
-        switch (trade.currency_mint) {
-            case CURRENCIES.find((c) => c.type == E_CURRENCIES.ATLAS)?.mint:
-                chart.data[0].push(trade.total_cost / trade.asset_change)
-                break
-            case CURRENCIES.find((c) => c.type == E_CURRENCIES.USDC)?.mint:
-                chart.data[1].push(trade.total_cost / trade.asset_change)
-                break
-        }
-        chart.lables.push(trade.timestamp * 1000)
-    })
-    is_loading.value = false
-    no_data.value = false
+    console.log(data.length)
+    if (data.length != undefined) {
+        api_trades.value = data.sort((a, b) => b.timestamp - a.timestamp)
+
+        data.forEach((trade) => {
+            switch (trade.currency_mint) {
+                case CURRENCIES.find((c) => c.type == E_CURRENCIES.ATLAS)?.mint:
+                    chart.data[0].push(trade.total_cost / trade.asset_change)
+                    break
+                case CURRENCIES.find((c) => c.type == E_CURRENCIES.USDC)?.mint:
+                    chart.data[1].push(trade.total_cost / trade.asset_change)
+                    break
+            }
+            chart.lables.push(trade.timestamp * 1000)
+        })
+        is_loading.value = false
+        no_data.value = false
+    } else {
+        is_loading.value = false
+        no_data.value = true
+    }
 }
 
 function delay(ms: number) {
