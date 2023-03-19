@@ -6,10 +6,6 @@
             <div
                 class="flex md:flex-row md:space-x-2 md:space-y-0 space-y-2 flex-col w-full items-center bg-gray-300 dark:bg-gray-600 p-1 shadow-lg"
             >
-                <div class="flex flex-auto bg-gray-200 dark:bg-gray-800">
-                    <div class="flex-grow my-3 w-16 i-carbon:search"></div>
-                </div>
-
                 <div class="flex flex-col sm:flex-row space-x-2 sm:space-y-0 space-y-2 items-center flex-grow">
                     <SelectBox
                         class="flex"
@@ -35,18 +31,17 @@
                     ></SelectBox>
                 </div>
 
-                <TextBox
-                    class="flex w-full"
-                    text="Search"
-                    type="text"
-                    ref="tb_value"
-                    default="AMMOUSDC"
-                    @selected="
+                <TextBox class="flex w-full" text="Search" type="text" ref="tb_value" default="AMMOUSDC" />
+                <div
+                    @click="
                         () => {
                             action_fetch_api().then(() => {})
                         }
                     "
-                />
+                    class="hoverable flex flex-auto bg-gray-200 dark:bg-gray-800"
+                >
+                    <div class="flex-grow my-3 w-16 i-carbon:search"></div>
+                </div>
             </div>
         </div>
         <div v-if="is_loading">

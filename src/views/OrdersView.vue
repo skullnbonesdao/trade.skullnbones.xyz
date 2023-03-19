@@ -1,8 +1,14 @@
 <template>
     <div class="flex flex-col space-y-2">
         <div class="elementcontainer">
-            <div class="flex justify-center">
-                <h1 class="text-4xl">Orders</h1>
+            <div class="flex">
+                <h1 class="text-4xl">Active</h1>
+            </div>
+        </div>
+        <order-table :orders="orders" class="elementcontainer" />
+        <div class="elementcontainer">
+            <div class="flex">
+                <h1 class="text-4xl">History</h1>
             </div>
         </div>
         <order-table :orders="orders" class="elementcontainer" />

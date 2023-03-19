@@ -26,7 +26,7 @@
             <button
                 @click.prevent="submitOrder().then(() => {})"
                 id="order-submit-btn"
-                :class="tab === 1 ? 'bg-red-500' : 'bg-green-500'"
+                :class="tab === 1 ? 'bg-green-500' : 'bg-red-500'"
                 class="nav-link w-full block font-medium leading-tight uppercase px-6 py-3 my-2 hoverable"
             >
                 {{ tab === 1 ? 'Buy' : 'Sell' }}
