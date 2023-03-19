@@ -29,7 +29,13 @@
                     "
                 ></SelectBox>
 
-                <TextBox class="flex w-full" text="Search" type="text" ref="tb_value" default="AMMOUSDC" />
+                <TextBox
+                    class="flex w-full"
+                    text="Search"
+                    type="text"
+                    ref="tb_value"
+                    :default="useGlobalStore().symbol.name"
+                />
                 <div
                     @click="
                         () => {
@@ -168,6 +174,7 @@ import AssetPairImage from '../components/marketplace/AssetPairImage.vue'
 import SelectBox from '../components/buttons/SelectBox.vue'
 import ExplorerChartElement from '../components/elements/ExplorerChartElement.vue'
 import TextBox from '../components/buttons/TextBox.vue'
+import { useGlobalStore } from '../stores/GlobalStore'
 
 const no_data = ref(false)
 const selected_search_type = ref<'mint' | 'address' | 'signature' | 'symbol'>('symbol')
