@@ -13,7 +13,7 @@
                         <th></th>
                         <th class="text-left">Pair</th>
                         <th>Info</th>
-                        <th>Buy/Sell</th>
+                        <th class="text-left">Side</th>
                         <th class="text-right">Size</th>
                         <th class="text-right">Cost</th>
                         <th class="text-right">Price</th>
@@ -31,10 +31,8 @@
                         <td id="pair" class="font-bold">{{ trade.symbol }}</td>
                         <td id="info">
                             <div class="flex flex-col text-sm">
-                                <div class="flex text-purple-500">
-                                    UTC: {{ new Date(trade.timestamp * 1000).toUTCString() }}
-                                </div>
-                                <div class="flex text-yellow-500">
+                                <div class="flex">UTC: {{ new Date(trade.timestamp * 1000).toUTCString() }}</div>
+                                <div class="flex text-purple">
                                     <p>Before: {{ calc_passed_time(trade.timestamp) }}</p>
                                 </div>
                                 <div class="flex text-2xs">
@@ -42,9 +40,9 @@
                                 </div>
                             </div>
                         </td>
-                        <td id="buy-sell" class="text-center">
-                            <div class="text-green" v-if="trade.order_taker === publicKey.toString()">BUY</div>
-                            <div class="text-red" v-if="trade.order_initializer === publicKey.toString()">SELL</div>
+                        <td id="buy-sell" class="text-left">
+                            <div class="text-blue" v-if="trade.order_taker === publicKey.toString()">Taker</div>
+                            <div class="text-orange" v-if="trade.order_initializer === publicKey.toString()">Maker</div>
                         </td>
 
                         <td id="size" class="text-right">{{ trade.asset_change }}</td>
