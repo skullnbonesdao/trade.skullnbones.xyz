@@ -64,7 +64,7 @@
                 <div>
                     <div class="text-right">
                         {{ price_24_h?.toFixed(2)
-                        }}{{ CURRENCIES.find((c) => useGlobalStore().symbol.mint_pair.toString() === c.mint).char }}
+                        }}{{ CURRENCIES.find((c) => useGlobalStore().symbol.mint_pair.toString() === c.mint)?.char }}
                     </div>
                     <div class="flex items-center float-right">
                         <div
