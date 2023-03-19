@@ -86,7 +86,11 @@
             </table>
         </div>
         <div v-if="!publicKey" class="elementcontainer text-center"><h3>Wallet not connected!</h3></div>
-        <BeatLoader class="elementcontainer flex w-full justify-center" :loading="is_loading" color="#ff150c" />
+        <BeatLoader
+            class="elementcontainer flex w-full justify-center"
+            :loading="is_loading && publicKey"
+            color="#ff150c"
+        />
     </div>
 </template>
 
@@ -108,7 +112,7 @@ const api_trades = ref<Array<Trade>>()
 const api = new Api({ baseUrl: 'https://api2.skullnbones.xyz' })
 
 watch(
-    () => publicKey,
+    () => publicKey.value,
     (new_value) => {
         is_loading.value = true
         fetch_wallet_trades()
