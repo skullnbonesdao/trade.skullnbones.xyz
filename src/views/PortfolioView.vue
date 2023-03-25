@@ -85,7 +85,10 @@
                 </tbody>
             </table>
         </div>
-        <div v-if="!publicKey" class="elementcontainer text-center"><h3>Wallet not connected!</h3></div>
+        <div v-if="!useWallet().publicKey.value" class="flex w-full elementcontainer justify-center p-2">
+            <wallet-multi-button dark />
+        </div>
+
         <BeatLoader
             class="elementcontainer flex w-full justify-center"
             :loading="is_loading && publicKey"
@@ -103,7 +106,7 @@ import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
 import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer.js'
 import CurrencyIcon from '../components/icon-helper/CurrencyIcon.vue'
 import { Api, Trade } from '../typescript/skullnbones_api/skullnbones_api'
-import { useWallet } from 'solana-wallets-vue'
+import { useWallet, WalletMultiButton } from 'solana-wallets-vue'
 
 const { publicKey } = useWallet()
 
