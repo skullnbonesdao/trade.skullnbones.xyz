@@ -45,7 +45,7 @@ export const useStaratlasGmStore = defineStore({
 
         async getOpenOrdersForAsset(assetMint: string) {
             await this.client
-                .getOpenOrdersForAsset(this.connection, new PublicKey(assetMint), TRADE_PROGRAM)
+                .getOpenOrdersForAsset(<Connection>this.connection, new PublicKey(assetMint), TRADE_PROGRAM)
                 .then((response: any) => {
                     this.orders = response
                     this.atlasOrders.sellOrders = []
@@ -154,10 +154,15 @@ export const useStaratlasGmStore = defineStore({
             price: number,
             orderSide: OrderSide
         ) {
-            const bnPrice = await this.client.getBnPriceForCurrency(this.connection, price, quoteMint, TRADE_PROGRAM)
+            const bnPrice = await this.client.getBnPriceForCurrency(
+                <Connection>this.connection,
+                price,
+                quoteMint,
+                TRADE_PROGRAM
+            )
             return await this.client
                 .getInitializeOrderTransaction(
-                    this.connection,
+                    <Connection>this.connection,
                     playerPublicKey,
                     new PublicKey(assetMint),
                     quoteMint,
@@ -173,12 +178,12 @@ export const useStaratlasGmStore = defineStore({
         },
         async getOpenOrdersForPlayer(player_PK: PublicKey | null) {
             if (!player_PK) return
-            return await this.client.getOpenOrdersForPlayer(this.connection, player_PK, TRADE_PROGRAM)
+            return await this.client.getOpenOrdersForPlayer(<Connection>this.connection, player_PK, TRADE_PROGRAM)
         },
         async getCloseOrderForPlayer(player_PK: PublicKey | null, account_to_close: PublicKey) {
             if (!player_PK) return
             return await this.client.getCancelOrderTransaction(
-                this.connection,
+                <Connection>this.connection,
                 account_to_close,
                 player_PK,
                 TRADE_PROGRAM
