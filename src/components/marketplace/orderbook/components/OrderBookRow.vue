@@ -11,7 +11,11 @@
             <p class="basis-1/2" :class="reverse_order ? 'text-right' : 'text-left'">
                 {{ order?.size }}
             </p>
-            <p class="basis-1/2 bg-text" :class="reverse_order ? 'text-left' : 'text-right'">
+            <p
+                @click="useGlobalStore().user_order_params.price = order?.price"
+                class="basis-1/2 bg-text"
+                :class="reverse_order ? 'text-left' : 'text-right'"
+            >
                 {{ order?.price.toFixed(8).substring(0, 10) }}
             </p>
         </div>
@@ -24,6 +28,7 @@ import { useWallet } from 'solana-wallets-vue'
 import { ref, watchEffect, unref } from 'vue'
 import { OrderBookOrderMap } from '../../../../stores/StaratlasGmStore'
 import { PublicKey } from '@solana/web3.js'
+import { useGlobalStore } from '../../../../stores/GlobalStore'
 
 const is_user_order = ref(false)
 const { publicKey } = useWallet()

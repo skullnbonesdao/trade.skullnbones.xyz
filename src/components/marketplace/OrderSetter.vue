@@ -53,10 +53,10 @@ import TextBox from '../buttons/TextBox.vue'
 const tab = ref(1)
 const input = ref({
     price: {
-        text_box_value: 0,
+        text_box_value: useGlobalStore().user_order_params.price,
     },
     size: {
-        text_box_value: 0,
+        text_box_value: useGlobalStore().user_order_params.size,
     },
 })
 const currentTab = (tabNumber: number) => (tab.value = tabNumber)

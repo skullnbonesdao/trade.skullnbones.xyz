@@ -43,7 +43,10 @@ export const useGlobalStore = defineStore('globalStore', {
                 mint_asset: new PublicKey('foodQJAztMzX1DKpLaiounNe2BDMds5RNuPC6jsNrDG'),
                 mint_pair: new PublicKey('ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx'),
             } as TradeAsset,
-
+            user_order_params: {
+                price: 0.0,
+                size: 0.0,
+            },
             side: {} as Side,
             connection: {} as Connection,
             userTokens: [
