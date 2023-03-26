@@ -43,4 +43,8 @@ const props = defineProps({
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.rarity {
+    @apply text-xs font-medium mr-2 px-2.5 py-0.5 rounded d uppercase border-2;
+}
+</style>

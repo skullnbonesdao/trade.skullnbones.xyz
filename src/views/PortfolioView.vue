@@ -11,7 +11,7 @@
                 <TokenWalletInfoBadge :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.POLIS)" />
             </div>
             <div class="elementcontainer">
-                <h1 class="text-4xl">Wallet History</h1>
+                <h1 class="text-4xl">Wallet Trade History</h1>
             </div>
 
             <div
@@ -21,7 +21,7 @@
             >
                 <div
                     class="flex flex-row items-center elementcontainer hoverable border-b-2 border-gray-300"
-                    @click="show_element_from_grouped[parseInt(idx)] = !show_element_from_grouped[parseInt(idx)]"
+                    @click="toggle_view(idx)"
                 >
                     <h3 class="w-full">
                         {{ useAssetsStore().allAssets.find((a) => a.mint === element_group[0].asset_mint)?.name }}
@@ -29,13 +29,12 @@
                     <div class="flex justify-end items-center">
                         <i
                             class="w-12 h-12 i-carbon:text-indent-more"
-                            :class="show_element_from_grouped[parseInt(idx)] ? 'rotate-90' : ''"
+                            :class="show_element_from_grouped?.find((e) => e.index === idx)?.value ? 'rotate-90' : ''"
                         ></i>
                     </div>
                 </div>
-
                 <Transition>
-                    <table v-if="show_element_from_grouped[parseInt(idx)]" class="">
+                    <table v-if="show_element_from_grouped?.find((e) => e.index === idx)?.value" class="">
                         <thead>
                             <tr>
                                 <th></th>
@@ -150,11 +149,16 @@ import { calc_passed_time } from '../typescript/helper/calc_passed_time'
 import BeatLoader from 'vue-spinner/src/BeatLoader.vue'
 const { publicKey } = useWallet()
 
+interface GroupedToggle {
+    index: String
+    value: Boolean
+}
+
 const show_loading_modal = ref(true)
 const is_loading = ref(true)
 const api_trades = ref<Array<Trade>>()
 const api_trades_grouped = ref<Record<string, Trade[]>>()
-const show_element_from_grouped = ref<Array<Boolean>>([])
+const show_element_from_grouped = ref<Array<GroupedToggle>>()
 
 const api = new Api({ baseUrl: 'https://api2.skullnbones.xyz' })
 
@@ -181,10 +185,21 @@ function fetch_wallet_trades() {
             if (api_trades.value != undefined) {
                 api_trades_grouped.value = groupBy(api_trades.value, (t) => t.asset_mint)
                 show_element_from_grouped.value = []
-                Object.keys(api_trades_grouped.value).forEach((t) => show_element_from_grouped.value?.push(true))
+                Object.keys(api_trades_grouped.value).forEach((t) =>
+                    show_element_from_grouped.value?.push({
+                        index: t,
+                        value: true,
+                    })
+                )
             }
 
             is_loading.value = false
         })
+}
+
+function toggle_view(idx: String) {
+    show_element_from_grouped.value?.forEach((e) => {
+        if (e.index == idx) e.value = !e.value
+    })
 }
 </script>
