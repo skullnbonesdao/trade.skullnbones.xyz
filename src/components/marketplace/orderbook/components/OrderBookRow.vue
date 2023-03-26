@@ -11,11 +11,7 @@
             <p class="basis-1/2" :class="reverse_order ? 'text-right' : 'text-left'">
                 {{ order?.size }}
             </p>
-            <p
-                @click="useGlobalStore().user_order_params.price = order?.price"
-                class="basis-1/2 bg-text"
-                :class="reverse_order ? 'text-left' : 'text-right'"
-            >
+            <p class="basis-1/2 bg-text" :class="reverse_order ? 'text-left' : 'text-right'">
                 {{ order?.price.toFixed(8).substring(0, 10) }}
             </p>
         </div>

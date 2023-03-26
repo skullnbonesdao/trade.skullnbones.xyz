@@ -9,7 +9,7 @@
 
         <div v-if="!is_loading && api_trades" class="space-y-2">
             <div v-for="(element_group, idx) in api_trades_grouped" :key="idx" class="elementcontainer">
-                <h2>{{ useAssetsStore().allAssets.find((a) => a.mint === element_group[0].asset_mint).name }}</h2>
+                <h2>{{ useAssetsStore().allAssets.find((a) => a.mint === element_group[0].asset_mint)?.name }}</h2>
                 <table class="relative overflow-x-auto">
                     <thead>
                         <tr>

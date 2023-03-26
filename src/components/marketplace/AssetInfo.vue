@@ -95,10 +95,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="md" class="flex flex-col space-y-2">
-                    <p class="text-xs">Last Trade</p>
-                    <p class="text-xs">(-24h)</p>
-                </div>
+
                 <div class="flex justify-end p-2">
                     <div class="i-carbon:search" />
                 </div>
