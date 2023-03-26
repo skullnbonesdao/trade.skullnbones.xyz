@@ -5,8 +5,11 @@
                 <h1 class="text-4xl">Active</h1>
             </div>
         </div>
+        <div v-if="!useWallet().publicKey.value" class="flex w-full elementcontainer justify-center p-2">
+            <wallet-multi-button dark />
+        </div>
         <BeatLoader
-            v-if="!orders"
+            v-else-if="!orders"
             class="elementcontainer flex w-full justify-center"
             :loading="!orders"
             color="#ff150c"
@@ -18,8 +21,16 @@
             </div>
         </div>
         <div class="elementcontainer">
-            <BeatLoader class="elementcontainer flex w-full justify-center" :loading="!history" color="#ff150c" />
-            <table v-if="history" class="">
+            <div v-if="!useWallet().publicKey.value" class="flex w-full elementcontainer justify-center p-2">
+                <wallet-multi-button dark />
+            </div>
+            <BeatLoader
+                v-else-if="!history"
+                class="elementcontainer flex w-full justify-center"
+                :loading="!history"
+                color="#ff150c"
+            />
+            <table v-else class="">
                 <thead>
                     <tr>
                         <th></th>
@@ -113,7 +124,7 @@
 </template>
 
 <script setup>
-import { useWallet } from 'solana-wallets-vue'
+import { useWallet, WalletMultiButton } from 'solana-wallets-vue'
 import { onMounted, ref, watchEffect } from 'vue'
 import OrderTable from '../components/tables/OrderTable.vue'
 import { useStaratlasGmStore } from '../stores/StaratlasGmStore'
@@ -142,11 +153,12 @@ onMounted(() => {
 })
 
 function fetch_trades() {
-    api.trades
-        .getAddress({ address: publicKey.value?.toString() ?? '' })
-        .then((resp) => resp.data)
-        .then((data) => {
-            history.value = data
-        })
+    if (publicKey.value !== undefined)
+        api.trades
+            .getAddress({ address: publicKey.value?.toString() ?? '000' })
+            .then((resp) => resp.data)
+            .then((data) => {
+                history.value = data
+            })
 }
 </script>
