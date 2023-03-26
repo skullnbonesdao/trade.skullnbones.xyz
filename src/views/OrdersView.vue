@@ -5,13 +5,20 @@
                 <h1 class="text-4xl">Active</h1>
             </div>
         </div>
-        <order-table :orders="orders" class="elementcontainer" />
+        <BeatLoader
+            v-if="!orders"
+            class="elementcontainer flex w-full justify-center"
+            :loading="!orders"
+            color="#ff150c"
+        />
+        <order-table v-else :orders="orders" class="elementcontainer" />
         <div class="elementcontainer">
             <div class="flex">
                 <h1 class="text-4xl">History</h1>
             </div>
         </div>
         <div class="elementcontainer">
+            <BeatLoader class="elementcontainer flex w-full justify-center" :loading="!history" color="#ff150c" />
             <table v-if="history" class="">
                 <thead>
                     <tr>
@@ -117,6 +124,8 @@ import { calc_passed_time } from '../typescript/helper/calc_passed_time'
 import CurrencyIcon from '../components/icon-helper/CurrencyIcon.vue'
 import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
 import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer'
+import BeatLoader from 'vue-spinner/src/BeatLoader.vue'
+
 const { publicKey } = useWallet()
 
 let orders = ref()

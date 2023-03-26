@@ -133,7 +133,6 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import BeatLoader from 'vue-spinner/src/BeatLoader.vue'
 import AssetPairImage from '../components/marketplace/AssetPairImage.vue'
 import { CURRENCIES, E_CURRENCIES } from '../typescript/constants/currencies.js'
 import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
@@ -148,7 +147,7 @@ import { useGlobalStore } from '../stores/GlobalStore'
 import WalletInfoBadge from '../components/elements/WalletInfoBadge.vue'
 import LoadingModal from '../components/modals/LoadingModal.vue'
 import { calc_passed_time } from '../typescript/helper/calc_passed_time'
-
+import BeatLoader from 'vue-spinner/src/BeatLoader.vue'
 const { publicKey } = useWallet()
 
 const show_loading_modal = ref(true)
