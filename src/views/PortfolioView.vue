@@ -11,7 +11,7 @@
                 <TokenWalletInfoBadge :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.POLIS)" />
             </div>
             <div class="elementcontainer">
-                <h1 class="text-4xl">Wallet History</h1>
+                <h1 class="text-4xl">Wallet Trade History</h1>
             </div>
 
             <div
