@@ -5,13 +5,16 @@
             <wallet-multi-button dark />
         </div>
         <div v-else-if="!is_loading" class="flex flex-col space-y-2">
-            <div class="flex flex-row w-full justify-around space-x-2">
-                <TokenWalletInfoBadge :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.SOL)" />
+            <div class="grid sm:grid-cols-3 grid-cols-2 gap-2 justify-around">
+                <TokenWalletInfoBadge
+                    class="col-span-2 sm:col-span-1"
+                    :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.SOL)"
+                />
                 <TokenWalletInfoBadge :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)" />
                 <TokenWalletInfoBadge :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.POLIS)" />
             </div>
             <div class="elementcontainer">
-                <h1 class="text-4xl">Wallet Trade History</h1>
+                <h1 class="text-4xl">History</h1>
             </div>
 
             <div

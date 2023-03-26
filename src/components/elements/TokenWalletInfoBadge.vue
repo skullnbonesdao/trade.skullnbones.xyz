@@ -1,9 +1,9 @@
 <template>
-    <div class="flex flex-col items-center px-5 pb-2 mt-6 elementcontainer space-y-3">
+    <div class="flex flex-col items-center px-5 pb-2 elementcontainer space-y-3">
         <div class="">
-            <CurrencyIcon class="w-24" :currency="props.currency" />
+            <CurrencyIcon class="md:w-24 w-12" :currency="props.currency" />
         </div>
-        <div class="flex flex-col space-y-5">
+        <div class="text-xs sm:text-sm flex flex-col space-y-5">
             <span
                 class="price_badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300 border-purple-200 dark:border-purple-700"
                 >{{ balance }}</span
