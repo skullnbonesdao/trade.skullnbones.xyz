@@ -14,28 +14,28 @@ import { TOAST_SUCCESS } from './typescript/constants/toast-config'
 const globalStore = useGlobalStore()
 globalStore.init()
 
-onMounted(async () => {
-    const tokenPriceWebsocket = useTokenPriceStore()
-    //tokenPriceWebsocket.init()
-    const staratlasGmStore = useStaratlasGmStore()
-
-    const solanaNetworkWebsocket = useSolanaNetworkStore()
-    solanaNetworkWebsocket.init()
-    solanaNetworkWebsocket.run_tps().catch((err) => console.error(`tps monitor: ${err}`))
-
-    const assetsStore = useAssetsStore()
-    await assetsStore.init()
-
-    useStaratlasGmStore()
-        .getOpenOrdersForAsset(
-            useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.name.includes(asset.symbol))?.mint ?? ''
-        )
-        .then(() => {})
-        .catch((err) => console.log(err))
-    /*await useStaratlasGmStore().getOpenOrdersForAsset(
-useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(asset.symbol))?.mint ?? ''
-)*/
-})
+// onMounted(async () => {
+//     const tokenPriceWebsocket = useTokenPriceStore()
+//     //tokenPriceWebsocket.init()
+//     const staratlasGmStore = useStaratlasGmStore()
+//
+//     const solanaNetworkWebsocket = useSolanaNetworkStore()
+//     solanaNetworkWebsocket.init()
+//     solanaNetworkWebsocket.run_tps().catch((err) => console.error(`tps monitor: ${err}`))
+//
+//     const assetsStore = useAssetsStore()
+//     await assetsStore.init()
+//
+//     useStaratlasGmStore()
+//         .getOpenOrdersForAsset(
+//             useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.name.includes(asset.symbol))?.mint ?? ''
+//         )
+//         .then(() => {})
+//         .catch((err) => console.log(err))
+//     /*await useStaratlasGmStore().getOpenOrdersForAsset(
+// useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.includes(asset.symbol))?.mint ?? ''
+// )*/
+// })
 
 watch(
     () => useGlobalStore().rpc,

@@ -7,29 +7,66 @@
         "
         class="flex sm:flex-row flex-col space-x-5 items-center sm:space-y-0 space-y-3"
     >
-        <div class="flex flex-col">
-            <div class="flex flex-row items-center gap-2">
-                <AssetPairImage
-                    :mint="useGlobalStore().symbol.mint_asset.toString()"
-                    :pair="CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())"
-                />
-                <div class="flex flex-col">
-                    <div class="flex flex-row items-baseline space-x-1">
-                        <h3>
+        <div class="flex flex-row w-full">
+            <div class="flex flex-col w-full sm:pr-3 sm:flex-row">
+                <div class="flex w-full flex-row items-center space-x-3">
+                    <AssetPairImage
+                        :mint="useGlobalStore().symbol.mint_asset.toString()"
+                        :pair="CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())"
+                    />
+                    <div class="flex w-full flex-col sm:flex-row items-baseline">
+                        <h3 class="w-full">
                             {{
                                 useAssetsStore().allAssets.find(
                                     (asset) => asset.mint.toString() === useGlobalStore().symbol.mint_asset.toString()
                                 )?.name
                             }}
                         </h3>
-                        <!--                            <h4>-->
-                        <!--                                [{{-->
-                        <!--                                    CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())-->
-                        <!--                                        ?.name-->
-                        <!--                                }}]-->
-                        <!--                            </h4>-->
+                        <div class="flex flex-row items-center space-x-2 sm:justify-end">
+                            <CurrencyIcon
+                                class="w-4 h-4"
+                                :currency="
+                                    CURRENCIES.find((c) => useGlobalStore().symbol.mint_pair.toString() === c.mint)
+                                "
+                            />
+                            <div>
+                                <div class="text-right">
+                                    <p>{{ price_last?.toFixed(6) }}</p>
+                                </div>
+                                <div class="flex items-center float-right">
+                                    <div
+                                        class="text-sm"
+                                        :class="
+                                            price_24_change === 1
+                                                ? 'i-carbon-arrow-right text-gray'
+                                                : price_24_change >= 1
+                                                ? 'i-carbon-arrow-down-right text-red'
+                                                : 'i-carbon-arrow-up-right text-green'
+                                        "
+                                    ></div>
+
+                                    <div
+                                        class="text-right text-sm"
+                                        :class="
+                                            price_24_change === 1
+                                                ? 'text-gray'
+                                                : price_24_change > 1
+                                                ? 'text-red'
+                                                : 'text-green'
+                                        "
+                                    >
+                                        {{
+                                            price_24_change >= 1
+                                                ? (price_24_change - 1).toFixed(2)
+                                                : (1 - price_24_change).toFixed(2)
+                                        }}%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex flex-row">
+
+                    <div class="flex flex-col items-end">
                         <AssetRarityBadge
                             :asset_class="
                                 useAssetsStore().allAssets.find(
@@ -54,40 +91,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="flex w-full flex-row items-center space-x-2 sm:justify-end justify-center">
-            <CurrencyIcon
-                class="w-4 h-4"
-                :currency="CURRENCIES.find((c) => useGlobalStore().symbol.mint_pair.toString() === c.mint)"
-            />
-            <div>
-                <div class="text-right">
-                    <p>{{ price_last?.toFixed(4) }}</p>
-                </div>
-                <div class="flex items-center float-right">
-                    <div
-                        class="text-sm"
-                        :class="
-                            price_24_change === 1
-                                ? 'i-carbon-arrow-right text-gray'
-                                : price_24_change >= 1
-                                ? 'i-carbon-arrow-up-right text-green'
-                                : 'i-carbon-arrow-down-right text-red'
-                        "
-                    ></div>
-
-                    <div
-                        class="text-right text-sm"
-                        :class="price_24_change === 1 ? 'text-gray' : price_24_change > 1 ? 'text-green' : 'text-red'"
-                    >
-                        {{
-                            price_24_change >= 1 ? (price_24_change - 1).toFixed(2) : (1 - price_24_change).toFixed(2)
-                        }}%
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex justify-end p-2">
+            <div class="flex items-center px-3 border-l">
                 <div class="i-carbon:search" />
             </div>
         </div>
