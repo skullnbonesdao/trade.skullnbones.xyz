@@ -31,7 +31,7 @@
                             />
                             <div>
                                 <div class="text-right">
-                                    <p>{{ price_last?.toFixed(4) }}</p>
+                                    <p>{{ price_last?.toFixed(6) }}</p>
                                 </div>
                                 <div class="flex items-center float-right">
                                     <div
@@ -40,8 +40,8 @@
                                             price_24_change === 1
                                                 ? 'i-carbon-arrow-right text-gray'
                                                 : price_24_change >= 1
-                                                ? 'i-carbon-arrow-up-right text-green'
-                                                : 'i-carbon-arrow-down-right text-red'
+                                                ? 'i-carbon-arrow-down-right text-red'
+                                                : 'i-carbon-arrow-up-right text-green'
                                         "
                                     ></div>
 
@@ -51,8 +51,8 @@
                                             price_24_change === 1
                                                 ? 'text-gray'
                                                 : price_24_change > 1
-                                                ? 'text-green'
-                                                : 'text-red'
+                                                ? 'text-red'
+                                                : 'text-green'
                                         "
                                     >
                                         {{
