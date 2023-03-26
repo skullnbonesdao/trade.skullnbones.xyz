@@ -13,6 +13,7 @@ const emit = defineEmits<{
 
 function update_store(symbol: String, pair: String) {
     useGlobalStore().updateSymbol(symbol.toString() + pair.toString())
+    emit('confirm')
 }
 </script>
 <template>
