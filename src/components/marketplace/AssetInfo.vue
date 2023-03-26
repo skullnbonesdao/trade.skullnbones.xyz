@@ -27,12 +27,12 @@
                                     )?.name
                                 }}
                             </h3>
-                            <h4>
-                                [{{
-                                    CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())
-                                        ?.name
-                                }}]
-                            </h4>
+                            <!--                            <h4>-->
+                            <!--                                [{{-->
+                            <!--                                    CURRENCIES.find((c) => c.mint === useGlobalStore().symbol.mint_pair.toString())-->
+                            <!--                                        ?.name-->
+                            <!--                                }}]-->
+                            <!--                            </h4>-->
                         </div>
                         <div class="flex flex-row">
                             <AssetRarityBadge
@@ -62,7 +62,7 @@
             </div>
             <div class="flex w-full flex-row items-center space-x-2 justify-end">
                 <CurrencyIcon
-                    class="w-6 h-6"
+                    class="w-4 h-4"
                     :currency="CURRENCIES.find((c) => useGlobalStore().symbol.mint_pair.toString() === c.mint)"
                 />
                 <div>
@@ -82,7 +82,7 @@
                         ></div>
 
                         <div
-                            class="text-right"
+                            class="text-right text-sm"
                             :class="
                                 price_24_change === 1 ? 'text-gray' : price_24_change > 1 ? 'text-green' : 'text-red'
                             "
@@ -95,14 +95,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col space-y-2">
-                    <p class="text-xs">Last Trade</p>
-                    <p class="text-xs">(-24h)</p>
-                </div>
-            </div>
 
-            <div class="flex justify-end p-2">
-                <div class="i-carbon:search" />
+                <div class="flex justify-end p-2">
+                    <div class="i-carbon:search" />
+                </div>
             </div>
         </div>
     </div>

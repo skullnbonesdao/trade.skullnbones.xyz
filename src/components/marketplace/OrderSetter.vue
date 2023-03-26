@@ -59,6 +59,7 @@ const input = ref({
         text_box_value: 0,
     },
 })
+
 const currentTab = (tabNumber: number) => (tab.value = tabNumber)
 
 const { publicKey, sendTransaction } = useWallet()

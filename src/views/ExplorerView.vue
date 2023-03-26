@@ -65,8 +65,8 @@
                             <th>Info</th>
                             <th>Mint</th>
                             <th>Wallets</th>
+                            <th class="text-right">Fee</th>
                             <th class="text-right">Size</th>
-                            <th class="text-right">Cost</th>
                             <th class="text-right">Price</th>
                             <th class="text-right"></th>
                         </tr>
@@ -82,7 +82,7 @@
                             <td id="pair" class="font-bold">{{ trade.symbol }}</td>
                             <td id="info">
                                 <div class="flex flex-col text-sm">
-                                    <div class="flex">UTC: {{ new Date(trade.timestamp * 1000).toUTCString() }}</div>
+                                    <div class="flex">{{ new Date(trade.timestamp * 1000).toISOString() }}</div>
                                     <div class="flex text-purple">
                                         <p>Before: {{ calc_passed_time(trade.timestamp) }}</p>
                                     </div>
@@ -115,16 +115,11 @@
                                     </div>
                                 </div>
                             </td>
-                            <td id="size" class="text-right">{{ trade.asset_change }}</td>
-                            <td id="cost" class="">
-                                <div class="flex flex-row justify-end items-center space-x-2">
-                                    <div class="text-right">{{ (trade.asset_change * trade.price).toFixed(2) }}</div>
-                                    <CurrencyIcon
-                                        class="w-4 h-4"
-                                        :currency="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
-                                    />
-                                </div>
+                            <td id="cost" class="text-right">
+                                {{ ((trade.market_fee / (trade.asset_change * trade.price)) * 100).toFixed(2) }}%
                             </td>
+                            <td id="size" class="text-right">{{ trade.asset_change }}</td>
+
                             <td id="price" class="">
                                 <div class="flex flex-row justify-end items-center space-x-2">
                                     <div class="text-right">

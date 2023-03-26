@@ -24,6 +24,7 @@ import { useWallet } from 'solana-wallets-vue'
 import { ref, watchEffect, unref } from 'vue'
 import { OrderBookOrderMap } from '../../../../stores/StaratlasGmStore'
 import { PublicKey } from '@solana/web3.js'
+import { useGlobalStore } from '../../../../stores/GlobalStore'
 
 const is_user_order = ref(false)
 const { publicKey } = useWallet()

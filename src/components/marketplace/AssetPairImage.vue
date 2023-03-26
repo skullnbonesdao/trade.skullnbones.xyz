@@ -2,12 +2,12 @@
     <div class="flex flex-col static place-items-center">
         <div class="avatar bg-gray-200 dark:bg-gray-600 rounded-md p1">
             <div class="w-12">
-                <img class="rounded-full   " :src="'/sa_images/webp/' + props.mint + '.webp'" alt="asset_image" />
+                <img class="rounded-full" :src="'/sa_images/webp/' + props.mint + '.webp'" alt="asset_image" />
             </div>
         </div>
 
         <div class="absolute pt-1 pr-6">
-            <CurrencyIcon class="w-6" :currency="props.pair" />
+            <CurrencyIcon class="w-7" :currency="props.pair" />
         </div>
     </div>
 </template>
@@ -18,7 +18,7 @@ import { PropType } from 'vue'
 
 const props = defineProps({
     mint: String,
-    pair: Object as PropType<I_CURRENCY>
+    pair: Object as PropType<I_CURRENCY>,
 })
 </script>
 
