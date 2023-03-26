@@ -1,11 +1,18 @@
 <template>
-    <div class="flex flex-col items-center px-5 pb-2 mt-6 elementcontainer space-y-2">
+    <div class="flex flex-col items-center px-5 pb-2 mt-6 elementcontainer space-y-3">
         <div class="">
             <CurrencyIcon class="w-24" :currency="props.currency" />
         </div>
-
-        <div>{{ balance }}</div>
-        <div>{{ value_usdc.toFixed(3) }}$</div>
+        <div class="flex flex-col space-y-5">
+            <span
+                class="price_badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300 border-purple-200 dark:border-purple-700"
+                >{{ balance }}</span
+            >
+            <span
+                class="price_badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 border-blue-200 dark:border-blue-700"
+                >{{ value_usdc.toFixed(3) }}$</span
+            >
+        </div>
     </div>
 </template>
 <script setup lang="ts">
@@ -63,3 +70,9 @@ async function fetchWalletTokenBalances() {
     }
 }
 </script>
+
+<style scoped>
+.price_badge {
+    @apply w-full text-center font-medium px-5 py-0.5 rounded d uppercase border-2;
+}
+</style>
