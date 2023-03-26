@@ -1,12 +1,14 @@
 <template>
+    <LoadingModal v-model="show_loading_modal" @confirm="show_loading_modal = false" />
+    <SearchHelperModal v-model="show_modal" @confirm="show_modal = false"> </SearchHelperModal>
     <div class="space-y-2">
         <div class="flex flex-col space-y-2">
             <info-feed class=" " />
-            <asset-info class="elementcontainer hoverable" />
+            <asset-info @click="show_modal = true" class="elementcontainer hoverable" />
         </div>
         <div class="flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
             <div class="basis-2/3 space-y-2">
-                <trading-view-chart v-if="useGlobalStore().draw_tv" class="elementcontainer" />
+                <trading-view-chart v-if="show_tv" class="elementcontainer" />
                 <order-table :orders="orders" class="elementcontainer"></order-table>
             </div>
             <div class="basis-1/3 space-y-2">
@@ -33,26 +35,15 @@ import OrderTable from '../components/tables/OrderTable.vue'
 import OrderBook from '../components/marketplace/orderbook/OrderBook.vue'
 import AssetInfo from '../components/marketplace/AssetInfo.vue'
 import { storeToRefs } from 'pinia'
+import SearchHelperModal from '../components/modals/SearchHelperModal.vue'
+import { ModalsContainer, useModal } from 'vue-final-modal'
+import LoadingModal from '../components/modals/LoadingModal.vue'
+
+const show_modal = ref(false)
+const show_tv = ref(true)
+const show_loading_modal = ref(true)
 
 const orders = ref()
-onMounted(async () => {
-    const tokenPriceWebsocket = useTokenPriceStore()
-    await tokenPriceWebsocket.init()
-
-    const solanaNetworkWebsocket = useSolanaNetworkStore()
-    solanaNetworkWebsocket.init()
-    solanaNetworkWebsocket.run_tps().catch((err) => console.error(`tps monitor: ${err}`))
-
-    const assetsStore = useAssetsStore()
-    await assetsStore.init()
-
-    useStaratlasGmStore()
-        .getOpenOrdersForAsset(
-            useAssetsStore().allAssets?.find((asset) => useGlobalStore().symbol.name.includes(asset.symbol))?.mint ?? ''
-        )
-        .then(() => {})
-        .catch((err) => console.log(err))
-})
 
 watchEffect(async () => {
     orders.value = await useStaratlasGmStore().getOpenOrdersForPlayer(useWallet().publicKey.value)

@@ -1,9 +1,6 @@
 <template>
     <div>
-        <div v-if="show_search_modal">
-            <SearchAssetModal @select-event="(symbol) => action_update_symbol(symbol).then(() => {})" />
-        </div>
-        <div @click="action_enable_modal" class="flex flex-row space-x-5 items-center">
+        <div class="flex flex-row space-x-5 items-center">
             <div
                 class="flex flex-col"
                 @click="
@@ -129,10 +126,6 @@ fetch_price_24_h()
 watch(useGlobalStore().symbol, (new_value) => {
     fetch_price_24_h()
 })
-
-function action_enable_modal() {
-    show_search_modal.value = true
-}
 
 async function action_update_symbol(symbol: string) {
     show_search_modal.value = false

@@ -1,8 +1,11 @@
 import { createApp } from 'vue'
+import { createVfm } from 'vue-final-modal'
+
 //import './style.css'
 import App from './App.vue'
 import { createPinia } from 'pinia'
 import { createRouter, createWebHashHistory } from 'vue-router'
+import 'vue-final-modal/style.css'
 import './index.css'
 import '@unocss/reset/tailwind.css'
 import '@kidonng/daisyui/full.min.css'
@@ -51,10 +54,12 @@ const router = createRouter({
     history: createWebHashHistory(),
     routes,
 })
+const vfm = createVfm()
 
 createApp(App)
     .use(head)
     .use(pinia)
+    .use(vfm)
     .use(SolanaWallets, walletOptions)
     .use(VueApexCharts)
     .use(SmartTable)
