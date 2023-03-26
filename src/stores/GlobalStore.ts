@@ -39,7 +39,7 @@ export const useGlobalStore = defineStore('globalStore', {
             rpc: useLocalStorage('rpc_local_store', endpoints_list[0]),
             draw_tv: true,
             symbol: {
-                name: 'FOODATLAS',
+                name: 'PX4USDC',
                 mint_asset: new PublicKey('foodQJAztMzX1DKpLaiounNe2BDMds5RNuPC6jsNrDG'),
                 mint_pair: new PublicKey('ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx'),
             } as TradeAsset,
@@ -97,6 +97,7 @@ export const useGlobalStore = defineStore('globalStore', {
             }
         },
         updateSymbol(name: string) {
+            useGlobalStore().draw_tv = false
             this.symbol.mint_asset = new PublicKey(
                 useAssetsStore().allAssets.find((asset) => name.includes(asset.symbol))?.mint ?? ''
             )
@@ -105,6 +106,7 @@ export const useGlobalStore = defineStore('globalStore', {
             )
             useStaratlasGmStore().getOpenOrdersForAsset(this.symbol.mint_asset.toString())
             this.symbol.name = name
+            useGlobalStore().draw_tv = true
         },
     },
 })

@@ -8,9 +8,13 @@
         </div>
 
         <div v-if="!is_loading && api_trades" class="space-y-2">
-            <div v-for="(element_group, idx) in api_trades_grouped" :key="idx" class="elementcontainer">
+            <div
+                v-for="(element_group, idx) in api_trades_grouped"
+                :key="idx"
+                class="elementcontainer relative overflow-x-auto"
+            >
                 <h2>{{ useAssetsStore().allAssets.find((a) => a.mint === element_group[0].asset_mint)?.name }}</h2>
-                <table class="relative overflow-x-auto">
+                <table class="">
                     <thead>
                         <tr>
                             <th></th>

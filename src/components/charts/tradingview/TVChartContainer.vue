@@ -18,6 +18,13 @@ onMounted(() => {
 })
 
 watch(
+    () => globalStore.symbol.name,
+    async () => {
+        createTVChart()
+    }
+)
+
+watch(
     () => globalStore.is_dark,
     async () => {
         createTVChart()
