@@ -4,7 +4,7 @@
         <div v-if="!useWallet().publicKey.value" class="flex w-full elementcontainer justify-center p-2">
             <wallet-multi-button dark />
         </div>
-        <div v-else class="flex flex-col space-y-2">
+        <div v-else-if="!is_loading" class="flex flex-col space-y-2">
             <div class="flex flex-row w-full justify-around space-x-2">
                 <TokenWalletInfoBadge :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.SOL)" />
                 <TokenWalletInfoBadge :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)" />
@@ -13,14 +13,29 @@
             <div class="elementcontainer">
                 <h1 class="text-4xl">Wallet History</h1>
             </div>
-            <div v-if="!is_loading && api_trades" class="space-y-2">
+
+            <div
+                v-for="(element_group, idx) in api_trades_grouped"
+                :key="idx"
+                class="elementcontainer relative overflow-x-auto"
+            >
                 <div
-                    v-for="(element_group, idx) in api_trades_grouped"
-                    :key="idx"
-                    class="elementcontainer relative overflow-x-auto"
+                    class="flex flex-row items-center elementcontainer hoverable border-b-2 border-gray-300"
+                    @click="show_element_from_grouped[idx] = !show_element_from_grouped[idx]"
                 >
-                    <h2>{{ useAssetsStore().allAssets.find((a) => a.mint === element_group[0].asset_mint)?.name }}</h2>
-                    <table class="">
+                    <h3 class="w-full">
+                        {{ useAssetsStore().allAssets.find((a) => a.mint === element_group[0].asset_mint)?.name }}
+                    </h3>
+                    <div class="flex justify-end items-center">
+                        <i
+                            class="w-12 h-12 i-carbon:text-indent-more"
+                            :class="show_element_from_grouped[idx] ? 'rotate-90' : ''"
+                        ></i>
+                    </div>
+                </div>
+
+                <Transition>
+                    <table v-if="show_element_from_grouped[idx]" class="">
                         <thead>
                             <tr>
                                 <th></th>
@@ -105,7 +120,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </Transition>
             </div>
         </div>
         <BeatLoader
@@ -139,6 +154,7 @@ const show_loading_modal = ref(true)
 const is_loading = ref(true)
 const api_trades = ref<Array<Trade>>()
 const api_trades_grouped = ref<Record<string, Trade[]>>()
+const show_element_from_grouped = ref<Array<Boolean>>()
 
 const api = new Api({ baseUrl: 'https://api2.skullnbones.xyz' })
 
@@ -162,7 +178,12 @@ function fetch_wallet_trades() {
         .then((data) => {
             api_trades.value = data
 
-            if (api_trades.value != undefined) api_trades_grouped.value = groupBy(api_trades.value, (t) => t.asset_mint)
+            if (api_trades.value != undefined) {
+                api_trades_grouped.value = groupBy(api_trades.value, (t) => t.asset_mint)
+                show_element_from_grouped.value = []
+                Object.keys(api_trades_grouped.value).forEach((t) => show_element_from_grouped.value?.push(true))
+            }
+
             is_loading.value = false
         })
 }
