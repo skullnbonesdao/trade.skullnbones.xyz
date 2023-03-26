@@ -18,14 +18,14 @@ function update_store(symbol: String, pair: String) {
 <template>
     <VueFinalModal
         class="flex justify-center items-center"
-        content-class="flex flex-col w-200 h-100 mx-4 p-4 bg-white dark:bg-gray-900 border dark:border-gray-700 rounded-lg space-y-2"
+        content-class="flex flex-col mx-4 p-4 bg-white dark:bg-gray-900 border dark:border-gray-700 rounded-lg space-y-4"
     >
-        <h2 class="text-center pb-2">Search</h2>
+        <h2 class="text-center">Search</h2>
         <div class="flex flex-row w-full items-center dark:text-gray-100 border-2 rounded-xl">
             <input class="flex w-full bg-transparent p-2" v-model="user_search_text" type="text" />
             <div class="i-carbon:search m-2"></div>
         </div>
-        <div class="relative pt-2 overflow-auto" v-if="user_search_text">
+        <div class="relative overflow-auto" v-if="user_search_text">
             <table>
                 <thead>
                     <tr>
@@ -45,7 +45,7 @@ function update_store(symbol: String, pair: String) {
                         :key="idx"
                     >
                         <th>
-                            <div class="w-12 sm:w-24">
+                            <div class="w-6 sm:w-24">
                                 <img
                                     class="rounded-md"
                                     :src="'/sa_images/webp/' + asset.mint + '.webp'"
@@ -53,18 +53,18 @@ function update_store(symbol: String, pair: String) {
                                 />
                             </div>
                         </th>
-                        <td class="font-bold">{{ asset.name }}</td>
+                        <td class="font-bold text-xs">{{ asset.name }}</td>
                         <td class="">
                             <div class="flex flex-row justify-around space-x-2">
                                 <CurrencyIcon
                                     @click="update_store(asset.symbol, 'ATLAS')"
-                                    class="w-12 h-12 hoverable"
+                                    class="w-6 h-6 sm:w-12 sm:h-12 hoverable"
                                     :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)"
                                 ></CurrencyIcon>
 
                                 <CurrencyIcon
                                     @click="update_store(asset.symbol, 'USDC')"
-                                    class="w-12 h-12 hoverable"
+                                    class="w-6 h-6 sm:w-12 sm:h-12 hoverable"
                                     :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)"
                                 ></CurrencyIcon>
                             </div>
