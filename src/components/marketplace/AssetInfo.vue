@@ -23,17 +23,19 @@
                             }}
                         </h3>
                         <div class="flex flex-row items-center space-x-2 sm:justify-end">
-                            <CurrencyIcon
-                                class="w-4 h-4"
-                                :currency="
-                                    CURRENCIES.find((c) => useGlobalStore().symbol.mint_pair.toString() === c.mint)
-                                "
-                            />
                             <div>
-                                <div class="text-right">
+                                <div class="flex flex-row items-center space-x1">
                                     <p>{{ price_last?.toFixed(6) }}</p>
+                                    <CurrencyIcon
+                                        class="w-4 h-4"
+                                        :currency="
+                                            CURRENCIES.find(
+                                                (c) => useGlobalStore().symbol.mint_pair.toString() === c.mint
+                                            )
+                                        "
+                                    />
                                 </div>
-                                <div class="flex items-center float-right">
+                                <div class="flex items-center sm:float-right">
                                     <div
                                         class="text-sm"
                                         :class="
