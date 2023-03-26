@@ -21,7 +21,7 @@
             >
                 <div
                     class="flex flex-row items-center elementcontainer hoverable border-b-2 border-gray-300"
-                    @click="show_element_from_grouped[idx] = !show_element_from_grouped[idx]"
+                    @click="show_element_from_grouped[parseInt(idx)] = !show_element_from_grouped[parseInt(idx)]"
                 >
                     <h3 class="w-full">
                         {{ useAssetsStore().allAssets.find((a) => a.mint === element_group[0].asset_mint)?.name }}
@@ -29,13 +29,13 @@
                     <div class="flex justify-end items-center">
                         <i
                             class="w-12 h-12 i-carbon:text-indent-more"
-                            :class="show_element_from_grouped[idx] ? 'rotate-90' : ''"
+                            :class="show_element_from_grouped[parseInt(idx)] ? 'rotate-90' : ''"
                         ></i>
                     </div>
                 </div>
 
                 <Transition>
-                    <table v-if="show_element_from_grouped[idx]" class="">
+                    <table v-if="show_element_from_grouped[parseInt(idx)]" class="">
                         <thead>
                             <tr>
                                 <th></th>
@@ -155,7 +155,7 @@ const show_loading_modal = ref(true)
 const is_loading = ref(true)
 const api_trades = ref<Array<Trade>>()
 const api_trades_grouped = ref<Record<string, Trade[]>>()
-const show_element_from_grouped = ref<Array<Boolean>>()
+const show_element_from_grouped = ref<Array<Boolean>>([])
 
 const api = new Api({ baseUrl: 'https://api2.skullnbones.xyz' })
 
