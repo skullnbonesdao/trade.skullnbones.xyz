@@ -106,7 +106,7 @@ import { useGlobalStore } from '../../stores/GlobalStore'
 import { useAssetsStore } from '../../stores/AssetsStore'
 import { CURRENCIES } from '../../typescript/constants/currencies'
 import { ref, watch } from 'vue'
-import SearchAssetModal from '../modals/SearchAssetModal.vue'
+
 import AssetPairImage from './AssetPairImage.vue'
 import AssetRarityBadge from '../badges/AssetRarityBadge.vue'
 import AssetItemTypeBadge from '../badges/AssetItemTypeBadge.vue'

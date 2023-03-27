@@ -26,7 +26,7 @@ function update_store(symbol: String, pair: String) {
             <input class="flex w-full bg-transparent p-2" v-model="user_search_text" type="text" />
             <div class="i-carbon:search m-2"></div>
         </div>
-        <div class="relative overflow-auto" v-if="user_search_text">
+        <div class="relative overflow-auto max-h-72" v-if="user_search_text">
             <table>
                 <thead>
                     <tr>
