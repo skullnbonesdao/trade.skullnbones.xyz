@@ -24,6 +24,7 @@ export interface Trade {
     /** @format float */
     asset_change: number
     asset_mint: string
+    asset_receiving_wallet: string
     /** @format int64 */
     block: number
     currency_mint: string

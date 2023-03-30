@@ -41,6 +41,7 @@ export default {
                 yaxis: [
                     {
                         seriesName: 'USDC',
+
                         min: 0,
                         labels: {
                             formatter: this.label_formatter,
@@ -72,7 +73,7 @@ export default {
     },
     methods: {
         label_formatter(value) {
-            return value.toFixed(7)
+            return value?.toFixed(7)
         },
     },
 }

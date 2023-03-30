@@ -76,9 +76,7 @@
                                     <div class="text-blue" v-if="trade.order_taker === publicKey?.toString()">
                                         Taker
                                     </div>
-                                    <div class="text-orange" v-if="trade.order_initializer === publicKey?.toString()">
-                                        Maker
-                                    </div>
+                                    <div v-else class="text-orange">Maker</div>
                                 </td>
 
                                 <td id="size" class="text-right">{{ trade.asset_change }}</td>

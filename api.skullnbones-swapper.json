@@ -701,6 +701,7 @@
           "order_taker",
           "order_initializer",
           "currency_mint",
+          "asset_receiving_wallet",
           "asset_mint",
           "asset_change",
           "market_fee",
@@ -713,6 +714,9 @@
             "format": "float"
           },
           "asset_mint": {
+            "type": "string"
+          },
+          "asset_receiving_wallet": {
             "type": "string"
           },
           "block": {

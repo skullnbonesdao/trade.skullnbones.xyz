@@ -56,100 +56,7 @@
                 <ExplorerChartElement v-if="!is_loading" :x_values="chart.data" :y_values="chart.lables" />
             </div>
 
-            <div class="relative overflow-x-auto">
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th class="text-left">Pair</th>
-                            <th>Info</th>
-                            <th>Mint</th>
-                            <th>Wallets</th>
-                            <th class="text-right">Fee</th>
-                            <th class="text-right">Size</th>
-                            <th class="text-right">Price</th>
-                            <th class="text-right"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(trade, idx) in api_trades" :key="idx">
-                            <th id="">
-                                <AssetPairImage
-                                    :mint="trade.asset_mint"
-                                    :pair="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
-                                />
-                            </th>
-                            <td id="pair" class="font-bold">{{ trade.symbol }}</td>
-                            <td id="info">
-                                <div class="flex flex-col text-sm">
-                                    <div class="flex">{{ new Date(trade.timestamp * 1000).toISOString() }}</div>
-                                    <div class="flex text-purple">
-                                        <p>Before: {{ calc_passed_time(trade.timestamp) }}</p>
-                                    </div>
-                                    <div class="flex text-2xs">
-                                        <p>{{ trade.signature.slice(0, 10) }}[...]{{ trade.signature.slice(-10) }}</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td id="mint">
-                                <div class="flex flex-col">
-                                    <div class="flex flex-row space-x-1 text-xs justify-around">
-                                        <div>Token:</div>
-                                        <div>{{ trade.currency_mint }}</div>
-                                    </div>
-                                    <div class="flex flex-row space-x-1 text-xs justify-around">
-                                        <div>Asset:</div>
-                                        <div>{{ trade.asset_mint }}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td id="wallet">
-                                <div class="flex flex-col">
-                                    <div class="flex flex-row space-x-1 text-xs justify-around">
-                                        <div>Seller:</div>
-                                        <div>{{ trade.order_initializer }}</div>
-                                    </div>
-                                    <div class="flex flex-row space-x-1 text-xs justify-around">
-                                        <div>Buyer:</div>
-                                        <div>{{ trade.order_taker }}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td id="cost" class="text-right">
-                                {{ ((trade.market_fee / (trade.asset_change * trade.price)) * 100).toFixed(2) }}%
-                            </td>
-                            <td id="size" class="text-right">{{ trade.asset_change }}</td>
-
-                            <td id="price" class="">
-                                <div class="flex flex-row justify-end items-center space-x-2">
-                                    <div class="text-right">
-                                        {{ trade.price }}
-                                    </div>
-
-                                    <CurrencyIcon
-                                        class="w-4 h-4"
-                                        :currency="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
-                                    />
-                                </div>
-                            </td>
-                            <td id="" class="">
-                                <div class="flex flex-row justify-end items-center space-x-2">
-                                    <ExplorerIcon
-                                        class="w-5"
-                                        :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLSCAN)"
-                                        :signature="trade.signature"
-                                    />
-                                    <ExplorerIcon
-                                        class="w-5"
-                                        :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLANAFM)"
-                                        :signature="trade.signature"
-                                    />
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <AssetTableModular :api_trades="api_trades" />
         </div>
         <div class="elementcontainer text-center text-xl" v-if="no_data && !is_loading">No Data Found!</div>
     </div>
@@ -158,18 +65,14 @@
 <script setup lang="ts">
 import DotLoader from 'vue-spinner/src/DotLoader.vue'
 import { Api, Trade } from '../typescript/skullnbones_api/skullnbones_api'
-import { onMounted, reactive, ref, watch } from 'vue'
-import CurrencyIcon from '../components/icon-helper/CurrencyIcon.vue'
+import { onMounted, reactive, ref } from 'vue'
 import { CURRENCIES, E_CURRENCIES } from '../typescript/constants/currencies'
-import ChartjsLineChart from '../components/charts/chartjs/ChartjsLineChart.vue'
-import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
-import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer'
 import { useAssetsStore } from '../stores/AssetsStore'
-import AssetPairImage from '../components/marketplace/AssetPairImage.vue'
 import SelectBox from '../components/buttons/SelectBox.vue'
 import ExplorerChartElement from '../components/elements/ExplorerChartElement.vue'
 import TextBox from '../components/buttons/TextBox.vue'
 import { useGlobalStore } from '../stores/GlobalStore'
+import AssetTableModular from '../components/tables/AssetTableModular.vue'
 
 const no_data = ref(false)
 const selected_search_type = ref<'mint' | 'address' | 'signature' | 'symbol'>('symbol')
