@@ -10,17 +10,19 @@
                 <a class="hover:text-blue-600" href="https://discord.gg/eQZQaF5Qk6">
                     <div class="i-carbon:logo-discord"></div>
                 </a>
-                <SelectBox
-                    class="flex w-full justify-end pr-2"
-                    text="RPC"
-                    :selected_in="useGlobalStore().rpc.name"
-                    :options="endpoints_list.flatMap((e) => e.name)"
-                    @selected="
-                        (value) =>
-                            (useGlobalStore().rpc =
-                                endpoints_list.find((e) => e.name === value) ?? useGlobalStore().rpc)
-                    "
-                ></SelectBox>
+                <div class="flex w-full justify-end">
+                    <SelectBox
+                        class="flex max-w-5xl pr-2"
+                        text="RPC"
+                        :selected_in="useGlobalStore().rpc.name"
+                        :options="endpoints_list.flatMap((e) => e.name)"
+                        @selected="
+                            (value) =>
+                                (useGlobalStore().rpc =
+                                    endpoints_list.find((e) => e.name === value) ?? useGlobalStore().rpc)
+                        "
+                    ></SelectBox>
+                </div>
             </div>
             <div class="flex w-full justify-center text-center">Support us:</div>
             <div class="flex w-full text-sm justify-center text-center">
@@ -36,6 +38,7 @@
 <script setup lang="ts">
 import { useGlobalStore, endpoints_list } from '../stores/GlobalStore'
 import SelectBox from '../components/buttons/SelectBox.vue'
+import { ref, watch } from 'vue'
 const version = __APP_VERSION__
 </script>
 
