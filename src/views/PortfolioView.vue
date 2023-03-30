@@ -17,7 +17,10 @@
                 <h1 class="text-4xl">History</h1>
             </div>
 
+            <h3 v-if="api_trades.s === 1" class="elementcontainer text-center">No Data found!</h3>
+
             <div
+                v-else
                 v-for="(element_group, idx) in api_trades_grouped"
                 :key="idx"
                 class="elementcontainer relative overflow-x-auto"
@@ -157,7 +160,7 @@ interface GroupedToggle {
 
 const show_loading_modal = ref(true)
 const is_loading = ref(true)
-const api_trades = ref<Array<Trade>>()
+const api_trades = ref<Array<Trade> | any>()
 const api_trades_grouped = ref<Record<string, Trade[]>>()
 const show_element_from_grouped = ref<Array<GroupedToggle>>()
 
@@ -183,7 +186,7 @@ function fetch_wallet_trades() {
         .then((data) => {
             api_trades.value = data
 
-            if (api_trades.value != undefined) {
+            if (api_trades.value != undefined && api_trades.value.s !== 1) {
                 api_trades_grouped.value = groupBy(api_trades.value, (t) => t.asset_mint)
                 show_element_from_grouped.value = []
                 Object.keys(api_trades_grouped.value).forEach((t) =>
