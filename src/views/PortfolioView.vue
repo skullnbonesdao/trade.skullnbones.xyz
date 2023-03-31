@@ -17,7 +17,10 @@
                 <h1 class="text-4xl">History</h1>
             </div>
 
+            <h3 v-if="api_trades.s === 1" class="elementcontainer text-center">No Data found!</h3>
+
             <div
+                v-else
                 v-for="(element_group, idx) in api_trades_grouped"
                 :key="idx"
                 class="elementcontainer relative overflow-x-auto"
@@ -37,91 +40,7 @@
                     </div>
                 </div>
                 <Transition>
-                    <table v-if="show_element_from_grouped?.find((e) => e.index === idx)?.value" class="">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th class="text-left">Pair</th>
-                                <th>Info</th>
-                                <th class="text-left">Side</th>
-                                <th class="text-right">Size</th>
-                                <th class="text-right">Cost</th>
-                                <th class="text-right">Price</th>
-                                <th class="text-right"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(trade, idx) in element_group" :key="idx">
-                                <th id="">
-                                    <AssetPairImage
-                                        :mint="trade.asset_mint"
-                                        :pair="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
-                                    />
-                                </th>
-                                <td id="pair" class="font-bold">{{ trade.symbol }}</td>
-                                <td id="info">
-                                    <div class="flex flex-col text-sm">
-                                        <div class="flex">
-                                            UTC: {{ new Date(trade.timestamp * 1000).toUTCString() }}
-                                        </div>
-                                        <div class="flex text-purple">
-                                            <p>Before: {{ calc_passed_time(trade.timestamp) }}</p>
-                                        </div>
-                                        <div class="flex text-2xs">
-                                            <p>{{ trade.signature }}</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td id="buy-sell" class="text-left">
-                                    <div class="text-blue" v-if="trade.order_taker === publicKey?.toString()">
-                                        Taker
-                                    </div>
-                                    <div class="text-orange" v-if="trade.order_initializer === publicKey?.toString()">
-                                        Maker
-                                    </div>
-                                </td>
-
-                                <td id="size" class="text-right">{{ trade.asset_change }}</td>
-                                <td id="cost" class="">
-                                    <div class="flex flex-row justify-end items-center space-x-2">
-                                        <div class="text-right">
-                                            {{ (trade.asset_change * trade.price).toFixed(2) }}
-                                        </div>
-                                        <CurrencyIcon
-                                            class="w-4 h-4"
-                                            :currency="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
-                                        />
-                                    </div>
-                                </td>
-                                <td id="price" class="">
-                                    <div class="flex flex-row justify-end items-center space-x-2">
-                                        <div class="text-right">
-                                            {{ trade.price }}
-                                        </div>
-
-                                        <CurrencyIcon
-                                            class="w-4 h-4"
-                                            :currency="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
-                                        />
-                                    </div>
-                                </td>
-                                <td id="" class="">
-                                    <div class="flex flex-row justify-end items-center space-x-2">
-                                        <ExplorerIcon
-                                            class="w-5"
-                                            :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLSCAN)"
-                                            :signature="trade.signature"
-                                        />
-                                        <ExplorerIcon
-                                            class="w-5"
-                                            :explorer="EXPLORER.find((e) => e.type === E_EXPLORER.SOLANAFM)"
-                                            :signature="trade.signature"
-                                        />
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <AssetTableModular :is_simple="true" :api_trades="element_group" :pub-key="publicKey?.toString()" />
                 </Transition>
             </div>
         </div>
@@ -150,6 +69,7 @@ import WalletInfoBadge from '../components/elements/WalletInfoBadge.vue'
 import LoadingModal from '../components/modals/LoadingModal.vue'
 import { calc_passed_time } from '../typescript/helper/calc_passed_time'
 import BeatLoader from 'vue-spinner/src/BeatLoader.vue'
+import AssetTableModular from '../components/tables/AssetTableModular.vue'
 const { publicKey } = useWallet()
 
 interface GroupedToggle {
@@ -159,7 +79,7 @@ interface GroupedToggle {
 
 const show_loading_modal = ref(true)
 const is_loading = ref(true)
-const api_trades = ref<Array<Trade>>()
+const api_trades = ref<Array<Trade> | any>()
 const api_trades_grouped = ref<Record<string, Trade[]>>()
 const show_element_from_grouped = ref<Array<GroupedToggle>>()
 
@@ -185,7 +105,7 @@ function fetch_wallet_trades() {
         .then((data) => {
             api_trades.value = data
 
-            if (api_trades.value != undefined) {
+            if (api_trades.value != undefined && api_trades.value.s !== 1) {
                 api_trades_grouped.value = groupBy(api_trades.value, (t) => t.asset_mint)
                 show_element_from_grouped.value = []
                 Object.keys(api_trades_grouped.value).forEach((t) =>

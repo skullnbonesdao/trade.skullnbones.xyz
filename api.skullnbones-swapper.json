@@ -81,6 +81,31 @@
         }
       }
     },
+    "/stats/ranges": {
+      "get": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "Ranges",
+        "description": "Ranges\n\nResponses with sync status ranges",
+        "operationId": "get_ranges",
+        "responses": {
+          "200": {
+            "description": "Get range successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Cursor"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/trades/address": {
       "get": {
         "tags": [
@@ -655,6 +680,40 @@
   },
   "components": {
     "schemas": {
+      "Cursor": {
+        "type": "object",
+        "required": [
+          "id",
+          "value",
+          "block",
+          "start_block",
+          "end_block"
+        ],
+        "properties": {
+          "block": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "end_block": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "id": {
+            "type": "string"
+          },
+          "start_block": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "Exchange": {
         "type": "object",
         "required": [
@@ -702,6 +761,7 @@
           "order_initializer",
           "currency_mint",
           "asset_mint",
+          "asset_receiving_wallet",
           "asset_change",
           "market_fee",
           "total_cost",
@@ -713,6 +773,9 @@
             "format": "float"
           },
           "asset_mint": {
+            "type": "string"
+          },
+          "asset_receiving_wallet": {
             "type": "string"
           },
           "block": {

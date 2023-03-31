@@ -26,7 +26,7 @@ function update_store(symbol: String, pair: String) {
             <input class="flex w-full bg-transparent p-2" v-model="user_search_text" type="text" />
             <div class="i-carbon:search m-2"></div>
         </div>
-        <div class="relative overflow-auto" v-if="user_search_text">
+        <div class="relative overflow-auto max-h-72" v-if="user_search_text">
             <table>
                 <thead>
                     <tr>
@@ -37,6 +37,7 @@ function update_store(symbol: String, pair: String) {
                 </thead>
                 <tbody>
                     <tr
+                        class="max-h-24"
                         v-for="(asset, idx) in useAssetsStore().allAssets.filter((a) => {
                             return (
                                 a.name.toLowerCase().includes(user_search_text.toString().toLowerCase()) ||
@@ -46,7 +47,7 @@ function update_store(symbol: String, pair: String) {
                         :key="idx"
                     >
                         <th>
-                            <div class="w-6 sm:w-24">
+                            <div class="h-6 sm:w-24">
                                 <img
                                     class="rounded-md"
                                     :src="'/sa_images/webp/' + asset.mint + '.webp'"

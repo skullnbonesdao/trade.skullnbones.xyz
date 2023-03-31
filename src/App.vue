@@ -38,9 +38,9 @@ globalStore.init()
 // })
 
 watch(
-    () => useGlobalStore().rpc,
+    () => useGlobalStore().rpc.name,
     (n) => {
-        createToast(`Changed RPC to: ${n.name}`, TOAST_SUCCESS)
+        createToast(`Changed RPC to: ${n}`, TOAST_SUCCESS)
         useGlobalStore().init()
     }
 )
