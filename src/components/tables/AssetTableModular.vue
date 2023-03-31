@@ -3,10 +3,8 @@
         <table>
             <thead>
                 <tr>
-                    <th></th>
-                    <th class="text-left">Pair</th>
+                    <th class="">Pair</th>
                     <th>Info</th>
-
                     <th v-if="!is_simple">Mint</th>
                     <th v-if="!is_simple">Wallets</th>
 
@@ -21,13 +19,14 @@
             </thead>
             <tbody>
                 <tr v-for="(trade, idx) in api_trades" :key="idx">
-                    <th id="">
+                    <th id="flex flex-col ">
                         <AssetPairImage
                             :mint="trade.asset_mint"
                             :pair="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
                         />
+                        <div class="text-center">{{ trade.symbol }}</div>
                     </th>
-                    <td id="pair" class="font-bold">{{ trade.symbol }}</td>
+
                     <td id="info">
                         <div class="flex flex-col text-xs">
                             <div class="flex">{{ new Date(trade.timestamp * 1000).toISOString() }}</div>
