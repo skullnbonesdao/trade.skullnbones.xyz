@@ -1,5 +1,6 @@
 <template>
     <header class="sticky top-0 z-50 shadow-xl">
+        <LoadingModal v-model="show_loading_modal" @confirm="show_loading_modal = false" />
         <nav
             class="bg-white p-3 space-y-3 dark:text-gray-200 dark:bg-gray-900 w-full z-20 border-b border-gray-200 dark:border-gray-600"
         >
@@ -92,8 +93,10 @@
 import { WalletMultiButton } from 'solana-wallets-vue'
 import ToggleMode from '../components/buttons/ToggleMode.vue'
 import { ref } from 'vue'
+import LoadingModal from '../components/modals/LoadingModal.vue'
 
 const mobile_menu_shown = ref(false)
+const show_loading_modal = ref(true)
 </script>
 
 <style scoped>

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col static place-items-center">
+    <div class="flex flex-col static items-center">
         <div class="avatar bg-gray-200 dark:bg-gray-600 rounded-md p1">
             <div class="w-12">
                 <img class="rounded-full" :src="'/sa_images/webp/' + props.mint + '.webp'" alt="asset_image" />

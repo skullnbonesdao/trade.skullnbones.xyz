@@ -1,5 +1,4 @@
 <template>
-    <LoadingModal v-model="show_loading_modal" @confirm="show_loading_modal = false" />
     <SearchHelperModal v-model="show_modal" @confirm="show_modal = false"> </SearchHelperModal>
     <div class="space-y-2">
         <div class="flex flex-col space-y-2">
@@ -41,7 +40,6 @@ import LoadingModal from '../components/modals/LoadingModal.vue'
 
 const show_modal = ref(false)
 const show_tv = ref(true)
-const show_loading_modal = ref(true)
 
 const orders = ref()
 

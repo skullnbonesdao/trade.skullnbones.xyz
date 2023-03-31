@@ -3,10 +3,8 @@
         <table>
             <thead>
                 <tr>
-                    <th></th>
-                    <th class="text-left">Pair</th>
+                    <th class="">Pair</th>
                     <th>Info</th>
-
                     <th v-if="!is_simple">Mint</th>
                     <th v-if="!is_simple">Wallets</th>
 
@@ -21,13 +19,14 @@
             </thead>
             <tbody>
                 <tr v-for="(trade, idx) in api_trades" :key="idx">
-                    <th id="">
+                    <th id="flex flex-col ">
                         <AssetPairImage
                             :mint="trade.asset_mint"
                             :pair="CURRENCIES.find((c) => c.mint === trade.currency_mint)"
                         />
+                        <div class="text-center">{{ trade.symbol }}</div>
                     </th>
-                    <td id="pair" class="font-bold">{{ trade.symbol }}</td>
+
                     <td id="info">
                         <div class="flex flex-col text-xs">
                             <div class="flex">{{ new Date(trade.timestamp * 1000).toISOString() }}</div>
@@ -47,6 +46,7 @@
                             </div>
                             <div class="flex flex-col">
                                 <div>{{ trade.currency_mint }}</div>
+
                                 <div>{{ trade.asset_mint }}</div>
                             </div>
                         </div>
@@ -136,7 +136,7 @@
                                         CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)?.mint
                                     "
                                 >
-                                    {{ trade.price * trade.asset_change }}
+                                    {{ trade.total_cost }}
                                 </p>
                                 <p
                                     v-if="
@@ -144,7 +144,7 @@
                                         CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)?.mint
                                     "
                                 >
-                                    {{ trade.price * trade.asset_change }}
+                                    {{ trade.total_cost }}
                                 </p>
                             </div>
                             <CurrencyIcon
@@ -212,6 +212,12 @@ function abbreviateNumber(num: number): string {
     }
 
     return num.toFixed(2)
+}
+
+function formatNumberToBase10(num: number): string {
+    const exponent = Math.floor(Math.log10(num))
+    const base = num / Math.pow(10, exponent)
+    return `${base}E${exponent}`
 }
 </script>
 <style scoped>
