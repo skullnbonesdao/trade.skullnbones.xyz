@@ -1,5 +1,4 @@
 <template>
-    <LoadingModal v-model="show_loading_modal" @confirm="show_loading_modal = false" />
     <div class="flex flex-col space-y-2">
         <div v-if="!useWallet().publicKey.value" class="flex w-full elementcontainer justify-center p-2">
             <wallet-multi-button dark />

@@ -47,6 +47,7 @@
                             </div>
                             <div class="flex flex-col">
                                 <div>{{ trade.currency_mint }}</div>
+
                                 <div>{{ trade.asset_mint }}</div>
                             </div>
                         </div>
@@ -212,6 +213,12 @@ function abbreviateNumber(num: number): string {
     }
 
     return num.toFixed(2)
+}
+
+function formatNumberToBase10(num: number): string {
+    const exponent = Math.floor(Math.log10(num))
+    const base = num / Math.pow(10, exponent)
+    return `${base}E${exponent}`
 }
 </script>
 <style scoped>
