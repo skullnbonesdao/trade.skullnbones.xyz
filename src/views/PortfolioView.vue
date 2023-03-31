@@ -39,7 +39,12 @@
                     </div>
                 </div>
                 <Transition>
-                    <AssetTableModular :is_simple="true" :api_trades="element_group" :pub-key="publicKey?.toString()" />
+                    <AssetTableModular
+                        v-if="show_element_from_grouped?.find((e) => e.index === idx)?.value"
+                        :is_simple="true"
+                        :api_trades="element_group"
+                        :pub-key="publicKey?.toString()"
+                    />
                 </Transition>
             </div>
         </div>
