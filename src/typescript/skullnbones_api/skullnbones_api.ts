@@ -9,6 +9,17 @@
  * ---------------------------------------------------------------
  */
 
+export interface Cursor {
+    /** @format int64 */
+    block: number | null
+    /** @format int64 */
+    end_block: number | null
+    id: string
+    /** @format int64 */
+    start_block: number | null
+    value: string | null
+}
+
 export interface Exchange {
     desc: string
     name: string
@@ -374,6 +385,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         getLastTimestamp: (params: RequestParams = {}) =>
             this.request<Trade[], any>({
                 path: `/stats/last_timestamp`,
+                method: 'GET',
+                format: 'json',
+                ...params,
+            }),
+
+        /**
+         * @description Ranges Responses with sync status ranges
+         *
+         * @tags stats
+         * @name GetRanges
+         * @summary Ranges
+         * @request GET:/stats/ranges
+         */
+        getRanges: (params: RequestParams = {}) =>
+            this.request<Cursor[], any>({
+                path: `/stats/ranges`,
                 method: 'GET',
                 format: 'json',
                 ...params,
