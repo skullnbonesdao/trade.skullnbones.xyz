@@ -1,5 +1,21 @@
 <template>
     <div class="flex flex-col space-y-2">
+        <div
+            class="elementcontainer flex md:flex-row md:space-x-2 md:space-y-0 space-y-2 flex-col w-full items-center bg-gray-300 dark:bg-gray-600 p-1 shadow-lg"
+        >
+            <TextBox class="flex w-full" text="Search" type="text" ref="tb_value" :default="search_public_key" />
+            <div
+                @click="
+                    () => {
+                        btn_search_wallet().then(() => {})
+                    }
+                "
+                class="hoverable flex flex-auto bg-gray-300 dark:bg-gray-600"
+            >
+                <div class="flex-grow my-3 w-16 i-carbon:search"></div>
+            </div>
+        </div>
+
         <div v-if="!useWallet().publicKey.value" class="flex w-full elementcontainer justify-center p-2">
             <wallet-multi-button dark />
         </div>
@@ -58,22 +74,15 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import AssetPairImage from '../components/marketplace/AssetPairImage.vue'
 import { CURRENCIES, E_CURRENCIES } from '../typescript/constants/currencies.js'
-import ExplorerIcon from '../components/icon-helper/ExplorerIcon.vue'
-import { E_EXPLORER, EXPLORER } from '../typescript/constants/explorer.js'
-import CurrencyIcon from '../components/icon-helper/CurrencyIcon.vue'
 import { Api, Trade } from '../typescript/skullnbones_api/skullnbones_api'
 import { useWallet, WalletMultiButton } from 'solana-wallets-vue'
 import { groupBy } from '../typescript/helper/groupBy'
 import { useAssetsStore } from '../stores/AssetsStore'
 import TokenWalletInfoBadge from '../components/elements/TokenWalletInfoBadge.vue'
-import { useGlobalStore } from '../stores/GlobalStore'
-import WalletInfoBadge from '../components/elements/WalletInfoBadge.vue'
-import LoadingModal from '../components/modals/LoadingModal.vue'
-import { calc_passed_time } from '../typescript/helper/calc_passed_time'
 import BeatLoader from 'vue-spinner/src/BeatLoader.vue'
 import AssetTableModular from '../components/tables/AssetTableModular.vue'
+import TextBox from '../components/buttons/TextBox.vue'
 const { publicKey } = useWallet()
 
 interface GroupedToggle {
@@ -87,24 +96,35 @@ const api_trades = ref<Array<Trade> | any>()
 const api_trades_grouped = ref<Record<string, Trade[]>>()
 const show_element_from_grouped = ref<Array<GroupedToggle>>()
 
+const search_public_key = ref('')
+
 const api = new Api({ baseUrl: 'https://api2.skullnbones.xyz' })
 
 watch(
     () => publicKey.value,
     (new_value) => {
         is_loading.value = true
-        fetch_wallet_trades()
+        if (new_value !== null) {
+            fetch_wallet_trades(new_value.toString())
+        }
     }
 )
 
 onMounted(() => {
     is_loading.value = true
-    if (publicKey.value) fetch_wallet_trades()
+    if (publicKey.value) {
+        fetch_wallet_trades(publicKey.value.toString())
+    }
 })
 
-function fetch_wallet_trades() {
+function btn_search_wallet() {
+    is_loading.value = true
+    fetch_wallet_trades(search_public_key.value)
+}
+
+function fetch_wallet_trades(wallet: string) {
     api.trades
-        .getAddress({ address: publicKey.value?.toString() ?? '' })
+        .getAddress({ address: wallet })
         .then((resp) => resp.data)
         .then((data) => {
             api_trades.value = data
