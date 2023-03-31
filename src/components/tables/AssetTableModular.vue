@@ -133,7 +133,7 @@
                                 <p
                                     v-if="
                                         trade.currency_mint ===
-                                        CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS).mint
+                                        CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)?.mint
                                     "
                                 >
                                     {{ (trade.price * trade.asset_change).toFixed(7) }}
@@ -141,7 +141,7 @@
                                 <p
                                     v-if="
                                         trade.currency_mint ===
-                                        CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC).mint
+                                        CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)?.mint
                                     "
                                 >
                                     {{ (trade.price * trade.asset_change).toFixed(4) }}
