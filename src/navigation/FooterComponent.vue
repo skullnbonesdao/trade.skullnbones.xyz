@@ -66,7 +66,9 @@ onMounted(async () => {
         let fetched_range = 0
         cursors.forEach((cursor) => {
             if (cursor.end_block !== 0) {
-                fetched_range += (cursor?.block ?? 0) - (cursor?.start_block ?? 0)
+                if (cursor.block) {
+                    fetched_range += (cursor?.block ?? 0) - (cursor?.start_block ?? 0)
+                }
             }
         })
         fetched_percentage.value = (fetched_range / total_range) * 100
