@@ -136,7 +136,7 @@
                                         CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)?.mint
                                     "
                                 >
-                                    {{ trade.price * trade.asset_change }}
+                                    {{ trade.total_cost }}
                                 </p>
                                 <p
                                     v-if="
@@ -144,7 +144,7 @@
                                         CURRENCIES.find((c) => c.type === E_CURRENCIES.USDC)?.mint
                                     "
                                 >
-                                    {{ trade.price * trade.asset_change }}
+                                    {{ trade.total_cost }}
                                 </p>
                             </div>
                             <CurrencyIcon
