@@ -4,7 +4,7 @@
             class="elementcontainer flex flex-col md:flex-row my-2 p-2 items-center border-gray-700 md:space-x-2 space-y-1 md:space-y-0"
         >
             <div
-                class="flex md:flex-row md:space-x-2 md:space-y-0 space-y-2 flex-col w-full items-center bg-gray-300 dark:bg-gray-600 p-1 shadow-lg"
+                class="flex md:flex-row md:space-x-2 md:space-y-0 space-y-2 flex-col w-full items-center p-1 shadow-lg"
             >
                 <SelectBox
                     class="flex w-full"
@@ -42,7 +42,7 @@
                             action_fetch_api().then(() => {})
                         }
                     "
-                    class="hoverable w-full flex flex-auto bg-gray-200 dark:bg-gray-800"
+                    class="hoverable flex flex-auto bg-gray-300 dark:bg-gray-600"
                 >
                     <div class="flex-grow my-3 w-16 i-carbon:search"></div>
                 </div>
