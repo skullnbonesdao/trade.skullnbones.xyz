@@ -9,10 +9,10 @@
             </div>
         </div>
 
-        <div v-if="!useWallet().publicKey.value" class="flex w-full elementcontainer justify-center p-2">
+        <div v-if="is_loading" class="flex w-full elementcontainer justify-center p-2">
             <wallet-multi-button dark />
         </div>
-        <div v-else-if="!is_loading" class="flex flex-col space-y-2">
+        <div v-if="!is_loading" class="flex flex-col space-y-2">
             <div class="grid sm:grid-cols-3 grid-cols-2 gap-2 justify-around">
                 <TokenWalletInfoBadge
                     class="col-span-2 sm:col-span-1"
