@@ -30,7 +30,7 @@
 
             <div id="resources" class="elementcontainer">
                 <div
-                    class="flex flex-row items-center elementcontainer hoverable border-b-2 border-gray-300"
+                    class="flex flex-row items-center elementcontainer hoverable border-l-2 border-gray-300"
                     @click="show_resources = !show_resources"
                 >
                     <h3 class="w-full">Resources</h3>
@@ -46,7 +46,7 @@
                         class="elementcontainer relative overflow-x-auto"
                     >
                         <div
-                            class="flex flex-row items-center elementcontainer hoverable border-b-2 border-gray-300"
+                            class="flex flex-row items-center elementcontainer hoverable border border-gray-300"
                             @click="toggle_view('resources', idx)"
                         >
                             <h4 class="w-full">
@@ -56,7 +56,7 @@
                             </h4>
                             <div class="flex justify-end items-center">
                                 <i
-                                    class="w-12 h-12 i-carbon:text-indent-more"
+                                    class="w-6 h-6 i-carbon:text-indent-more"
                                     :class="
                                         show_element_from_grouped?.resources.find((e) => e.index === idx)?.value
                                             ? 'rotate-90'
@@ -67,6 +67,7 @@
                         </div>
                         <Transition>
                             <AssetTableModular
+                                class="border"
                                 v-if="show_element_from_grouped?.resources.find((e) => e.index === idx)?.value"
                                 :is_simple="true"
                                 :api_trades="element_group"
@@ -78,7 +79,7 @@
             </div>
             <div id="ships" class="elementcontainer">
                 <div
-                    class="flex flex-row items-center elementcontainer hoverable border-b-2 border-gray-300"
+                    class="flex flex-row items-center elementcontainer hoverable border-l-2 border-gray-300"
                     @click="show_ships = !show_ships"
                 >
                     <h3 class="w-full">Ships</h3>
@@ -94,17 +95,17 @@
                         class="elementcontainer relative overflow-x-auto"
                     >
                         <div
-                            class="flex flex-row items-center elementcontainer hoverable border-b-2 border-gray-300"
+                            class="flex flex-row items-center elementcontainer hoverable border border-gray-300"
                             @click="toggle_view('ships', idx)"
                         >
-                            <h4 class="w-full">
+                            <h3 class="w-full">
                                 {{
                                     useAssetsStore().allAssets.find((a) => a.mint === element_group[0].asset_mint)?.name
                                 }}
-                            </h4>
+                            </h3>
                             <div class="flex justify-end items-center">
                                 <i
-                                    class="w-12 h-12 i-carbon:text-indent-more"
+                                    class="w-6 h-6 i-carbon:text-indent-more"
                                     :class="
                                         show_element_from_grouped?.ships.find((e) => e.index === idx)?.value
                                             ? 'rotate-90'
@@ -115,6 +116,7 @@
                         </div>
                         <Transition>
                             <AssetTableModular
+                                class="border"
                                 v-if="show_element_from_grouped?.ships.find((e) => e.index === idx)?.value"
                                 :is_simple="true"
                                 :api_trades="element_group"
@@ -126,7 +128,7 @@
             </div>
             <div id="other" class="elementcontainer">
                 <div
-                    class="flex flex-row items-center elementcontainer hoverable border-b-2 border-gray-300"
+                    class="flex flex-row items-center elementcontainer hoverable border-l-2 border-gray-300"
                     @click="show_other = !show_other"
                 >
                     <h3 class="w-full">Other</h3>
@@ -142,7 +144,7 @@
                         class="elementcontainer relative overflow-x-auto"
                     >
                         <div
-                            class="flex flex-row items-center elementcontainer hoverable border-b-2 border-gray-300"
+                            class="flex flex-row items-center elementcontainer hoverable border border-gray-300"
                             @click="toggle_view('other', idx)"
                         >
                             <h4 class="w-full">
@@ -152,7 +154,7 @@
                             </h4>
                             <div class="flex justify-end items-center">
                                 <i
-                                    class="w-12 h-12 i-carbon:text-indent-more"
+                                    class="w-6 h-6 i-carbon:text-indent-more"
                                     :class="
                                         show_element_from_grouped?.other.find((e) => e.index === idx)?.value
                                             ? 'rotate-90'
@@ -163,6 +165,7 @@
                         </div>
                         <Transition>
                             <AssetTableModular
+                                class="border"
                                 v-if="show_element_from_grouped?.other.find((e) => e.index === idx)?.value"
                                 :is_simple="true"
                                 :api_trades="element_group"
