@@ -3,15 +3,8 @@
         <div
             class="elementcontainer flex md:flex-row md:space-x-2 md:space-y-0 space-y-2 flex-col w-full items-center bg-gray-300 dark:bg-gray-600 p-1 shadow-lg"
         >
-            <TextBox class="flex w-full" text="Search" type="text" ref="tb_value" :default="search_public_key" />
-            <div
-                @click="
-                    () => {
-                        btn_search_wallet().then(() => {})
-                    }
-                "
-                class="hoverable flex flex-auto bg-gray-300 dark:bg-gray-600"
-            >
+            <TextBox class="flex w-full" text="Wallet" type="text" ref="tb_value" default="none" />
+            <div @click="btn_search_wallet" class="hoverable flex flex-auto bg-gray-300 dark:bg-gray-600">
                 <div class="flex-grow my-3 w-16 i-carbon:search"></div>
             </div>
         </div>
@@ -28,6 +21,7 @@
                 <TokenWalletInfoBadge :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.ATLAS)" />
                 <TokenWalletInfoBadge :currency="CURRENCIES.find((c) => c.type === E_CURRENCIES.POLIS)" />
             </div>
+
             <div class="elementcontainer">
                 <h1 class="text-4xl">History</h1>
             </div>
@@ -214,6 +208,8 @@ const show_resources = ref(true)
 const show_ships = ref(true)
 const show_other = ref(true)
 
+const tb_value = ref({ text_box_value: '' })
+
 const api_trades_grouped = ref({
     resources: {} as Record<string, Trade[]>,
     ships: {} as Record<string, Trade[]>,
@@ -225,8 +221,6 @@ const show_element_from_grouped = ref({
     ships: {} as Array<GroupedToggle>,
     other: {} as Array<GroupedToggle>,
 })
-
-const search_public_key = ref('')
 
 const api = new Api({ baseUrl: 'https://api2.skullnbones.xyz' })
 
@@ -249,10 +243,11 @@ onMounted(() => {
 
 function btn_search_wallet() {
     is_loading.value = true
-    fetch_wallet_trades(search_public_key.value)
+    fetch_wallet_trades(tb_value.value.text_box_value)
 }
 
 function fetch_wallet_trades(wallet: string) {
+    api_trades.value = []
     api.trades
         .getAddress({ address: wallet })
         .then((resp) => resp.data)
