@@ -8,6 +8,9 @@ h2 {
 h3 {
     @apply text-2xl dark:text-white;
 }
+h4 {
+    @apply text-md dark:text-white;
+}
 
 .text-light {
     color: #f1f2ff;
