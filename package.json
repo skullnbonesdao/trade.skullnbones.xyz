@@ -1,7 +1,7 @@
 {
   "name": "trade.skullnbones.xyz",
   "private": true,
-  "version": "0.2.3-alpha",
+  "version": "0.2.4-alpha",
   "type": "module",
   "scripts": {
     "createInterfaces": " npx swagger-typescript-api -p ./api.skullnbones-swapper.json -o ./src/typescript/skullnbones_api -n skullnbones_api.ts",
