@@ -195,6 +195,7 @@ import TokenWalletInfoBadge from '../components/elements/TokenWalletInfoBadge.vu
 import BeatLoader from 'vue-spinner/src/BeatLoader.vue'
 import AssetTableModular from '../components/tables/AssetTableModular.vue'
 import TextBox from '../components/buttons/TextBox.vue'
+import { useGlobalStore } from '../stores/GlobalStore'
 
 const { publicKey } = useWallet()
 
@@ -227,15 +228,15 @@ const show_element_from_grouped = ref({
 
 const api = new Api({ baseUrl: 'https://api2.skullnbones.xyz' })
 
-watch(
-    () => publicKey.value,
-    (new_value) => {
-        is_loading.value = true
-        if (new_value !== null) {
-            fetch_wallet_trades(new_value.toString())
-        }
-    }
-)
+// watch(
+//     () => publicKey.value,
+//     (new_value) => {
+//         is_loading.value = true
+//         if (new_value !== null) {
+//             fetch_wallet_trades(new_value.toString())
+//         }
+//     }
+// )
 
 onMounted(() => {
     is_loading.value = true
@@ -244,9 +245,13 @@ onMounted(() => {
     }
 })
 
-function btn_search_wallet() {
+async function btn_search_wallet() {
+    useGlobalStore().userWallet.address = tb_value.value.text_box_value
+    useGlobalStore().userWallet.is_web_wallet_connected = false
+    await useGlobalStore().user_wallet_tokens_fetch()
+
     is_loading.value = true
-    fetch_wallet_trades(tb_value.value.text_box_value)
+    fetch_wallet_trades(useGlobalStore().userWallet.address)
 }
 
 function fetch_wallet_trades(wallet: string) {

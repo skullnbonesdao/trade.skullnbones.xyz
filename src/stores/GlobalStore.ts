@@ -7,6 +7,7 @@ import { useAssetsStore } from './AssetsStore'
 import { useStaratlasGmStore } from './StaratlasGmStore'
 import { RPCEndpoint } from '../typescript/interfaces/RPCEndpoint'
 import { CURRENCIES, E_CURRENCIES } from '../typescript/constants/currencies'
+import { useTokenPriceStore } from './TokenPriceStore'
 
 export const endpoints_list: RPCEndpoint[] = [
     { name: 'extrnode', url: 'https://solana-mainnet.rpc.extrnode.com' },
@@ -20,6 +21,12 @@ export interface TradeAsset {
     name: string
     mint_asset: PublicKey
     mint_pair: PublicKey
+}
+
+export interface TokenInfo {
+    address: String
+    amount: number
+    value_usd: number
 }
 
 export enum Side {
@@ -45,6 +52,12 @@ export const useGlobalStore = defineStore('globalStore', {
             } as TradeAsset,
             side: {} as Side,
             connection: {} as Connection,
+            userWallet: {
+                address: 'none',
+                is_web_wallet_connected: false,
+                tokens: [] as Array<TokenInfo>,
+                history: [],
+            },
             userTokens: [
                 {
                     name: 'ATLAS',
@@ -107,6 +120,38 @@ export const useGlobalStore = defineStore('globalStore', {
             useStaratlasGmStore().getOpenOrdersForAsset(this.symbol.mint_asset.toString())
             this.symbol.name = name
             useGlobalStore().draw_tv = true
+        },
+
+        async user_wallet_tokens_fetch() {
+            this.userWallet.tokens = []
+            //Fetch_sol_token
+            this.userWallet.tokens.push({
+                amount:
+                    (await useGlobalStore().connection.getBalance(new PublicKey(this.userWallet.address))) *
+                    Math.pow(10, -9),
+                address: 'So11111111111111111111111111111111111111112',
+                value_usd: 0,
+            })
+            this.userWallet.tokens[0].value_usd =
+                parseFloat(useTokenPriceStore().token_price.solana) * this.userWallet.tokens[0].amount
+
+            //Fetch other_tokens
+            let token_mints = CURRENCIES.flatMap((c) => new PublicKey(c.mint))
+
+            let response_tokenAccounts = await this.connection.getParsedTokenAccountsByOwner(
+                new PublicKey(this.userWallet.address),
+                { programId: new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA') }
+            )
+
+            for (const token of response_tokenAccounts.value) {
+                this.userWallet.tokens.push({
+                    amount: await this.connection
+                        .getTokenAccountBalance(token.pubkey)
+                        .then((result) => result.value.uiAmount ?? 0.0),
+                    address: token.pubkey.toString(),
+                    value_usd: 0,
+                })
+            }
         },
     },
 })
